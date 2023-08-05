@@ -1,0 +1,15 @@
+@import "./mixins.scss";
+
+.main {
+  @include fullAbsoluteContainer();
+  @include dFlex(column, flex-start);
+
+  background: var(--bgColor);
+  color: var(--txtColor);
+  padding: 0.2rem;
+}
+
+.dark{
+  --txtColor: var(--colorWhite);
+  --bgColor: var(--colorBlack);
+}

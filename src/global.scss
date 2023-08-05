@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  --colorFullWhite: #fff;
+  --colorWhiteLight: #efefef;
+  --colorWhite: #eee;
+  --colorFullBlack: #000;
+  --colorBlackDark: #010101;
+  --colorBlack: #111;
+
+  --txtColor: var(--colorBlack);
+  --bgColor: var(--colorWhite);
+
+  background: var(--bgColor);
+  color: var(--txtColor);
+  font-size: 1.6rem;
+}
+
