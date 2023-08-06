@@ -21,8 +21,10 @@
     "vite": "^4.4.8"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.5",
     "antd": "^5.7.3",
     "axios": "^1.4.0",
+    "react-router-dom": "^6.14.2",
     "recoil": "^0.7.7",
     "sass": "^1.64.1",
     "scss": "^0.2.4"

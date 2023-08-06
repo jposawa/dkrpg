@@ -33,3 +33,25 @@ export const getSessionStorage = (key: string, needParse?: boolean) => {
 
   return needParse && rawValue ? JSON.parse(rawValue) : rawValue;
 }
+
+export const randomNumber = (min: number, max: number, useMax: boolean = false): number => {
+  const randomMultiplier = useMax ? max - min + 1 : max - min;
+  
+  return Math.floor(Math.random() * randomMultiplier + min);
+}
+
+export const leadingZero = (rawNumber: number): string => {
+  if (isNaN(rawNumber) || rawNumber < 0) {
+    return "0";
+  }
+
+  return rawNumber < 10 ? `0${rawNumber}` : `${rawNumber}`;
+}
+
+export const encode64 = (obj: Object): string => {
+  return btoa(JSON.stringify(obj));
+}
+
+export const decodificaCartela = (code: string): Object => {
+  return JSON.parse(atob(code));
+}

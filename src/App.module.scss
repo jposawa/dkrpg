@@ -2,11 +2,17 @@
 
 .main {
   @include fullAbsoluteContainer();
-  @include dFlex(column, flex-start);
+  @include dFlex(column, space-between);
 
   background: var(--bgColor);
   color: var(--txtColor);
-  padding: 0.2rem;
+
+  &>section {
+    width: 100%;
+    height: 100%;
+    padding: 0.2rem;
+    @include dFlex(column, flex-start);
+  }
 }
 
 .dark{

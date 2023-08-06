@@ -5,11 +5,21 @@
   box-sizing: border-box;
 }
 
+a {
+  color: #369;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 html {
   font-size: 62.5%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
+  --color1: hsl(210, 54%, 25%);
+
   --colorFullWhite: #fff;
   --colorWhiteLight: #efefef;
   --colorWhite: #eee;

@@ -1,0 +1,18 @@
+@import "../../mixins.scss";
+
+.navMenu {
+  width: 100%;
+  padding: 0.5rem 0;
+  @include dFlex(row, space-evenly);
+  background: var(--color1);
+  border: none;
+
+  &>a {
+    @include dFlex(column);
+    color: var(--textColor);
+
+    &>span {
+      font-size: 1.2em;
+    }
+  }
+}
