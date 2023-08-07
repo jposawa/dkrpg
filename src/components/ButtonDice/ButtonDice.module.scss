@@ -1,0 +1,13 @@
+.button {
+  --btnSize: var(--size, 1.7rem);
+
+  width: var(--btnSize);
+  height: var(--btnSize);
+  cursor: pointer;
+  background: none;
+  border: none;
+  
+  &>img {
+    filter: hue-rotate(80deg) brightness(40) saturate(200%);
+  }
+}

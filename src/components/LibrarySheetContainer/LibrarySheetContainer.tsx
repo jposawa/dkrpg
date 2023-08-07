@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./LibrarySheetContainer.module.scss";
 import { SheetTypes } from "../../shared/types";
 import { CharacterSheet } from "../";
+import { DEBUG } from "../../shared/constants";
+import { Link } from "react-router-dom";
 
 export type LibrarySheetContainerProps = {
   sheetId: string | null | undefined,
@@ -20,8 +22,8 @@ export const LibrarySheetContainer = ({
   const [activeSheet, setActiveSheet] = React.useState<string>("");
 
   React.useEffect(() => {
-    if (sheetId) {
-      setActiveSheet(sheetId);
+    if (sheetId || DEBUG) {
+      setActiveSheet(sheetId || "debugSheet");
     }
   }, [sheetId]);
 
@@ -29,12 +31,12 @@ export const LibrarySheetContainer = ({
     <div
       className={`
         ${styles.sheetContainer} 
-        ${!sheetId ? styles.hideContainer : ""}
+        ${!sheetId && !DEBUG ? styles.hideContainer : ""}
       `}
     >
-      {sheetId && {
-        "character": <CharacterSheet sheetId={activeSheet} />
-      }[sheetType]}
+      <span className={styles.background} />
+      <Link to="/library" className={styles.closeBtn}>&times;</Link>
+      {sheetId || DEBUG && <CharacterSheet sheetId={activeSheet} />}
     </div>
   )
 }

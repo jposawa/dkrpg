@@ -16,6 +16,7 @@
     color: var(--textColor);
     transition: border 300ms linear, box-shadow 200ms linear;
     border-bottom: 0.5rem solid rgba(0,0,0,0);
+    font-size: 1rem;
 
     &:hover {
       text-decoration: none;

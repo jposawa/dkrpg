@@ -7,7 +7,6 @@ import { LibrarySheetContainer } from "../../components";
 export const Library = () => {
   const { sheetId } = useParams();
 
-  console.log(sheetId);
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Fichas</h1>

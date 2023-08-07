@@ -1,4 +1,5 @@
 export * from "./Button/Button";
 export * from "./NavMenu/NavMenu";
-export * from "./CharacterSheet/CharacterSheet";
+export * from "./CharacterSheet";
 export * from "./LibrarySheetContainer/LibrarySheetContainer";
+export * from "./ButtonDice/ButtonDice";

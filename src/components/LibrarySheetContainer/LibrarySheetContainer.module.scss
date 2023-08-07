@@ -2,8 +2,34 @@
 
 .sheetContainer {
   @include fullAbsoluteContainer();
-  border: 2px solid red;
   transition: all 300ms linear;
+  // border: 2px solid red;
+
+  .background {
+    @include fullAbsoluteContainer();
+    background: var(--bgColor);
+    opacity: 1;
+  }
+
+  .closeBtn {
+    --size: 2rem;
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    top: 0;
+    right: 0;
+    padding: 0 0 0.4rem;
+    background: none;
+    font-size: 2rem;
+    color: var(--txtColor);
+    @include dFlex();
+    z-index: 100;
+    
+    
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 
 .hideContainer {
