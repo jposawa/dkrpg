@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_2" data-name="Camada 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481.32 552.36">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 22.11px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #444242;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke-width: 10.69px;
+      }
+    </style>
+  </defs>
+  <g id="Vrstva_1" data-name="Vrstva 1">
+    <g>
+      <polygon class="cls-1" points="470.26 408.74 470.26 143.62 240.66 11.05 11.05 143.62 11.05 408.74 240.66 541.3 470.26 408.74"/>
+      <polygon class="cls-2" points="240.66 23.82 22.11 402.36 459.21 402.36 240.66 23.82"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+@import "../../mixins.scss";
+
+.sheetHeader {
+  position: relative;
+  @include dFlex(column);
+  // border: 2px solid gold;
+
+  .characterProfile {
+    @include dFlex(column);
+
+    .imgContainer {
+      --imgSize: 3rem;
+
+      width: var(--imgSize);
+      height: var(--imgSize);
+      font-size: calc(var(--imgSize)*0.8);
+    }
+  }
+
+  .attributes {
+    @include dFlex();
+    flex-wrap: wrap;
+    // border: 1px solid cyan;
+    gap: 20%;
+
+    &>span {
+      // border: 1px solid purple;
+      @include dFlex(row);
+      width: 40%;
+      flex-grow: 1;
+
+      &:nth-child(2n+1) {
+        flex-direction: row-reverse;
+        // justify-content: flex-start;
+      }
+
+      &>span {
+        @include dFlex(column);
+      }
+    }
+  }
+}

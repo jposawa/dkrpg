@@ -1,0 +1,34 @@
+@import "../../mixins.scss";
+
+.navMenu {
+  width: 100%;
+  padding: 0;
+  @include dFlex(row, space-evenly);
+  background: var(--color1);
+  border: none;
+  z-index: 9;
+
+  &>a {
+    --markedColor: rgba(0, 0, 0, 0.5);
+  
+    padding: 0.5rem 0.5rem 0;
+    @include dFlex(column);
+    color: var(--textColor);
+    transition: border 300ms linear, box-shadow 200ms linear;
+    border-bottom: 0.5rem solid rgba(0,0,0,0);
+    font-size: 1rem;
+
+    &:hover {
+      text-decoration: none;
+      box-shadow: 0 0 20rem var(--markedColor) inset;
+    }
+
+    &>span {
+      font-size: 1.2em;
+    }
+  }
+
+  .currentPage {
+    border-bottom-color: var(--markedColor);
+  }
+}

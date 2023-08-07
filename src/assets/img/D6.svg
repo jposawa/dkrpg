@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_2" data-name="Camada 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481.32 552.35">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 22.11px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #444242;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke-width: 10.69px;
+      }
+    </style>
+  </defs>
+  <g id="Vrstva_1" data-name="Vrstva 1">
+    <g>
+      <g>
+        <polyline class="cls-2" points="11.05 143.61 240.66 276.18 470.26 143.61"/>
+        <line class="cls-2" x1="240.66" y1="276.18" x2="240.66" y2="541.3"/>
+      </g>
+      <polygon class="cls-1" points="240.66 11.05 11.05 143.61 11.05 408.74 240.66 541.3 470.26 408.74 470.26 143.61 240.66 11.05"/>
+    </g>
+  </g>
+</svg>
