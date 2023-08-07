@@ -1,0 +1,11 @@
+@import "../../mixins.scss";
+
+.sheetContainer {
+  @include fullAbsoluteContainer();
+  border: 2px solid red;
+  transition: all 300ms linear;
+}
+
+.hideContainer {
+  top: 100%;
+}

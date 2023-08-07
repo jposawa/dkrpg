@@ -9,23 +9,23 @@ export const NavMenu = () => {
   const PAGES_LIST = [
     {
       url: "/",
-      name: "Home",
+      name: "Início",
       icon: <HomeOutlined />,
       altPath: "/home",
     },
     {
       url: "/library/",
-      name: "Sheets",
+      name: "Fichas",
       icon: <SolutionOutlined />,
     },
     {
       url: "/dices",
-      name: "Dices",
+      name: "Dados",
       icon: <CodeSandboxOutlined />,
     },
     {
       url: "/settings",
-      name: "Settings",
+      name: "Configs",
       icon: <SettingOutlined />,
     },
   ]
