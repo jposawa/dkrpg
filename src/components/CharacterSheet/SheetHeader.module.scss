@@ -2,35 +2,46 @@
 
 .sheetHeader {
   position: relative;
-  @include dFlex(column);
-  // border: 2px solid gold;
+  @include dFlex(column, flex-end);
+  border: 2px solid orange;
+  height: 30%;
 
   .characterProfile {
     @include dFlex(column);
+    border: 2px solid gold;
+    width: 80%;
+    gap: 0.7rem;
 
     .imgContainer {
-      --imgSize: 3rem;
-
+      --imgSize: 5rem;
+      @include dFlex();
+      border: 2px solid green;
       width: var(--imgSize);
       height: var(--imgSize);
       font-size: calc(var(--imgSize)*0.8);
+      border-radius: 50%;
+      padding-left: 0.1rem;
+      z-index: 10;
     }
   }
 
   .attributes {
+    --sideWidth: 38%;
+    position: absolute;
+    bottom: 20%;
     @include dFlex();
     flex-wrap: wrap;
-    // border: 1px solid cyan;
-    gap: 20%;
+    border: 1px solid cyan;
+    gap: calc(100% - (var(--sideWidth) * 2));
 
     &>span {
-      // border: 1px solid purple;
-      @include dFlex(row);
-      width: 40%;
+      border: 1px solid purple;
+      @include dFlex(row-reverse);
+      width: var(--sideWidth);
       flex-grow: 1;
 
       &:nth-child(2n+1) {
-        flex-direction: row-reverse;
+        flex-direction: row;
         // justify-content: flex-start;
       }
 

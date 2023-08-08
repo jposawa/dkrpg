@@ -1,13 +1,24 @@
+@import "../../mixins.scss";
+
 .button {
   --btnSize: var(--size, 1.7rem);
 
+  position: relative;
   width: var(--btnSize);
   height: var(--btnSize);
   cursor: pointer;
   background: none;
   border: none;
+  color: var(--txtColor);
   
   &>img {
     filter: hue-rotate(80deg) brightness(40) saturate(200%);
+  }
+
+  & > span {
+    @include fullAbsoluteContainer();
+    @include dFlex();
+    padding-top: 0.2rem;
+    font-weight: bold;
   }
 }

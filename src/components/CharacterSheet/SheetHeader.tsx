@@ -33,9 +33,8 @@ export const SheetHeader = ({ activeSheet, className, style }: SheetHeaderProps)
           <span key={attrKey}>
             <span className={styles.attributeText}>
               <b>{attrName}</b>
-              <span>{activeSheet.attributes[attrKey as Attribute]}</span>
             </span>
-            <ButtonDice numSides={diceSideNumberFromLevel(activeSheet.attributes[attrKey as Attribute]) as DiceSides} />
+            <ButtonDice numSides={diceSideNumberFromLevel(activeSheet.attributes[attrKey as Attribute]) as DiceSides}>{activeSheet.attributes[attrKey as Attribute]}</ButtonDice>
           </span>
         ))}
       </div>
