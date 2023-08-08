@@ -29,12 +29,12 @@ export const SheetHeader = ({ activeSheet, className, style }: SheetHeaderProps)
       </div>
 
       <div className={styles.attributes}>
-        {Object.entries(attributesList).map(([attrKey, attrName]) => (
+        {Object.entries(attributesList).map(([attrKey, attrName], index) => (
           <span key={attrKey}>
             <span className={styles.attributeText}>
               <b>{attrName}</b>
             </span>
-            <ButtonDice numSides={diceSideNumberFromLevel(activeSheet.attributes[attrKey as Attribute]) as DiceSides}>{activeSheet.attributes[attrKey as Attribute]}</ButtonDice>
+            <ButtonDice numSides={diceSideNumberFromLevel(index+1) as DiceSides}>{index+1}</ButtonDice>
           </span>
         ))}
       </div>

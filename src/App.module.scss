@@ -21,3 +21,9 @@
   --txtColor: var(--colorWhite);
   --bgColor: var(--colorBlack);
 }
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .main {
+    flex-direction: row-reverse;
+  }
+}
