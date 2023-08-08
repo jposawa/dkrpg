@@ -2,9 +2,8 @@
 
 .sheetHeader {
   position: relative;
-  @include dFlex(column, flex-end);
+  @include dFlex(column, flex-start);
   // border: 2px solid orange;
-  height: 30%;
 
   .characterProfile {
     @include dFlex(column);
@@ -27,7 +26,7 @@
 
   .attributes {
     --sideWidth: 38%;
-    position: absolute;
+    position: relative;
     bottom: 15%;
     @include dFlex();
     flex-wrap: wrap;
