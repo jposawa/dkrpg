@@ -18,7 +18,7 @@ export type ButtonDiceProps = {
   onClick?: (e?: any) => void,
   className?: string,
   style?: React.CSSProperties,
-  showSideNumber?: boolean,
+  children?: string | React.ReactNode,
 }
 
 export const ButtonDice = ({
@@ -27,7 +27,7 @@ export const ButtonDice = ({
   onClick,
   className,
   style,
-  showSideNumber = false,
+  children
 }: ButtonDiceProps) => {
   const { openToast } = useAntToast();
   const diceImg = {
@@ -50,9 +50,9 @@ export const ButtonDice = ({
     type="button"
     onClick={handleClick}
     className={`${styles.button} ${className}`}
-    style={{ ...style }}
+    style={{ ...style, backgroundImage: diceImg[`D${numSides}`] }}
   >
     <img alt="Image of a RPG dice" src={diceImg[`D${numSides}`]} />
-    {showSideNumber && <span>{numSides}</span>}
+    <span>{children}</span>
   </button>
 }

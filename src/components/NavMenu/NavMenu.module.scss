@@ -1,7 +1,10 @@
 @import "../../mixins.scss";
 
 .navMenu {
+  --itemSize: 3.5rem;
+
   width: 100%;
+  height: var(--itemSize);
   padding: 0;
   @include dFlex(row, space-evenly);
   background: var(--color1);
@@ -9,18 +12,17 @@
   z-index: 9;
 
   &>a {
-    --markedColor: rgba(0, 0, 0, 0.5);
-  
+    width: var(--itemSize);
+    height: var(--itemSize);
     padding: 0.5rem 0.5rem 0;
     @include dFlex(column);
     color: var(--textColor);
     transition: border 300ms linear, box-shadow 200ms linear;
-    border-bottom: 0.5rem solid rgba(0,0,0,0);
     font-size: 1rem;
 
     &:hover {
       text-decoration: none;
-      box-shadow: 0 0 20rem var(--markedColor) inset;
+      box-shadow: 0 0 20rem rgba(0, 0, 0, 0.5) inset;
     }
 
     &>span {
@@ -29,6 +31,18 @@
   }
 
   .currentPage {
-    border-bottom-color: var(--markedColor);
+    // border-bottom-color: var(--markedColor);
+    text-decoration: underline;
+    box-shadow: 0 0 20rem rgba(0,0,0,0.2) inset;
   }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .navMenu {
+    width: var(--itemSize);
+    height: 100%;
+    flex-direction: column;
+    border-width: 2px !important;
+  }
+
 }
