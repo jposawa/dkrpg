@@ -1,4 +1,4 @@
-import { Attribute, CharacterSheet } from "./types";
+import { AttributeKey, CharacterSheet } from "./types";
 
 export const NAMESPACE = "jpoIE";
 
@@ -21,20 +21,25 @@ export const MODULE_DATA = {
       {
         id: "skill-1",
         name: "Atletismo",
-        linkedAttribute: "fortitude" as Attribute,
+        linkedAttribute: "fortitude" as AttributeKey,
         level: 0,
       },
     ],
   }
 }
 
-export const attributesList = {
+export const termsList: {[key: string]: string} = {
   fortitude: "Físico",
   coordination: "Coordenação",
   intelect: "Intelecto",
   sagacity: "Sagacidade",
   willpower: "Vontade",
   presence: "Presença",
+  wound: "Ferimento",
+  stress: "Estresse",
+  resistance: "Resistência",
+  capacity: "Capacidade",
+  binding: "Vínculo",
 }
 
 export const characterSheetModel: CharacterSheet = {
@@ -55,6 +60,25 @@ export const characterSheetModel: CharacterSheet = {
 		willpower: 3,
 		presence: 4,
 	},
+  secondaryAttributes: {
+    wound: {
+      current: 0,
+      limit: 11,
+    },
+    stress: {
+      current: 0,
+      limit: 11,
+    },
+    resistance: {
+      current: 1,
+    },
+    capacity: {
+      current: 0,
+      limit: 9,
+    },
+  },
+  binding: 0,
+  destiny: 0,
 	skills: MODULE_DATA.draenak.SKILLS,
 	traits: [],
 };
