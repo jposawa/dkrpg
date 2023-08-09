@@ -2,7 +2,7 @@ export type SheetTypes = "character";
 
 export type DiceSides = 4 | 6 | 8 | 10 | 12 | 20;
 
-export type Attribute =
+export type AttributeKey =
 	| "fortitude"
 	| "coordination"
 	| "intelect"
@@ -12,10 +12,17 @@ export type Attribute =
 
 export type ModuleOptions = "draenak";
 
+export type Item = {
+	id: string;
+	name: string;
+	description: string;
+	weight: string;
+};
+
 export type Skill = {
 	id: string;
 	name: string;
-	linkedAttribute: Attribute;
+	linkedAttribute: AttributeKey;
 	level: number;
 };
 
@@ -34,11 +41,22 @@ export type Race = {
 	traits: Trait[];
 };
 
+export type SecondaryAttribute = {
+  current: number;
+  limit?: number;
+}
+
+export type SecondaryAttributeKey =
+	| "wound"
+	| "stress"
+	| "resistance"
+	| "capacity";
+
 export type CharacterSheet = {
 	id: string;
 	name: string;
 	race: Race;
-  imageURL: string;
+	imageURL: string;
 	attributes: {
 		fortitude: number; //Físico
 		coordination: number;
@@ -47,6 +65,9 @@ export type CharacterSheet = {
 		willpower: number;
 		presence: number;
 	};
+	secondaryAttributes: Record<SecondaryAttributeKey, SecondaryAttribute>;
+	binding: number;
+	destiny: number;
 	skills: Skill[];
 	traits: Trait[];
 };

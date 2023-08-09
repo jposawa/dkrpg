@@ -1,14 +1,16 @@
 import React from "react";
 import { notification } from "antd";
+import { NotificationPlacement } from "antd/es/notification/interface";
 
 type ToastTypes = "info" | "success" | "warning" | "error" | "open";
 
 export const useAntToast = () => {
 	const openToast = React.useCallback(
 		(
-			title: string,
+      title: string,
 			text?: string,
 			type: ToastTypes = "info",
+      position?: NotificationPlacement,
 			customClass?: string
 		) => {
 			/**
@@ -21,6 +23,7 @@ export const useAntToast = () => {
 				message: title,
 				description: text,
 				className: customClass,
+        placement: position,
 			});
 		},
 		[notification]

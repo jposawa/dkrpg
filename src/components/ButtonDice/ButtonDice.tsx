@@ -42,7 +42,7 @@ export const ButtonDice = ({
   const handleClick = onClick ? onClick : () => {
     const rollResult = randomNumber(1, numSides, true) + modifier;
 
-    openToast(`Rolagem: ${rollResult}`);
+    openToast(`Rolagem: ${rollResult}`, "", "open", "bottom");
   };
 
   return <button

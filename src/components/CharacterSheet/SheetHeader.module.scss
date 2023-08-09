@@ -1,15 +1,17 @@
 @import "../../mixins.scss";
 
 .sheetHeader {
+  --profileSpace: 1rem;
   position: relative;
   @include dFlex(column, flex-end);
   // border: 2px solid orange;
-  height: 30%;
+  height: 37%;
 
   .characterProfile {
     @include dFlex(column);
     // border: 2px solid gold;
     width: 80%;
+    margin-bottom: var(--profileSpace);
     gap: 1.2rem;
 
     .imgContainer {
@@ -28,7 +30,7 @@
   .attributes {
     --sideWidth: 38%;
     position: absolute;
-    bottom: 15%;
+    bottom: calc(4.2rem + var(--profileSpace));
     @include dFlex();
     flex-wrap: wrap;
     // border: 1px solid cyan;
@@ -52,6 +54,33 @@
 
       &>span {
         @include dFlex(column);
+      }
+    }
+  }
+
+  .secondaryAttributes {
+    position: relative;
+    // border: 2px solid blue;
+    width: 100%;
+    padding: 0 0.2rem;
+    @include dFlex(row, center);
+    gap: 1.2rem;
+
+    & > span {
+      @include dFlex(column);
+
+      & > span {
+        width: 100%;
+        @include dFlex(row, space-evenly);
+
+        &>p {
+          width: 100%;
+          text-align: center;
+        }
+
+        .maxValue {
+          border-left: 1px solid var(--txtColor);
+        }
       }
     }
   }
