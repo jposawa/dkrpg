@@ -2,9 +2,9 @@ import React from "react";
 
 import styles from "./LibrarySheetContainer.module.scss";
 import { SheetTypes } from "../../shared/types";
-import { CharacterSheet } from "../";
+import { Button, CharacterSheet } from "../";
 import { DEBUG } from "../../shared/constants";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export type LibrarySheetContainerProps = {
   sheetId: string | null | undefined,
@@ -19,11 +19,20 @@ export const LibrarySheetContainer = ({
   className,
   style,
 }: LibrarySheetContainerProps) => {
-  const [activeSheet, setActiveSheet] = React.useState<string>("");
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleCloseSheet = () => {
+    setIsSheetOpen(false);
+
+    setTimeout(() => {
+      navigate("/library");
+    }, 350);
+  };
 
   React.useEffect(() => {
     if (sheetId || DEBUG) {
-      setActiveSheet(sheetId || "debugSheet");
+      setIsSheetOpen(true);
     }
   }, [sheetId]);
 
@@ -31,12 +40,12 @@ export const LibrarySheetContainer = ({
     <div
       className={`
         ${styles.sheetContainer} 
-        ${!sheetId && !DEBUG ? styles.hideContainer : ""}
+        ${!isSheetOpen ? styles.hideContainer : ""}
       `}
     >
       <span className={styles.background} />
-      <Link to="/library" className={styles.closeBtn}>&times;</Link>
-      {sheetId || DEBUG && <CharacterSheet sheetId={activeSheet} />}
+      <Button type="button" onClick={handleCloseSheet} className={styles.closeBtn}>&times;</Button>
+      {(sheetId || DEBUG) && <CharacterSheet sheetId={sheetId || "model"} />}
     </div>
   )
 }

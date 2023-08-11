@@ -23,7 +23,7 @@
     font-size: 2rem;
     color: var(--txtColor);
     @include dFlex();
-    z-index: 100;
+    z-index: 9;
     
     
     &:hover {

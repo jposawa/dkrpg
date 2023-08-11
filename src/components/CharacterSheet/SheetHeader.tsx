@@ -14,7 +14,6 @@ export type SheetHeaderProps = {
 };
 
 export const SheetHeader = ({ activeSheet, className, style }: SheetHeaderProps) => {
-
   const [attributesTermsList, secondaryAttributesTermsList] = React.useMemo(() => {
     if (!activeSheet) {
       return [[], []];

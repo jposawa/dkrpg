@@ -42,6 +42,7 @@
       width: var(--sideWidth);
       flex-grow: 1;
       margin: 0.4rem 0;
+      gap: 0.2rem;
 
       &:nth-child(2n+1) {
         flex-direction: row;

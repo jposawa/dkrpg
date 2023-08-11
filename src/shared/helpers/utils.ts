@@ -1,5 +1,4 @@
 import { NAMESPACE } from "../constants";
-import { DiceSides } from "../types";
 
 /** Small utility method to transform string to use NAMESPACE
 @param rawValue The initial string that will get NAMESPACE prefix
@@ -8,6 +7,15 @@ import { DiceSides } from "../types";
 export const withNamespace = (rawValue: string): string => {
 	return `${NAMESPACE}#${rawValue}`;
 };
+
+
+/** Small utility method to clone an Object
+@param {Record<any, any>} baseObj Object that you want to clone
+@return A new Object that's a copy of the baseObj
+*/
+export const cloneObj = (baseObj: Record<any, any>): Record<any, any> => {
+  return JSON.parse(JSON.stringify(baseObj));
+}
 
 /**
  * Save data as string in SessionStorage, which is persisted only for open browser tab
@@ -38,6 +46,37 @@ export const getSessionStorage = (key: string, needParse?: boolean) => {
 
 	return needParse && rawValue ? JSON.parse(rawValue) : rawValue;
 };
+
+/**
+ * Save data as string in LocalStorage, which is persisted only for open browser tab
+ * @param key The identifier of saved data
+ * @param value The actual value of saved data
+ * @param needParse (optional) In case you are passing an Object (Which includes Arrays) you need to parse to string
+ */
+export const setLocalStorage = (
+	key: string,
+	value: any,
+	needParse?: boolean
+) => {
+	const appKey = withNamespace(key);
+	const savedValue = needParse ? JSON.stringify(value) : value;
+
+	localStorage.setItem(appKey, savedValue);
+};
+
+/**
+ * Load data from LocalStorage, which is persisted only for open browser tab
+ * @param key The identifier of saved data
+ * @param needParse (optional) In case you are getting an Object (Which includes Arrays) you need to parse from string to object
+ * @return Saved value as String or, if your parse it, as Object
+ */
+export const getLocalStorage = (key: string, needParse?: boolean) => {
+	const appKey = withNamespace(key);
+	const rawValue = localStorage.getItem(appKey);
+
+	return needParse && rawValue ? JSON.parse(rawValue) : rawValue;
+};
+
 
 export const pseudoRandomNumber = (
 	min: number,
