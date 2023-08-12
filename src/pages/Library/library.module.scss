@@ -35,6 +35,21 @@
 			cursor: pointer;
 			transition: padding 300ms linear;
 
+      &> span {
+        &:first-child {
+          @include dFlex();
+          overflow: hidden;
+          width: 2rem;
+          height: 2rem;
+          
+          &>img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+
 			&:hover {
 				padding-left: 0.5rem;
 			}

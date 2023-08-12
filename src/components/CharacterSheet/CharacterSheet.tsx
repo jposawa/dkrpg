@@ -5,6 +5,8 @@ import { SheetHeader } from ".";
 import { DEBUG, characterSheetModel } from "../../shared/constants";
 import { useCharacterSheet } from "../../shared/hooks";
 import { CharacterSheet as CharacterSheetType } from "../../shared/types";
+import { useRecoilState } from "recoil";
+import { activeSheetState } from "../../shared/state";
 
 export type CharacterSheetProps = {
   sheetId: string,
@@ -18,12 +20,13 @@ export const CharacterSheet = ({
   style,
 }: CharacterSheetProps) => {
   const { data: { getActiveCharacter } } = useCharacterSheet();
-  const activeSheet = React.useMemo(() => {
+  const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
+  React.useEffect(() => {
     if ((!sheetId && DEBUG) || sheetId === "model") {
-      return characterSheetModel;
+      setActiveSheet(characterSheetModel);
     }
 
-    return getActiveCharacter(sheetId);
+    setActiveSheet(getActiveCharacter(sheetId));
   }, [sheetId, DEBUG]);
 
   return (
@@ -32,7 +35,7 @@ export const CharacterSheet = ({
       style={{ ...style }}
     >
       {!activeSheet ? <h4>Falha ao carregar ficha</h4> : (
-        <SheetHeader activeSheet={activeSheet as CharacterSheetType} />
+        <SheetHeader />
       )}
     </div>
   )

@@ -40,14 +40,16 @@ export const Library = () => {
             }}
             key={characterSheet.id}
           >
-            {characterSheet.imageURL ? (
-              <img
-                alt="Mini imagem da personagem"
-                src={characterSheet.imageURL}
-              />
-            ) : (
-              <UserOutlined />
-            )}
+            <span>
+              {characterSheet.imageURL ? (
+                <img
+                  alt="Mini imagem da personagem"
+                  src={characterSheet.imageURL}
+                />
+              ) : (
+                <UserOutlined />
+              )}
+            </span>
             <h4>{characterSheet.name}</h4>
             <span>
               {`- ${characterSheet.race.name} [${characterSheet.xp.total}xp]`}

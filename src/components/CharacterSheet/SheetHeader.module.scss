@@ -1,88 +1,161 @@
 @import "../../mixins.scss";
 
-.sheetHeader {
-  --profileSpace: 1rem;
-  position: relative;
-  @include dFlex(column, flex-end);
-  // border: 2px solid orange;
-  height: 37%;
+.popoverImgUrl {
+  @include dFlex(column);
+  gap: 0.2rem;
 
-  .characterProfile {
-    @include dFlex(column);
-    // border: 2px solid gold;
-    width: 80%;
-    margin-bottom: var(--profileSpace);
-    gap: 1.2rem;
-
-    .imgContainer {
-      --imgSize: 5rem;
-      @include dFlex();
-      border: 2px solid var(--txtColor);
-      width: var(--imgSize);
-      height: var(--imgSize);
-      font-size: calc(var(--imgSize)*0.8);
-      border-radius: 50%;
-      padding-left: 0.1rem;
-      z-index: 10;
-    }
-  }
-
-  .attributes {
-    --sideWidth: 38%;
-    position: absolute;
-    bottom: calc(4.2rem + var(--profileSpace));
-    @include dFlex();
-    flex-wrap: wrap;
-    // border: 1px solid cyan;
-    gap: calc(100% - (var(--sideWidth) * 2));
-
-    &>span {
-      // border: 1px solid purple;
-      @include dFlex(row-reverse, flex-end);
-      width: var(--sideWidth);
-      flex-grow: 1;
-      margin: 0.4rem 0;
-      gap: 0.2rem;
-
-      &:nth-child(2n+1) {
-        flex-direction: row;
-        // justify-content: flex-start;
-      }
-
-      &:nth-child(1), &:nth-child(5) {
-        margin-right: -5%;
-      }
-
-      &>span {
-        @include dFlex(column);
-      }
-    }
-  }
-
-  .secondaryAttributes {
-    position: relative;
-    // border: 2px solid blue;
+  &>span {
     width: 100%;
-    padding: 0 0.2rem;
-    @include dFlex(row, center);
-    gap: 1.2rem;
+    @include dFlex(row, flex-end);
+    gap: 1rem;
 
-    & > span {
-      @include dFlex(column);
+    &>button {
+      font-size: 1.4em;
+      background: none;
+      color: var(--colorWarn1);
 
-      & > span {
-        width: 100%;
-        @include dFlex(row, space-evenly);
-
-        &>p {
-          width: 100%;
-          text-align: center;
-        }
-
-        .maxValue {
-          border-left: 1px solid var(--txtColor);
-        }
+      &:last-child {
+        font-size: 1em;
+        color: var(--colorConfirm1);
       }
     }
   }
+}
+
+.sheetHeader {
+	--profileSpace: 2.3rem;
+	position: relative;
+	@include dFlex(column, flex-end);
+	// border: 2px solid orange;
+	height: 40%;
+
+	.characterProfile {
+		@include dFlex(column, flex-end);
+		// border: 2px solid gold;
+		width: 80%;
+		// margin-bottom: var(--profileSpace);
+		gap: 0.6rem;
+
+		.imgContainer {
+      position: relative;
+			--imgSize: 5rem;
+			@include dFlex(column, flex-start);
+			// border: 2px solid var(--txtColor);
+			width: var(--imgSize);
+			height: var(--imgSize);
+			font-size: calc(var(--imgSize) * 0.8);
+			border-radius: 50%;
+			padding-left: 0.1rem;
+			margin-bottom: 0.3rem;
+			z-index: 10;
+      overflow: hidden;
+
+      &>img {
+        // width: clamp(5rem, 100%, 10rem);
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      &>button {
+        --size: 1.2rem;
+
+        position: absolute;
+        width: var(--size);
+        height: var(--size);
+        padding: 0.2rem;
+        bottom: 0.6rem;
+        right: 0.6rem;
+        border-radius: 50%;
+        background: var(--color1);
+        color: var(--colorWhite);
+      }
+		}
+
+		.actionButtonsContainer {
+			@include dFlex();
+			width: 100%;
+			height: auto;
+			z-index: 10;
+			// border: 1px solid red;
+			gap: 2rem;
+
+			& > button {
+				--size: 1.8rem;
+				width: var(--size);
+				height: var(--size);
+				background: var(--color1);
+				color: var(--colorWhite);
+			}
+
+      .cancel {
+        background: var(--colorWarn1);
+        color: var(--colorBlack);
+      }
+  
+      .confirm {
+        background: var(--colorConfirm1);
+      }
+		}
+	}
+
+	.attributes {
+		--sideWidth: 38%;
+		position: absolute;
+		bottom: calc(4.2rem + var(--profileSpace));
+		@include dFlex();
+		flex-wrap: wrap;
+		// border: 1px solid cyan;
+		gap: calc(100% - (var(--sideWidth) * 2));
+
+		& > span {
+			// border: 1px solid purple;
+			@include dFlex(row-reverse, flex-end);
+			width: var(--sideWidth);
+			flex-grow: 1;
+			margin: 0.4rem 0;
+			gap: 0.2rem;
+
+			&:nth-child(2n + 1) {
+				flex-direction: row;
+				// justify-content: flex-start;
+			}
+
+			&:nth-child(1),
+			&:nth-child(5) {
+				margin-right: -5%;
+			}
+
+			& > span {
+				@include dFlex(column);
+			}
+		}
+	}
+
+	.secondaryAttributes {
+		position: relative;
+		// border: 2px solid blue;
+		width: 100%;
+		padding: 0 0.2rem;
+		@include dFlex(row, center);
+		gap: 1.2rem;
+
+		& > span {
+			@include dFlex(column);
+
+			& > span {
+				width: 100%;
+				@include dFlex(row, space-evenly);
+
+				& > p {
+					width: 100%;
+					text-align: center;
+				}
+
+				.maxValue {
+					border-left: 1px solid var(--txtColor);
+				}
+			}
+		}
+	}
 }
