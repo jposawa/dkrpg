@@ -79,14 +79,23 @@
 			z-index: 10;
 			// border: 1px solid red;
 			gap: 2rem;
+      --size: 1.8rem;
 
 			& > button {
-				--size: 1.8rem;
 				width: var(--size);
 				height: var(--size);
 				background: var(--color1);
 				color: var(--colorWhite);
 			}
+
+      .deleteBtn {
+        width: var(--size);
+        height: var(--size);
+        background: var(--colorDanger1);
+        border-radius: 50%;
+        @include dFlex();
+        padding: 0 0.1rem 0.1rem 0;
+      }
 
       .cancel {
         background: var(--colorWarn1);

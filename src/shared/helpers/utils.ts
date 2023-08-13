@@ -17,6 +17,10 @@ export const cloneObj = (baseObj: Record<any, any>): Record<any, any> => {
   return JSON.parse(JSON.stringify(baseObj));
 }
 
+export const isObjEqual = (obj1: any, obj2: any) => {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
 /**
  * Save data as string in SessionStorage, which is persisted only for open browser tab
  * @param key The identifier of saved data

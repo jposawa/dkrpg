@@ -25,8 +25,12 @@ export const CharacterSheet = ({
     if ((!sheetId && DEBUG) || sheetId === "model") {
       setActiveSheet(characterSheetModel);
     }
+    
+    if(sheetId !== activeSheet?.id) {
+      const chosenSheet = getActiveCharacter(sheetId);
 
-    setActiveSheet(getActiveCharacter(sheetId));
+      setActiveSheet(chosenSheet);
+    }
   }, [sheetId, DEBUG]);
 
   return (

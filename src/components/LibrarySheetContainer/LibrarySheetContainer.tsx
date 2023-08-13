@@ -31,8 +31,10 @@ export const LibrarySheetContainer = ({
   };
 
   React.useEffect(() => {
-    if (sheetId || DEBUG) {
+    if (!!sheetId || DEBUG) {
       setIsSheetOpen(true);
+    } else if (isSheetOpen) {
+      handleCloseSheet();
     }
   }, [sheetId]);
 

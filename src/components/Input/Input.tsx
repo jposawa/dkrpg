@@ -12,7 +12,7 @@ type InputProps = {
   style?: React.CSSProperties;
   defaultValue?: any;
   disabled?: boolean;
-  onChange?: (event: any) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   defaultChecked?: boolean;
   title?: string;
   required?: boolean;

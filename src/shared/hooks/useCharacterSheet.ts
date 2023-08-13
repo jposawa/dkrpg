@@ -2,6 +2,7 @@ import React from "react";
 import {
 	cloneObj,
 	getLocalStorage,
+	isObjEqual,
 	setLocalStorage,
 	setSessionStorage,
 	withNamespace,
@@ -12,16 +13,17 @@ import { characterSheetModel } from "../constants";
 import { useSetRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../state";
 import { useAntToast } from "./useAntToast";
+import { useNavigate } from "react-router-dom";
 
 export const useCharacterSheet = () => {
+  const navigate = useNavigate();
 	const setActiveSheet = useSetRecoilState(activeSheetState);
-  const setEditMode = useSetRecoilState(sheetEditingState);
+	const setEditMode = useSetRecoilState(sheetEditingState);
 	const { openToast } = useAntToast();
-	const characterSheetsList: CharacterSheet[] = React.useMemo(() => {
-		const localList = getLocalStorage("characterSheetsList", true);
-
-		return localList || [];
-	}, [getLocalStorage]);
+	const localList = getLocalStorage("characterSheetsList", true);
+	const [characterSheetsList, setCharacterSheetsList] = React.useState<
+		CharacterSheet[]
+	>([]);
 
 	const getActiveCharacter = React.useCallback(
 		(characterId: string) => {
@@ -38,9 +40,15 @@ export const useCharacterSheet = () => {
 		[characterSheetsList]
 	);
 
+	type SaveOptions = {
+		keepSessionSheet?: boolean;
+		preventAlert?: boolean;
+	};
+
 	const saveCharacterSheet = React.useCallback(
-		(sheet: CharacterSheet, keepSessionSheet = false) => {
+		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
+				const { keepSessionSheet, preventAlert } = options;
 				const sheetIndex = characterSheetsList?.findIndex(
 					(characterSheet) => characterSheet.id === sheet.id
 				);
@@ -53,13 +61,16 @@ export const useCharacterSheet = () => {
 
 				if (!keepSessionSheet) {
 					sessionStorage.removeItem(withNamespace("editingSheet"));
-          sessionStorage.removeItem(withNamespace("backupActiveSheet"));
+					sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 				}
 
 				setLocalStorage("characterSheetsList", characterSheetsList, true);
 
-        setEditMode(false);
-				openToast("Ficha salva com sucesso", "", "success");
+				setEditMode(false);
+
+				if (!preventAlert) {
+					openToast("Ficha salva com sucesso", "", "success");
+				}
 			} catch (error) {
 				console.error("Erro em salvar ficha", error);
 				openToast(
@@ -97,6 +108,25 @@ export const useCharacterSheet = () => {
 		return newObj;
 	}, [saveCharacterSheet]);
 
+	const deleteSheet = (sheetId: string) => {
+		const cloneList = cloneObj(characterSheetsList) as CharacterSheet[];
+		const sheetIndex = cloneList.findIndex((item) => item.id === sheetId);
+
+		cloneList.splice(sheetIndex, 1);
+
+		setLocalStorage("characterSheetsList", cloneList, true);
+		setActiveSheet(null);
+		setEditMode(false);
+    navigate("/library");
+		openToast("Ficha deletada com sucesso", "", "info");
+	};
+
+	React.useMemo(() => {
+		if (!isObjEqual(localList, characterSheetsList)) {
+			setCharacterSheetsList(localList);
+		}
+	}, [localList]);
+
 	return React.useMemo(
 		() => ({
 			data: {
@@ -105,6 +135,7 @@ export const useCharacterSheet = () => {
 				getNewCharacterSheet,
 				saveCharacterSheet,
 				updateEditingSheet,
+				deleteSheet,
 			},
 		}),
 		[
@@ -113,6 +144,7 @@ export const useCharacterSheet = () => {
 			getNewCharacterSheet,
 			saveCharacterSheet,
 			updateEditingSheet,
+			deleteSheet,
 		]
 	);
 };

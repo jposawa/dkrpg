@@ -9,6 +9,7 @@ import {
 import { ButtonDice } from "../ButtonDice/ButtonDice";
 import {
 	CheckOutlined,
+	DeleteOutlined,
 	EditOutlined,
 	UndoOutlined,
 	UserOutlined,
@@ -25,7 +26,7 @@ import { useRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../../shared/state";
 import { Button, Input } from "../";
 import { useCharacterSheet } from "../../shared/hooks";
-import { Popover } from "antd";
+import { Popconfirm, Popover } from "antd";
 
 export type SheetHeaderProps = {
 	className?: string;
@@ -36,10 +37,12 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 	const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
 	const [editMode, setEditMode] = useRecoilState(sheetEditingState);
 	const {
-		data: { updateEditingSheet, saveCharacterSheet },
+		data: { updateEditingSheet, saveCharacterSheet, deleteSheet },
 	} = useCharacterSheet();
 	const [isImgEditPopoverOpen, setImgEditPopoverOpen] = React.useState(false);
-	const [currentImgUrl, setCurrentImgUrl] = React.useState();
+	const [currentImgUrl, setCurrentImgUrl] = React.useState(
+		activeSheet?.imageURL
+	);
 
 	const handleEnterEditMode = () => {
 		if (activeSheet) {
@@ -78,6 +81,17 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		setImgEditPopoverOpen(false);
 	};
 
+	const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const {
+			target: { value: newName },
+		} = event;
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.name = newName || "";
+
+		setActiveSheet(cloneSheet);
+	};
+
 	const [attributesTermsList, secondaryAttributesTermsList] =
 		React.useMemo(() => {
 			if (!activeSheet) {
@@ -106,7 +120,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		>
 			<div className={styles.characterProfile}>
 				<span className={styles.imgContainer}>
-					{activeSheet?.imageURL ? (
+					{activeSheet?.imageURL && (!editMode || !!currentImgUrl) ? (
 						<img
 							alt="character image"
 							src={editMode ? currentImgUrl : activeSheet.imageURL}
@@ -156,11 +170,35 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 					)}
 				</span>
 
-				<h3>{activeSheet?.name || "Character Name"}</h3>
+				<h3 style={{ textAlign: "center" }}>
+					{!editMode ? (
+						activeSheet?.name || "Nome personagem"
+					) : (
+						<Input
+							defaultValue={activeSheet?.name}
+							placeholder="Nome personagem"
+							style={{
+								fontSize: "1.1rem",
+							}}
+							onChange={updateName}
+						/>
+					)}
+				</h3>
 
 				<div className={styles.actionButtonsContainer}>
 					{editMode ? (
 						<>
+							<Popconfirm
+                className={styles.deleteBtn}
+								title="Deletar ficha?"
+								description="Essa ação não pode ser revertida"
+								okText="Deletar"
+								cancelText="Manter ficha"
+								onConfirm={() => deleteSheet(activeSheet!.id)}
+							>
+								<DeleteOutlined />
+							</Popconfirm>
+
 							<Button
 								className={styles.cancel}
 								onClick={handleCancelEdits}
