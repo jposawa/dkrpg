@@ -70,4 +70,11 @@ export type CharacterSheet = {
 	destiny: number;
 	skills: Skill[];
 	traits: Trait[];
+  inventory: Item[];
+  xp: {
+    total: number;
+    used: number;
+  };
 };
+
+export type CharacterSheetList = Record<string, CharacterSheet>;

@@ -2,7 +2,7 @@ import { AttributeKey, CharacterSheet } from "./types";
 
 export const NAMESPACE = "jpoIE";
 
-export const DEBUG = true;
+export const DEBUG = false;
 
 export const MODULE_DATA = {
   draenak: {
@@ -25,6 +25,44 @@ export const MODULE_DATA = {
         level: 0,
       },
     ],
+    RACES: {
+      "race-1": {
+        id: "race-1",
+        name: "Humano",
+        description: "Raça padrão",
+        traits: [],
+      },
+      "race-2": {
+        id: "race-2",
+        name: "Elfo",
+        description: "Raça de orelha pontuda",
+        traits: [],
+      },
+      "race-3": {
+        id: "race-3",
+        name: "Anão",
+        description: "Raça com uma estatura um pouco reduzida e mais resistente",
+        traits: [],
+      },
+      "race-4": {
+        id: "race-4",
+        name: "Orc",
+        description: "Raça bruta",
+        traits: [],
+      },
+      "race-5": {
+        id: "race-5",
+        name: "Faelir",
+        description: "Felinos humanóides",
+        traits: [],
+      },
+      "race-6": {
+        id: "race-6",
+        name: "Siruna",
+        description: "Símios humanóides",
+        traits: [],
+      },
+    },
   }
 }
 
@@ -45,20 +83,15 @@ export const termsList: {[key: string]: string} = {
 export const characterSheetModel: CharacterSheet = {
 	id: "model",
 	name: "Debuger Ontable",
-	race: {
-    id: "race-1",
-    name: "Humano",
-    description: "Igual o Ken, apenas um Humano",
-    traits: [],
-  },
+	race: MODULE_DATA.draenak.RACES["race-1"],
   imageURL: "",
 	attributes: {
-		fortitude: 2,
-		coordination: 2,
+		fortitude: 1,
+		coordination: 1,
 		intelect: 1,
 		sagacity: 1,
-		willpower: 3,
-		presence: 4,
+		willpower: 1,
+		presence: 1,
 	},
   secondaryAttributes: {
     wound: {
@@ -81,4 +114,9 @@ export const characterSheetModel: CharacterSheet = {
   destiny: 0,
 	skills: MODULE_DATA.draenak.SKILLS,
 	traits: [],
+  inventory: [],
+  xp: {
+    total: 100,
+    used: 0,
+  },
 };

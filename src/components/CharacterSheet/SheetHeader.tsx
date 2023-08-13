@@ -1,79 +1,313 @@
 import React from "react";
 
 import styles from "./SheetHeader.module.scss";
-import { CharacterSheet, DiceSides, SecondaryAttributeKey } from "../../shared/types";
+import {
+	AttributeKey,
+	CharacterSheet,
+	DiceSides,
+	SecondaryAttributeKey,
+} from "../../shared/types";
 import { ButtonDice } from "../ButtonDice/ButtonDice";
-import { UserOutlined } from "@ant-design/icons";
+import {
+	CheckOutlined,
+	DeleteOutlined,
+	EditOutlined,
+	UndoOutlined,
+	UserOutlined,
+} from "@ant-design/icons";
 import { termsList } from "../../shared/constants";
-import { diceSideNumberFromLevel } from "../../shared/helpers/utils";
+import {
+	cloneObj,
+	diceSideNumberFromLevel,
+	getSessionStorage,
+	setSessionStorage,
+	withNamespace,
+} from "../../shared/helpers/utils";
+import { useRecoilState } from "recoil";
+import { activeSheetState, sheetEditingState } from "../../shared/state";
+import { Button, Input } from "../";
+import { useCharacterSheet } from "../../shared/hooks";
+import { Popconfirm, Popover } from "antd";
 
 export type SheetHeaderProps = {
-  activeSheet: CharacterSheet;
-  className?: string;
-  style?: React.CSSProperties;
+	className?: string;
+	style?: React.CSSProperties;
 };
 
-export const SheetHeader = ({ activeSheet, className, style }: SheetHeaderProps) => {
+export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
+	const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
+	const [editMode, setEditMode] = useRecoilState(sheetEditingState);
+	const {
+		data: { updateEditingSheet, saveCharacterSheet, deleteSheet },
+	} = useCharacterSheet();
+	const [isImgEditPopoverOpen, setImgEditPopoverOpen] = React.useState(false);
+	const [currentImgUrl, setCurrentImgUrl] = React.useState(
+		activeSheet?.imageURL
+	);
 
-  const [attributesTermsList, secondaryAttributesTermsList] = React.useMemo(() => {
-    if (!activeSheet) {
-      return [[], []];
-    }
-    const attributes = Object.keys(activeSheet.attributes);
-    const secondaryAttributes = Object.keys(activeSheet.secondaryAttributes);
-    const attributesTerms: { [key: string]: string } = {};
-    const secondaryAttributesTerms: { [key: string]: string } = {};
+	const handleEnterEditMode = () => {
+		if (activeSheet) {
+			setEditMode(true);
+			setSessionStorage("backupActiveSheet", activeSheet, true);
+			updateEditingSheet(activeSheet);
+		}
+	};
 
-    attributes.forEach((attributeKey) => {
-      attributesTerms[attributeKey] = termsList[attributeKey];
-    });
+	const handleCancelEdits = () => {
+		const backupSheet = getSessionStorage("backupActiveSheet", true);
 
-    secondaryAttributes.forEach((attributeKey) => {
-      secondaryAttributesTerms[attributeKey] = termsList[attributeKey];
-    });
+		setActiveSheet(backupSheet);
 
-    return [attributesTerms, secondaryAttributesTerms];
-  }, []);
+		sessionStorage.removeItem(withNamespace("editingSheet"));
+		sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 
-  return (
-    <header
-      className={`${styles.sheetHeader} ${className || ""}`}
-      style={{ ...style }}
-    >
-      <div className={styles.characterProfile}>
-        <span className={styles.imgContainer}>
-          {activeSheet?.imageURL ? <img alt="character image" src={activeSheet.imageURL} /> : <UserOutlined />}
-        </span>
+		setEditMode(false);
+	};
 
-        <h3>{activeSheet?.name || "Character Name"}</h3>
-      </div>
+	const handleSaveEdits = () => {
+		if (activeSheet) {
+			saveCharacterSheet(activeSheet);
+		}
+	};
 
-      <div className={styles.attributes}>
-        {Object.entries(attributesTermsList).map(([attrKey, attrName], index) => (
-          <span key={attrKey}>
-            <span className={styles.attributeText}>
-              <b>{attrName}</b>
-            </span>
-            <ButtonDice numSides={diceSideNumberFromLevel(index + 1) as DiceSides}>{index + 1}</ButtonDice>
-          </span>
-        ))}
-      </div>
+	const updateImgUrl = (shouldUpdate = false) => {
+		if (shouldUpdate) {
+			const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
 
-      <div className={styles.secondaryAttributes}>
-        {Object.entries(secondaryAttributesTermsList).map(([attrKey, attrName]) => {
-          return (
-            <span key={attrKey}>
-              <b>{attrName}</b>
-              <span className={styles.secondaryAttributesText}>
-                <p>
-                  {activeSheet?.secondaryAttributes[attrKey as SecondaryAttributeKey]?.current}
-                </p>
-                {activeSheet?.secondaryAttributes[attrKey as SecondaryAttributeKey]?.limit && <p className={styles.maxValue}>{activeSheet.secondaryAttributes[attrKey as SecondaryAttributeKey].limit}</p>}
-              </span>
-            </span>
-          )
-        })}
-      </div>
-    </header>
-  )
-}
+			cloneSheet.imageURL = currentImgUrl || "";
+
+			updateEditingSheet(cloneSheet);
+		}
+
+		setImgEditPopoverOpen(false);
+	};
+
+	const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const {
+			target: { value: newName },
+		} = event;
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.name = newName || "";
+
+		setActiveSheet(cloneSheet);
+	};
+
+	const updateAttribute = (attrName: AttributeKey, attrValue: number) => {
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.attributes[attrName] = attrValue;
+
+		setActiveSheet(cloneSheet);
+	};
+
+	const [attributesTermsList, secondaryAttributesTermsList] =
+		React.useMemo(() => {
+			if (!activeSheet) {
+				return [[], []];
+			}
+			const attributes = Object.keys(activeSheet.attributes);
+			const secondaryAttributes = Object.keys(activeSheet.secondaryAttributes);
+			const attributesTerms: { [key: string]: string } = {};
+			const secondaryAttributesTerms: { [key: string]: string } = {};
+
+			attributes.forEach((attributeKey) => {
+				attributesTerms[attributeKey] = termsList[attributeKey];
+			});
+
+			secondaryAttributes.forEach((attributeKey) => {
+				secondaryAttributesTerms[attributeKey] = termsList[attributeKey];
+			});
+
+			return [attributesTerms, secondaryAttributesTerms];
+		}, []);
+
+	return (
+		<header
+			className={`${styles.sheetHeader} ${className || ""}`}
+			style={{ ...style }}
+		>
+			<div className={styles.characterProfile}>
+				<span className={styles.imgContainer}>
+					{activeSheet?.imageURL && (!editMode || !!currentImgUrl) ? (
+						<img
+							alt="character image"
+							src={editMode ? currentImgUrl : activeSheet.imageURL}
+						/>
+					) : (
+						<UserOutlined />
+					)}
+					{editMode && (
+						<Popover
+							title="Edite URL imagem"
+							content={() => (
+								<span className={styles.popoverImgUrl}>
+									<Input
+										defaultValue={currentImgUrl || activeSheet?.imageURL}
+										placeholder="Insira URL de imagem"
+										onChange={(event) => {
+											const {
+												target: { value },
+											} = event;
+
+											setCurrentImgUrl(value || "");
+										}}
+									/>
+
+									<span>
+										<Button onClick={updateImgUrl}>&times;</Button>
+
+										<Button
+											onClick={() => {
+												updateImgUrl(true);
+											}}
+										>
+											<CheckOutlined />
+										</Button>
+									</span>
+								</span>
+							)}
+							open={isImgEditPopoverOpen}
+							onOpenChange={() => {
+								setImgEditPopoverOpen(true);
+							}}
+						>
+							<Button onClick={() => {}}>
+								<EditOutlined />
+							</Button>
+						</Popover>
+					)}
+				</span>
+
+				<h3 style={{ textAlign: "center" }}>
+					{!editMode ? (
+						activeSheet?.name || "Nome personagem"
+					) : (
+						<Input
+							defaultValue={activeSheet?.name}
+							placeholder="Nome personagem"
+							style={{
+								fontSize: "1.1rem",
+							}}
+							onChange={updateName}
+						/>
+					)}
+				</h3>
+
+				<div className={styles.actionButtonsContainer}>
+					{editMode ? (
+						<>
+							<Popconfirm
+								className={styles.deleteBtn}
+								title="Deletar ficha?"
+								description="Essa ação não pode ser revertida"
+								okText="Deletar"
+								cancelText="Manter ficha"
+								onConfirm={() => deleteSheet(activeSheet!.id)}
+							>
+								<DeleteOutlined />
+							</Popconfirm>
+
+							<Button
+								className={styles.cancel}
+								onClick={handleCancelEdits}
+								rounded
+							>
+								<UndoOutlined />
+							</Button>
+
+							<Button
+								className={styles.confirm}
+								onClick={handleSaveEdits}
+								rounded
+							>
+								<CheckOutlined />
+							</Button>
+						</>
+					) : (
+						<Button onClick={handleEnterEditMode} rounded>
+							<EditOutlined />
+						</Button>
+					)}
+				</div>
+			</div>
+
+			<div className={styles.attributes}>
+				{Object.entries(attributesTermsList).map(
+					([attrKey, attrName], index) => (
+						<span key={attrKey}>
+							<span className={styles.attributeText}>
+								<b>{attrName}</b>
+							</span>
+							{editMode ? (
+								<Input
+									type="tel"
+									min={1}
+									max={6}
+									maxLength={1}
+									pattern="[1-6]*"
+									defaultValue={
+										activeSheet?.attributes[attrKey as AttributeKey]
+									}
+									className={styles.attrInput}
+									onChange={({ target }) => {
+										if (!target.validity.valid) {
+											target.value = "";
+										} else {
+											updateAttribute(
+												attrKey as AttributeKey,
+												Number(target.value)
+											);
+										}
+									}}
+								/>
+							) : (
+								<ButtonDice
+									numSides={
+										diceSideNumberFromLevel(
+											activeSheet?.attributes[attrKey as AttributeKey] || 1
+										) as DiceSides
+									}
+								>
+									{activeSheet?.attributes[attrKey as AttributeKey]}
+								</ButtonDice>
+							)}
+						</span>
+					)
+				)}
+			</div>
+
+			<div className={styles.secondaryAttributes}>
+				{Object.entries(secondaryAttributesTermsList).map(
+					([attrKey, attrName]) => {
+						return (
+							<span key={attrKey}>
+								<b>{attrName}</b>
+								<span className={styles.secondaryAttributesText}>
+									<p>
+										{
+											activeSheet?.secondaryAttributes[
+												attrKey as SecondaryAttributeKey
+											]?.current
+										}
+									</p>
+									{activeSheet?.secondaryAttributes[
+										attrKey as SecondaryAttributeKey
+									]?.limit && (
+										<p className={styles.maxValue}>
+											{
+												activeSheet.secondaryAttributes[
+													attrKey as SecondaryAttributeKey
+												].limit
+											}
+										</p>
+									)}
+								</span>
+							</span>
+						);
+					}
+				)}
+			</div>
+		</header>
+	);
+};

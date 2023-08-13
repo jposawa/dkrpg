@@ -3,6 +3,10 @@ import React from "react";
 import styles from "./CharacterSheet.module.scss";
 import { SheetHeader } from ".";
 import { DEBUG, characterSheetModel } from "../../shared/constants";
+import { useCharacterSheet } from "../../shared/hooks";
+import { CharacterSheet as CharacterSheetType } from "../../shared/types";
+import { useRecoilState } from "recoil";
+import { activeSheetState } from "../../shared/state";
 
 export type CharacterSheetProps = {
   sheetId: string,
@@ -15,18 +19,28 @@ export const CharacterSheet = ({
   className,
   style,
 }: CharacterSheetProps) => {
-  const activeSheet = React.useMemo(() => {
-    // if (!sheetId && DEBUG) {
-    //   return characterSheetModel;
-    // }
+  const { data: { getActiveCharacter } } = useCharacterSheet();
+  const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
+  React.useEffect(() => {
+    if ((!sheetId && DEBUG) || sheetId === "model") {
+      setActiveSheet(characterSheetModel);
+    }
+    
+    if(sheetId !== activeSheet?.id) {
+      const chosenSheet = getActiveCharacter(sheetId);
+
+      setActiveSheet(chosenSheet);
+    }
   }, [sheetId, DEBUG]);
 
   return (
-    <div 
+    <div
       className={`${styles.characterSheet} ${className || ""}`}
-      style={{...style}}
+      style={{ ...style }}
     >
-      <SheetHeader activeSheet={characterSheetModel} />
+      {!activeSheet ? <h4>Falha ao carregar ficha</h4> : (
+        <SheetHeader />
+      )}
     </div>
   )
 }

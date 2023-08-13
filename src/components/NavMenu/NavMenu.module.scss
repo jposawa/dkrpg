@@ -9,7 +9,7 @@
   @include dFlex(row, space-evenly);
   background: var(--color1);
   border: none;
-  z-index: 9;
+  z-index: 10;
 
   &>a {
     width: var(--itemSize);
