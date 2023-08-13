@@ -13,7 +13,7 @@ Essas são as características atuais:
 
 #### Atualmente em construção, aguarde futuras atualizações
 
-## Draenak RPG
+## English version
 
 New platform of managing sheets to play the RPG system I'm creating.
 

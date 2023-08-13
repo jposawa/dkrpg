@@ -33,7 +33,7 @@ export const Library = () => {
       </header>
 
       <ul className={styles.sheetList}>
-        {characterSheetsList.map((characterSheet) => (
+        {characterSheetsList && characterSheetsList?.map((characterSheet) => (
           <li
             onClick={() => {
               openSheet(characterSheet.id);
