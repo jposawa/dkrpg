@@ -46,7 +46,6 @@ export const useCharacterSheet = () => {
 	};
 
 	const autoCalculations = (sheet: CharacterSheet) => {
-		console.log("entrada sheet", sheet);
 		sheet.secondaryAttributes.capacity.limit = 8 + sheet.attributes.fortitude;
 		sheet.secondaryAttributes.resistance.current = sheet.attributes.fortitude;
 		sheet.secondaryAttributes.stress.limit = 10 + sheet.attributes.willpower;
@@ -58,7 +57,6 @@ export const useCharacterSheet = () => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
 				autoCalculations(cloneSheet);
-        console.log("saida", cloneSheet);
 
 				const { keepSessionSheet, preventAlert } = options;
 				const sheetIndex = characterSheetsList?.findIndex(
@@ -76,7 +74,6 @@ export const useCharacterSheet = () => {
 					sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 				}
 
-        console.log("lista antes salvar", characterSheetsList);
         setActiveSheet(cloneSheet);
 				setLocalStorage("characterSheetsList", characterSheetsList, true);
 
@@ -117,7 +114,7 @@ export const useCharacterSheet = () => {
 		newObj.id = uuidv4();
 		newObj.name = "Nome Personagem";
 
-		saveCharacterSheet(newObj);
+		saveCharacterSheet(newObj, { preventAlert: true });
 
 		return newObj;
 	}, [saveCharacterSheet]);
@@ -137,7 +134,7 @@ export const useCharacterSheet = () => {
 
 	React.useMemo(() => {
 		if (!isObjEqual(localList, characterSheetsList)) {
-			setCharacterSheetsList(localList);
+			setCharacterSheetsList(localList || []);
 		}
 	}, [localList]);
 
