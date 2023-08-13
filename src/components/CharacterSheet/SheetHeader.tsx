@@ -232,82 +232,86 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 				</div>
 			</div>
 
-			<div className={styles.attributes}>
-				{Object.entries(attributesTermsList).map(
-					([attrKey, attrName], index) => (
-						<span key={attrKey}>
-							<span className={styles.attributeText}>
-								<b>{attrName}</b>
-							</span>
-							{editMode ? (
-								<Input
-									type="tel"
-									min={1}
-									max={6}
-									maxLength={1}
-									pattern="[1-6]*"
-									defaultValue={
-										activeSheet?.attributes[attrKey as AttributeKey]
-									}
-									className={styles.attrInput}
-									onChange={({ target }) => {
-										if (!target.validity.valid) {
-											target.value = "";
-										} else {
-											updateAttribute(
-												attrKey as AttributeKey,
-												Number(target.value)
-											);
-										}
-									}}
-								/>
-							) : (
-								<ButtonDice
-									numSides={
-										diceSideNumberFromLevel(
-											activeSheet?.attributes[attrKey as AttributeKey] || 1
-										) as DiceSides
-									}
-								>
-									{activeSheet?.attributes[attrKey as AttributeKey]}
-								</ButtonDice>
-							)}
-						</span>
-					)
-				)}
-			</div>
-
-			<div className={styles.secondaryAttributes}>
-				{Object.entries(secondaryAttributesTermsList).map(
-					([attrKey, attrName]) => {
-						return (
+			{attributesTermsList && (
+				<div className={styles.attributes}>
+					{Object.entries(attributesTermsList)?.map(
+						([attrKey, attrName], index) => (
 							<span key={attrKey}>
-								<b>{attrName}</b>
-								<span className={styles.secondaryAttributesText}>
-									<p>
-										{
-											activeSheet?.secondaryAttributes[
-												attrKey as SecondaryAttributeKey
-											]?.current
+								<span className={styles.attributeText}>
+									<b>{attrName}</b>
+								</span>
+								{editMode ? (
+									<Input
+										type="tel"
+										min={1}
+										max={6}
+										maxLength={1}
+										pattern="[1-6]*"
+										defaultValue={
+											activeSheet?.attributes[attrKey as AttributeKey]
 										}
-									</p>
-									{activeSheet?.secondaryAttributes[
-										attrKey as SecondaryAttributeKey
-									]?.limit && (
-										<p className={styles.maxValue}>
+										className={styles.attrInput}
+										onChange={({ target }) => {
+											if (!target.validity.valid) {
+												target.value = "";
+											} else {
+												updateAttribute(
+													attrKey as AttributeKey,
+													Number(target.value)
+												);
+											}
+										}}
+									/>
+								) : (
+									<ButtonDice
+										numSides={
+											diceSideNumberFromLevel(
+												activeSheet?.attributes[attrKey as AttributeKey] || 1
+											) as DiceSides
+										}
+									>
+										{activeSheet?.attributes[attrKey as AttributeKey]}
+									</ButtonDice>
+								)}
+							</span>
+						)
+					)}
+				</div>
+			)}
+
+			{secondaryAttributesTermsList && (
+				<div className={styles.secondaryAttributes}>
+					{Object.entries(secondaryAttributesTermsList)?.map(
+						([attrKey, attrName]) => {
+							return (
+								<span key={attrKey}>
+									<b>{attrName}</b>
+									<span className={styles.secondaryAttributesText}>
+										<p>
 											{
-												activeSheet.secondaryAttributes[
+												activeSheet?.secondaryAttributes[
 													attrKey as SecondaryAttributeKey
-												].limit
+												]?.current
 											}
 										</p>
-									)}
+										{activeSheet?.secondaryAttributes[
+											attrKey as SecondaryAttributeKey
+										]?.limit && (
+											<p className={styles.maxValue}>
+												{
+													activeSheet.secondaryAttributes[
+														attrKey as SecondaryAttributeKey
+													].limit
+												}
+											</p>
+										)}
+									</span>
 								</span>
-							</span>
-						);
-					}
-				)}
-			</div>
+							);
+						}
+					)}
+				</div>
+			)}
 		</header>
 	);
 };
