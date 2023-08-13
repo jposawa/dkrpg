@@ -146,3 +146,9 @@ export const diceSideNumberFromLevel = (level: number) => {
 
 	return 2 + 2 * level;
 };
+
+export const onlyNumbers = (rawValue: string) => {
+  const numbersValue = rawValue.replace(/\D/g, "");
+
+  return numbersValue;
+}

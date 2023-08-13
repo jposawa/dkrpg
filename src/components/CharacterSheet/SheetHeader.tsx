@@ -2,6 +2,7 @@ import React from "react";
 
 import styles from "./SheetHeader.module.scss";
 import {
+	AttributeKey,
 	CharacterSheet,
 	DiceSides,
 	SecondaryAttributeKey,
@@ -88,6 +89,14 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
 
 		cloneSheet.name = newName || "";
+
+		setActiveSheet(cloneSheet);
+	};
+
+	const updateAttribute = (attrName: AttributeKey, attrValue: number) => {
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.attributes[attrName] = attrValue;
 
 		setActiveSheet(cloneSheet);
 	};
@@ -189,7 +198,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 					{editMode ? (
 						<>
 							<Popconfirm
-                className={styles.deleteBtn}
+								className={styles.deleteBtn}
 								title="Deletar ficha?"
 								description="Essa ação não pode ser revertida"
 								okText="Deletar"
@@ -230,11 +239,39 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 							<span className={styles.attributeText}>
 								<b>{attrName}</b>
 							</span>
-							<ButtonDice
-								numSides={diceSideNumberFromLevel(index + 1) as DiceSides}
-							>
-								{index + 1}
-							</ButtonDice>
+							{editMode ? (
+								<Input
+									type="tel"
+									min={1}
+									max={6}
+									maxLength={1}
+									pattern="[1-6]*"
+									defaultValue={
+										activeSheet?.attributes[attrKey as AttributeKey]
+									}
+									className={styles.attrInput}
+									onChange={({ target }) => {
+										if (!target.validity.valid) {
+											target.value = "";
+										} else {
+											updateAttribute(
+												attrKey as AttributeKey,
+												Number(target.value)
+											);
+										}
+									}}
+								/>
+							) : (
+								<ButtonDice
+									numSides={
+										diceSideNumberFromLevel(
+											activeSheet?.attributes[attrKey as AttributeKey] || 1
+										) as DiceSides
+									}
+								>
+									{activeSheet?.attributes[attrKey as AttributeKey]}
+								</ButtonDice>
+							)}
 						</span>
 					)
 				)}

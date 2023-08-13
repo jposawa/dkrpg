@@ -2,11 +2,11 @@
   border: none;
   padding: 0 0.2rem;
   font-size: 0.8rem;
+  outline: none;
   // color: var(--txtColor);
 
   &:disabled {
     background: none;
     border: none;
-    width: 100%;
   }
 }

@@ -7,6 +7,7 @@ type InputProps = {
   type?: string;
   min?: number;
   max?: number;
+  maxLength?: number;
   name?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -17,6 +18,7 @@ type InputProps = {
   title?: string;
   required?: boolean;
   placeholder?: string;
+  pattern?: string;
 }
 
 export const Input = ({
@@ -34,6 +36,8 @@ export const Input = ({
   title,
   required,
   placeholder,
+  maxLength,
+  pattern,
 }: InputProps) => {
   return (
     <input
@@ -49,8 +53,10 @@ export const Input = ({
       type={type}
       min={min}
       max={max}
+      maxLength={maxLength}
       required={required}
       placeholder={placeholder}
+      pattern={pattern}
     />
   )
 }

@@ -16,7 +16,7 @@ import { useAntToast } from "./useAntToast";
 import { useNavigate } from "react-router-dom";
 
 export const useCharacterSheet = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 	const setActiveSheet = useSetRecoilState(activeSheetState);
 	const setEditMode = useSetRecoilState(sheetEditingState);
 	const { openToast } = useAntToast();
@@ -45,18 +45,30 @@ export const useCharacterSheet = () => {
 		preventAlert?: boolean;
 	};
 
+	const autoCalculations = (sheet: CharacterSheet) => {
+		console.log("entrada sheet", sheet);
+		sheet.secondaryAttributes.capacity.limit = 8 + sheet.attributes.fortitude;
+		sheet.secondaryAttributes.resistance.current = sheet.attributes.fortitude;
+		sheet.secondaryAttributes.stress.limit = 10 + sheet.attributes.willpower;
+		sheet.secondaryAttributes.wound.limit = 10 + sheet.attributes.fortitude;
+	};
+
 	const saveCharacterSheet = React.useCallback(
 		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
+				const cloneSheet = cloneObj(sheet) as CharacterSheet;
+				autoCalculations(cloneSheet);
+        console.log("saida", cloneSheet);
+
 				const { keepSessionSheet, preventAlert } = options;
 				const sheetIndex = characterSheetsList?.findIndex(
-					(characterSheet) => characterSheet.id === sheet.id
+					(characterSheet) => characterSheet.id === cloneSheet.id
 				);
 
 				if (sheetIndex < 0) {
-					characterSheetsList.push(sheet);
+					characterSheetsList.push(cloneSheet);
 				} else {
-					characterSheetsList[sheetIndex] = sheet;
+					characterSheetsList[sheetIndex] = cloneSheet;
 				}
 
 				if (!keepSessionSheet) {
@@ -64,6 +76,8 @@ export const useCharacterSheet = () => {
 					sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 				}
 
+        console.log("lista antes salvar", characterSheetsList);
+        setActiveSheet(cloneSheet);
 				setLocalStorage("characterSheetsList", characterSheetsList, true);
 
 				setEditMode(false);
@@ -117,7 +131,7 @@ export const useCharacterSheet = () => {
 		setLocalStorage("characterSheetsList", cloneList, true);
 		setActiveSheet(null);
 		setEditMode(false);
-    navigate("/library");
+		navigate("/library");
 		openToast("Ficha deletada com sucesso", "", "info");
 	};
 
