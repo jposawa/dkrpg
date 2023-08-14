@@ -7,7 +7,7 @@ import {
 	setSessionStorage,
 	withNamespace,
 } from "../helpers/utils";
-import { CharacterSheet } from "../types";
+import { CharacterSheet, SecondaryAttributeKey } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { characterSheetModel } from "../constants";
 import { useSetRecoilState } from "recoil";
@@ -45,11 +45,21 @@ export const useCharacterSheet = () => {
 		preventAlert?: boolean;
 	};
 
-	const autoCalculations = (sheet: CharacterSheet) => {
+	const autoCalculations = (sheet: CharacterSheet, updateState = false) => {
 		sheet.secondaryAttributes.capacity.limit = 8 + sheet.attributes.fortitude;
 		sheet.secondaryAttributes.resistance.current = sheet.attributes.fortitude;
 		sheet.secondaryAttributes.stress.limit = 10 + sheet.attributes.willpower;
 		sheet.secondaryAttributes.wound.limit = 10 + sheet.attributes.fortitude;
+
+    Object.entries(sheet.secondaryAttributes).forEach(([attrKey, attrValue]) => {
+      if (!!attrValue.limit) {
+        sheet.secondaryAttributes[attrKey as SecondaryAttributeKey].finalLimit = attrValue.limit * (attrValue.finalMultiplier || 1);
+      }
+    });
+
+    if (updateState) {
+      setActiveSheet(sheet);
+    }
 	};
 
 	const saveCharacterSheet = React.useCallback(
@@ -147,6 +157,7 @@ export const useCharacterSheet = () => {
 				saveCharacterSheet,
 				updateEditingSheet,
 				deleteSheet,
+        autoCalculations,
 			},
 		}),
 		[
@@ -156,6 +167,7 @@ export const useCharacterSheet = () => {
 			saveCharacterSheet,
 			updateEditingSheet,
 			deleteSheet,
+      autoCalculations,
 		]
 	);
 };

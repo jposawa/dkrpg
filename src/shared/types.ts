@@ -44,6 +44,8 @@ export type Race = {
 export type SecondaryAttribute = {
   current: number;
   limit?: number;
+  finalLimit?: number;
+  finalMultiplier?: number;
 }
 
 export type SecondaryAttributeKey =

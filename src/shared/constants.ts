@@ -97,10 +97,12 @@ export const characterSheetModel: CharacterSheet = {
     wound: {
       current: 0,
       limit: 11,
+      finalMultiplier: 3,
     },
     stress: {
       current: 0,
       limit: 11,
+      finalMultiplier: 2,
     },
     resistance: {
       current: 1,
@@ -108,6 +110,7 @@ export const characterSheetModel: CharacterSheet = {
     capacity: {
       current: 0,
       limit: 9,
+      finalMultiplier: 2,
     },
   },
   binding: 0,
