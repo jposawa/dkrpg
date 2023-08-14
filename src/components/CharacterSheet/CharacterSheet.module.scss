@@ -1,6 +1,20 @@
+@import "../../mixins.scss";
+
 .characterSheet {
   position: relative;
   width: 100%;
   height: 100%;
+  @include dFlex(column);
   // border: 2px solid green;
+
+  .sheetBodyTabs {
+    // border: 1px solid red;
+    color: var(--textColor);
+    width: 100%;
+    height: 60%;
+
+    section {
+      @include dFlex(column, flex-start);
+    }
+  }
 }

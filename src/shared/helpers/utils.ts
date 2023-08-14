@@ -111,7 +111,7 @@ export const randomNumber = (
 	let chosenSeed = `${cryptoSeed * pseudoSeed}`;
 	const seedParts = chosenSeed.split(".");
 	chosenSeed = `0.${
-		(parseInt(seedParts[1]) + parseInt(seedParts[0])) * pseudoRandomResult
+		(1 - parseInt(seedParts[1]) + parseInt(seedParts[0])) * pseudoRandomResult
 	}`;
 
 	// console.log("chosenSeed", chosenSeed);

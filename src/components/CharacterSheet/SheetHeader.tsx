@@ -20,6 +20,7 @@ import {
 	cloneObj,
 	diceSideNumberFromLevel,
 	getSessionStorage,
+	onlyNumbers,
 	setSessionStorage,
 	withNamespace,
 } from "../../shared/helpers/utils";
@@ -38,7 +39,12 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 	const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
 	const [editMode, setEditMode] = useRecoilState(sheetEditingState);
 	const {
-		data: { updateEditingSheet, saveCharacterSheet, deleteSheet },
+		data: {
+			updateEditingSheet,
+			saveCharacterSheet,
+			deleteSheet,
+			autoCalculations,
+		},
 	} = useCharacterSheet();
 	const [isImgEditPopoverOpen, setImgEditPopoverOpen] = React.useState(false);
 	const [currentImgUrl, setCurrentImgUrl] = React.useState(
@@ -97,6 +103,18 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
 
 		cloneSheet.attributes[attrName] = attrValue;
+
+		autoCalculations(cloneSheet);
+		setActiveSheet(cloneSheet);
+	};
+
+	const updateSecondaryAttribute = (
+		attrName: SecondaryAttributeKey,
+		attrValue: number
+	) => {
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.secondaryAttributes[attrName].current = attrValue;
 
 		setActiveSheet(cloneSheet);
 	};
@@ -234,48 +252,46 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 
 			{attributesTermsList && (
 				<div className={styles.attributes}>
-					{Object.entries(attributesTermsList)?.map(
-						([attrKey, attrName], index) => (
-							<span key={attrKey}>
-								<span className={styles.attributeText}>
-									<b>{attrName}</b>
-								</span>
-								{editMode ? (
-									<Input
-										type="tel"
-										min={1}
-										max={6}
-										maxLength={1}
-										pattern="[1-6]*"
-										defaultValue={
-											activeSheet?.attributes[attrKey as AttributeKey]
-										}
-										className={styles.attrInput}
-										onChange={({ target }) => {
-											if (!target.validity.valid) {
-												target.value = "";
-											} else {
-												updateAttribute(
-													attrKey as AttributeKey,
-													Number(target.value)
-												);
-											}
-										}}
-									/>
-								) : (
-									<ButtonDice
-										numSides={
-											diceSideNumberFromLevel(
-												activeSheet?.attributes[attrKey as AttributeKey] || 1
-											) as DiceSides
-										}
-									>
-										{activeSheet?.attributes[attrKey as AttributeKey]}
-									</ButtonDice>
-								)}
+					{Object.entries(attributesTermsList)?.map(([attrKey, attrName]) => (
+						<span key={attrKey}>
+							<span className={styles.attributeText}>
+								<b>{attrName}</b>
 							</span>
-						)
-					)}
+							{editMode ? (
+								<Input
+									type="tel"
+									min={1}
+									max={6}
+									maxLength={1}
+									pattern="[1-6]*"
+									defaultValue={
+										activeSheet?.attributes[attrKey as AttributeKey]
+									}
+									className={styles.attrInput}
+									onChange={({ target }) => {
+										if (!target.validity.valid) {
+											target.value = "";
+										} else {
+											updateAttribute(
+												attrKey as AttributeKey,
+												Number(target.value)
+											);
+										}
+									}}
+								/>
+							) : (
+								<ButtonDice
+									numSides={
+										diceSideNumberFromLevel(
+											activeSheet?.attributes[attrKey as AttributeKey] || 1
+										) as DiceSides
+									}
+								>
+									{activeSheet?.attributes[attrKey as AttributeKey]}
+								</ButtonDice>
+							)}
+						</span>
+					))}
 				</div>
 			)}
 
@@ -283,27 +299,58 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 				<div className={styles.secondaryAttributes}>
 					{Object.entries(secondaryAttributesTermsList)?.map(
 						([attrKey, attrName]) => {
+							const attrValue =
+								activeSheet?.secondaryAttributes[
+									attrKey as SecondaryAttributeKey
+								]?.current || 0;
+							const attrLimit =
+								activeSheet?.secondaryAttributes[
+									attrKey as SecondaryAttributeKey
+								]?.limit;
+							const attrFinalLimit =
+								activeSheet?.secondaryAttributes[
+									attrKey as SecondaryAttributeKey
+								]?.finalLimit;
 							return (
 								<span key={attrKey}>
 									<b>{attrName}</b>
-									<span className={styles.secondaryAttributesText}>
+									<span
+										className={`${styles.secondaryAttributesText} ${
+											attrLimit && attrValue > attrLimit
+												? styles.attrOverLimit
+												: ""
+										} ${
+											attrFinalLimit && attrValue > attrFinalLimit
+												? styles.attrOverFinalLimit
+												: ""
+										}`}
+									>
 										<p>
-											{
-												activeSheet?.secondaryAttributes[
-													attrKey as SecondaryAttributeKey
-												]?.current
-											}
+											{editMode && attrLimit ? (
+												<Input
+													type="tel"
+													min={0}
+													maxLength={2}
+													className={styles.attrInput}
+													onChange={({ target }) => {
+														const rawValue = target?.value;
+														const finalValue = onlyNumbers(rawValue);
+
+														target.value = finalValue;
+
+														updateSecondaryAttribute(
+															attrKey as SecondaryAttributeKey,
+															Number(finalValue)
+														);
+													}}
+													defaultValue={attrValue}
+												/>
+											) : (
+												attrValue
+											)}
 										</p>
-										{activeSheet?.secondaryAttributes[
-											attrKey as SecondaryAttributeKey
-										]?.limit && (
-											<p className={styles.maxValue}>
-												{
-													activeSheet.secondaryAttributes[
-														attrKey as SecondaryAttributeKey
-													].limit
-												}
-											</p>
+										{!!attrLimit && (
+											<p className={styles.maxValue}>{attrLimit}</p>
 										)}
 									</span>
 								</span>
