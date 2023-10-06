@@ -65,7 +65,6 @@ export const ButtonDice = ({
 	};
 
 	const roll3D = () => {
-		console.log("dice box", Dice);
 		if (isRolling) {
 			return;
 		}
