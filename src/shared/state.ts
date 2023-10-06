@@ -24,3 +24,13 @@ export const activeSheetState = atom<CharacterSheet | null>({
   key: withNamespace("activeSheet"),
   default: null,
 });
+
+export const diceBoxState = atom<any>({
+  key: withNamespace("diceBox"),
+  default: null,
+});
+
+export const rollingState = atom<boolean>({
+  key: withNamespace("rolling"),
+  default: false,
+});

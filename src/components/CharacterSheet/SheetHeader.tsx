@@ -359,6 +359,14 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 					)}
 				</div>
 			)}
+
+      <div className={styles.generalStats}>
+        <div className={styles.xpContainer}>
+          <h4>Pontos</h4>
+          <p></p>
+        </div>
+        <div className={styles.bindingContainer}></div>
+      </div>
 		</header>
 	);
 };

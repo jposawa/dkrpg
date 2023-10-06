@@ -2,6 +2,17 @@
 # yarn lockfile v1
 
 
+"@3d-dice/dice-box@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@3d-dice/dice-box/-/dice-box-1.0.10.tgz#908af0782c5b5344a5598ea0bf7362678e104637"
+  integrity sha512-OD0iMveN841FLfRKbj8JHXOpA8daDgkoVkVTAIeFRB9cBNth5E15ZcqRyOZvwp8U/mlo4gunSogd9YHzMfjMXg==
+  dependencies:
+    "@babylonjs/core" "^5.10.0"
+    "@babylonjs/loaders" "^5.10.0"
+    "@babylonjs/materials" "^5.10.0"
+    copy-dir "^1.3.0"
+    node-abort-controller "^3.0.1"
+
 "@ampproject/remapping@^2.2.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.1.tgz#99e8e11851128b8702cd57c33684f1d0f260b630"
@@ -300,6 +311,21 @@
     "@babel/helper-string-parser" "^7.22.5"
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
+
+"@babylonjs/core@^5.10.0":
+  version "5.57.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-5.57.1.tgz#c410b9f85f0b169ed03ac0b2ab135171e6e0c26f"
+  integrity sha512-k8U+SFPVGvHgeNr651nxZL26iVCmTzjmRrdbQa0BGas+lg8PIV/tfhN4uTeWWQeRFLvjbkcHA5qD8x/Xk3EpMQ==
+
+"@babylonjs/loaders@^5.10.0":
+  version "5.57.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/loaders/-/loaders-5.57.1.tgz#7fe308074732f193836a8b7ddf66dddc01411dd8"
+  integrity sha512-DHk0iOwJgnTcj8vI+cQVzpiUvWGJvYqWyZxsf7nzhbeND+ZwNWSG0AelaGbGHpWTaDSd/DjUcoWVZuT4Cg6/Xg==
+
+"@babylonjs/materials@^5.10.0":
+  version "5.57.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/materials/-/materials-5.57.1.tgz#ec216ba6ec07b6ca21870253e7387c4c8b631198"
+  integrity sha512-NLdR6eGUr+wFqie937HRWsnaWPeECpjOrYDGvjjYDg08VAcIC3YyctAuQxv8rId7BoDttkUd8Ey/IZ5d/9H7GA==
 
 "@ctrl/tinycolor@^3.4.0", "@ctrl/tinycolor@^3.6.0":
   version "3.6.0"
@@ -796,6 +822,11 @@ convert-source-map@^1.7.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.9.0.tgz#7faae62353fb4213366d0ca98358d22e8368b05f"
   integrity sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==
 
+copy-dir@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/copy-dir/-/copy-dir-1.3.0.tgz#8c65130e11d8313a6ac2c0578e4c6c6f70b456ba"
+  integrity sha512-Q4+qBFnN4bwGwvtXXzbp4P/4iNk0MaiGAzvQ8OiMtlLjkIKjmNN689uVzShSM0908q7GoFHXIPx4zi75ocoaHw==
+
 copy-to-clipboard@^3.2.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.3.tgz#55ac43a1db8ae639a4bd99511c148cdd1b83a1b0"
@@ -1061,6 +1092,11 @@ nanoid@^3.3.6:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
+
+node-abort-controller@^3.0.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/node-abort-controller/-/node-abort-controller-3.1.1.tgz#a94377e964a9a37ac3976d848cb5c765833b8548"
+  integrity sha512-AGK2yQKIjRuqnc6VkX2Xj5d+QW8xZ87pa1UK6yA6ouUyuxfHuMP6umE5QK7UmTeOAymo+Zx1Fxiuw9rVx8taHQ==
 
 node-releases@^2.0.13:
   version "2.0.13"

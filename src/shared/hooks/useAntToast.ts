@@ -11,19 +11,22 @@ export const useAntToast = () => {
 			text?: string,
 			type: ToastTypes = "info",
       position?: NotificationPlacement,
-			customClass?: string
+			customClass?: string,
+      onClose?: () => void,
 		) => {
 			/**
 			 * @param {string}: The title of toast
 			 * @param {string}: (Optional) Some additional text if you want
 			 * @param {ToastTypes}: (Optional) Set the pre defined style according to the type. Use a default otherwise
 			 * @param {string}: (Optional) Pass a custom class if you want more customization. Be mindful of using this
+       * @param {Function}: onClose
 			 */
 			notification[type]({
 				message: title,
 				description: text,
 				className: customClass,
         placement: position,
+        onClose: onClose,
 			});
 		},
 		[notification]

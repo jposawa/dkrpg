@@ -35,7 +35,7 @@
 		// border: 2px solid gold;
 		width: 80%;
 		// margin-bottom: var(--profileSpace);
-		gap: 0.6rem;
+		gap: 0.3rem;
 
 		.imgContainer {
 			position: relative;
@@ -47,7 +47,7 @@
 			font-size: calc(var(--imgSize) * 0.8);
 			border-radius: 50%;
 			padding-left: 0.1rem;
-			margin-bottom: 0.3rem;
+			margin-bottom: 0;
 			z-index: 10;
 			overflow: hidden;
 
@@ -112,7 +112,7 @@
 	.attributes {
 		--sideWidth: 38%;
 		position: absolute;
-		bottom: calc(4.2rem + var(--profileSpace));
+		bottom: calc(5rem + var(--profileSpace));
 		@include dFlex();
 		flex-wrap: wrap;
 		// border: 1px solid cyan;
