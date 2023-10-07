@@ -22,3 +22,8 @@ declare module "*.svg" {
   const path: string;
   export default path;
 }
+
+declare module "@3d-dice" {
+  const path: string;
+  export default path;
+}
