@@ -7,52 +7,89 @@ import D10img from "../../assets/img/D10.svg";
 import D12img from "../../assets/img/D12.svg";
 import D20img from "../../assets/img/D20.svg";
 
-import styles from "./ButtonDice.module.scss";
-import { diceSideNumberFromLevel, randomNumber } from "../../shared/helpers/utils";
 import { useAntToast } from "../../shared/hooks";
+import { Dice } from "./Dice";
 import { DiceSides } from "../../shared/types";
 
+import styles from "./ButtonDice.module.scss";
+import { useRecoilState } from "recoil";
+import { rollingState } from "../../shared/state";
+
 export type ButtonDiceProps = {
-  numSides: DiceSides;
-  modifier?: number,
-  onClick?: (e?: any) => void,
-  className?: string,
-  style?: React.CSSProperties,
-  children?: string | React.ReactNode,
-}
+	numSides: DiceSides;
+	modifier?: number;
+	onClick?: (e?: any) => void;
+	className?: string;
+	style?: React.CSSProperties;
+	children?: string | React.ReactNode;
+	clearTimeout?: number;
+};
+
+Dice.init().then(() => {
+	console.log("inicializando dado");
+});
 
 export const ButtonDice = ({
-  numSides,
-  modifier = 0,
-  onClick,
-  className,
-  style,
-  children
+	numSides,
+	modifier = 0,
+	onClick,
+	className,
+	style,
+	children,
 }: ButtonDiceProps) => {
-  const { openToast } = useAntToast();
-  const diceImg = {
-    D4: D4img,
-    D6: D6img,
-    D8: D8img,
-    D10: D10img,
-    D12: D12img,
-    D20: D20img,
-  }
+	const { openToast } = useAntToast();
+	const diceImg = {
+		D4: D4img,
+		D6: D6img,
+		D8: D8img,
+		D10: D10img,
+		D12: D12img,
+		D20: D20img,
+	};
+	const [isRolling, setIsRolling] = useRecoilState(rollingState);
 
-  const handleClick = onClick ? onClick : () => {
-    const rollResult = randomNumber(1, numSides, true) + modifier;
+	const clearDice = () => {
+		Dice.clear();
+		setIsRolling(false);
+	};
 
-    openToast(`Rolagem: ${rollResult}`, "", "open", "bottom");
-  };
+	Dice.onRollComplete = (result: any) => {
+		openToast(
+			`Rolagem: ${result[0].value}`,
+			"",
+			"open",
+			"bottom",
+			undefined,
+			clearDice
+		);
+	};
 
-  return <button
-    title="Dice button"
-    type="button"
-    onClick={handleClick}
-    className={`${styles.button} ${className}`}
-    style={{ ...style, backgroundImage: diceImg[`D${numSides}`] }}
-  >
-    <img alt="Image of a RPG dice" src={diceImg[`D${numSides}`]} />
-    <span>{children}</span>
-  </button>
-}
+	const roll3D = () => {
+		if (isRolling) {
+			return;
+		}
+
+		setIsRolling(true);
+		if (!!modifier) {
+			Dice.roll(`1d${numSides}+${modifier}`);
+		} else {
+			Dice.roll(`1d${numSides}`);
+		}
+	};
+
+	const handleClick = onClick ? onClick : roll3D;
+
+	return (
+		<button
+			title="Dice button"
+			type="button"
+			onClick={handleClick}
+			className={`${styles.button} ${className}`}
+			style={{ ...style, backgroundImage: diceImg[`D${numSides}`] }}
+			disabled={isRolling}
+		>
+			<img alt="Image of a RPG dice" src={diceImg[`D${numSides}`]} />
+			<span>{children}</span>
+		</button>
+	);
+};

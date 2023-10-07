@@ -22,3 +22,13 @@ declare module "*.svg" {
   const path: string;
   export default path;
 }
+
+declare class DiceBox {
+  constructor(arg: any): any {}
+}
+
+declare module "@3d-dice/dice-box" {
+  function DiceBox(arg1, arg2):DiceBox;
+
+  export default DiceBox;
+}
