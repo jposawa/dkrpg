@@ -72,6 +72,7 @@ export const CharacterSheet = ({
 						centered
 						items={bodySections}
 						className={styles.sheetBodyTabs}
+            destroyInactiveTabPane
 					/>
 				</>
 			)}
