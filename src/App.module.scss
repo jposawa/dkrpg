@@ -6,6 +6,7 @@
 
   background: var(--bgColor);
   color: var(--txtColor);
+  overflow: hidden;
 
   &>section {
     position: relative;
