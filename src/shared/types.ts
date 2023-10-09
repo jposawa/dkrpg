@@ -70,7 +70,7 @@ export type CharacterSheet = {
 	secondaryAttributes: Record<SecondaryAttributeKey, SecondaryAttribute>;
 	binding: number;
 	destiny: number;
-	skills: Skill[];
+	skills: Record<string,Skill>;
 	traits: Trait[];
   inventory: Item[];
   xp: {

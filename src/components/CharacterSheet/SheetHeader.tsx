@@ -330,7 +330,8 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 												<Input
 													type="tel"
 													min={0}
-													maxLength={2}
+                          max={6}
+													maxLength={1}
 													className={styles.attrInput}
 													onChange={({ target }) => {
 														const rawValue = target?.value;
