@@ -7,8 +7,6 @@ export const NAMESPACE = "jpoIE";
 
 export const DEBUG = false;
 
-
-
 export const MODULE_DATA = {
   draenak: {
     TRAITS: TRAITS_DRAENAK,
@@ -17,7 +15,10 @@ export const MODULE_DATA = {
   }
 }
 
-
+export const BASE_COST = {
+  ATTRIBUTE: 5,
+  SKILL: 4,
+}
 
 export const characterSheetModel: CharacterSheet = {
 	id: "model",
@@ -59,6 +60,7 @@ export const characterSheetModel: CharacterSheet = {
   inventory: [],
   xp: {
     total: 100,
-    used: 0,
+    autoUsed: 0,
+    manualUsed: 0,
   },
 };

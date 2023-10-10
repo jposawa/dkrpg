@@ -6,6 +6,7 @@ import {
 	CharacterSheet,
 	DiceSides,
 	SecondaryAttributeKey,
+	XpType,
 } from "../../shared/types";
 import { ButtonDice } from "../ButtonDice/ButtonDice";
 import {
@@ -104,8 +105,8 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 
 		cloneSheet.attributes[attrName] = attrValue;
 
-		autoCalculations(cloneSheet);
-		setActiveSheet(cloneSheet);
+		autoCalculations(cloneSheet, true);
+		// setActiveSheet(cloneSheet);
 	};
 
 	const updateSecondaryAttribute = (
@@ -115,6 +116,14 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
 
 		cloneSheet.secondaryAttributes[attrName].current = attrValue;
+
+		setActiveSheet(cloneSheet);
+	};
+
+	const updateXP = (xpType: XpType, xpValue: number) => {
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+		cloneSheet.xp[xpType] = xpValue;
 
 		setActiveSheet(cloneSheet);
 	};
@@ -330,7 +339,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 												<Input
 													type="tel"
 													min={0}
-                          max={6}
+													max={6}
 													maxLength={1}
 													className={styles.attrInput}
 													onChange={({ target }) => {
@@ -361,13 +370,69 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 				</div>
 			)}
 
-      <div className={styles.generalStats}>
-        <div className={styles.xpContainer}>
-          <h4>Pontos</h4>
-          <p></p>
-        </div>
-        <div className={styles.bindingContainer}></div>
-      </div>
+			<div className={styles.generalStats}>
+				<div className={styles.xpContainer}>
+					<h4>XP</h4>
+					<span
+						className={
+							Number(activeSheet?.xp.autoUsed) +
+								Number(activeSheet?.xp.manualUsed) >
+							Number(activeSheet?.xp.total)
+								? styles.invalidXP
+								: ""
+						}
+					>
+						{editMode ? (
+							<>
+								<p>
+									<span>{`${activeSheet?.xp.autoUsed} + `}</span>
+									<Input
+										type="tel"
+										min={0}
+										className={styles.xpInput}
+										defaultValue={activeSheet?.xp.manualUsed}
+										onChange={({ target }) => {
+											const rawValue = target?.value;
+											const finalValue = onlyNumbers(rawValue);
+
+											target.value = finalValue;
+
+											updateXP("manualUsed", Number(finalValue));
+										}}
+									/>
+								</p>
+								<p>|</p>
+								<p>
+									<Input
+										type="tel"
+										min={0}
+										className={styles.xpInput}
+										defaultValue={activeSheet?.xp.total}
+										onChange={({ target }) => {
+											const rawValue = target?.value;
+											const finalValue = onlyNumbers(rawValue);
+
+											target.value = finalValue;
+
+											updateXP("total", Number(finalValue));
+										}}
+									/>
+								</p>
+							</>
+						) : (
+							<>
+								<p>
+									{Number(activeSheet?.xp.autoUsed) +
+										Number(activeSheet?.xp.manualUsed)}
+								</p>
+								<p>|</p>
+								<p>{activeSheet?.xp.total}</p>
+							</>
+						)}
+					</span>
+				</div>
+				<div className={styles.bindingContainer}></div>
+			</div>
 		</header>
 	);
 };

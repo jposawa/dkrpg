@@ -25,9 +25,7 @@ export type ButtonDiceProps = {
 	clearTimeout?: number;
 };
 
-Dice.init().then(() => {
-	console.log("inicializando dado");
-});
+Dice.init();
 
 export const ButtonDice = ({
 	numSides,

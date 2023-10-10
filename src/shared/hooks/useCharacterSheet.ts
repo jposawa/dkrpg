@@ -7,9 +7,9 @@ import {
 	setSessionStorage,
 	withNamespace,
 } from "../helpers/utils";
-import { CharacterSheet, SecondaryAttributeKey } from "../types";
+import { AttributeKey, CharacterSheet, SecondaryAttributeKey } from "../types";
 import { v4 as uuidv4 } from "uuid";
-import { characterSheetModel } from "../constants";
+import { BASE_COST, characterSheetModel } from "../constants";
 import { useSetRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../state";
 import { useAntToast } from "./useAntToast";
@@ -51,15 +51,45 @@ export const useCharacterSheet = () => {
 		sheet.secondaryAttributes.stress.limit = 10 + sheet.attributes.willpower;
 		sheet.secondaryAttributes.wound.limit = 10 + sheet.attributes.fortitude;
 
-    Object.entries(sheet.secondaryAttributes).forEach(([attrKey, attrValue]) => {
-      if (!!attrValue.limit) {
-        sheet.secondaryAttributes[attrKey as SecondaryAttributeKey].finalLimit = attrValue.limit * (attrValue.finalMultiplier || 1);
-      }
-    });
+    sheet.xp.autoUsed = 0;
 
-    if (updateState) {
-      setActiveSheet(sheet);
-    }
+		Object.entries(sheet.secondaryAttributes).forEach(
+			([attrKey, attrValue]) => {
+				if (!!attrValue.limit) {
+					const limitWithBonus = attrValue.limit + (attrValue.limitBonus || 0);
+
+					sheet.secondaryAttributes[
+						attrKey as SecondaryAttributeKey
+					].finalLimit = limitWithBonus * (attrValue.finalMultiplier || 1);
+				}
+			}
+		);
+
+		Object.values(sheet.attributes).forEach((attrLvl) => {
+			let attrCost = 0;
+
+      while(attrLvl > 1) {
+        attrCost += BASE_COST.ATTRIBUTE * attrLvl--;
+      }
+
+      sheet.xp.autoUsed += attrCost;
+		});
+
+    Object.values(sheet.skills).forEach((skill) => {
+      let [skillLevelCounter, skillCost] = [skill.level, 0];
+
+      while (skillLevelCounter > 0) {
+        skillCost += BASE_COST.SKILL * skillLevelCounter--;
+      }
+
+      skillCost /= skill.hasAffinity ? 2 : 1;
+
+      sheet.xp.autoUsed += skillCost;
+    })
+
+		if (updateState) {
+			setActiveSheet(sheet);
+		}
 	};
 
 	const saveCharacterSheet = React.useCallback(
@@ -84,7 +114,7 @@ export const useCharacterSheet = () => {
 					sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 				}
 
-        setActiveSheet(cloneSheet);
+				setActiveSheet(cloneSheet);
 				setLocalStorage("characterSheetsList", characterSheetsList, true);
 
 				setEditMode(false);
@@ -157,7 +187,7 @@ export const useCharacterSheet = () => {
 				saveCharacterSheet,
 				updateEditingSheet,
 				deleteSheet,
-        autoCalculations,
+				autoCalculations,
 			},
 		}),
 		[
@@ -167,7 +197,7 @@ export const useCharacterSheet = () => {
 			saveCharacterSheet,
 			updateEditingSheet,
 			deleteSheet,
-      autoCalculations,
+			autoCalculations,
 		]
 	);
 };
