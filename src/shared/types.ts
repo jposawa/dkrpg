@@ -24,6 +24,7 @@ export type Skill = {
 	name: string;
 	linkedAttribute: AttributeKey;
 	level: number;
+  hasAffinity?: boolean,
 };
 
 export type Trait = {
@@ -42,17 +43,20 @@ export type Race = {
 };
 
 export type SecondaryAttribute = {
-  current: number;
-  limit?: number;
-  finalLimit?: number;
-  finalMultiplier?: number;
-}
+	current: number;
+	limit?: number;
+	finalLimit?: number;
+	finalMultiplier?: number;
+	limitBonus?: number;
+};
 
 export type SecondaryAttributeKey =
 	| "wound"
 	| "stress"
 	| "resistance"
 	| "capacity";
+
+export type XpType = "total" | "autoUsed" | "manualUsed";
 
 export type CharacterSheet = {
 	id: string;
@@ -70,13 +74,14 @@ export type CharacterSheet = {
 	secondaryAttributes: Record<SecondaryAttributeKey, SecondaryAttribute>;
 	binding: number;
 	destiny: number;
-	skills: Record<string,Skill>;
+	skills: Record<string, Skill>;
 	traits: Trait[];
-  inventory: Item[];
-  xp: {
-    total: number;
-    used: number;
-  };
+	inventory: Item[];
+	xp: {
+		total: number;
+		autoUsed: number;
+		manualUsed: number;
+	};
 };
 
 export type CharacterSheetList = Record<string, CharacterSheet>;

@@ -27,7 +27,7 @@
 	position: relative;
 	@include dFlex(column, flex-end);
 	// border: 2px solid orange;
-  width: 100%;
+	width: 100%;
 	height: 40%;
 
 	.characterProfile {
@@ -111,12 +111,18 @@
 
 	.attributes {
 		--sideWidth: 38%;
+		--baseOffset: 6rem;
+
 		position: absolute;
-		bottom: calc(5rem + var(--profileSpace));
+		bottom: calc(var(--baseOffset) + var(--profileSpace));
 		@include dFlex();
 		flex-wrap: wrap;
 		// border: 1px solid cyan;
 		gap: calc(100% - (var(--sideWidth) * 2));
+
+		&:has(input) {
+			--baseOffset: 6.5rem;
+		}
 
 		& > span {
 			// border: 1px solid purple;
@@ -170,21 +176,21 @@
 
 		.attrOverLimit {
 			* {
-        color: var(--colorWarn1);
-        --shadowColor: rgba(255, 255, 0, 0.2);
+				color: var(--colorWarn1);
+				--shadowColor: rgba(255, 255, 0, 0.2);
 			}
 		}
 
 		.attrOverFinalLimit {
 			* {
 				color: var(--colorDanger1);
-        --shadowColor: rgba(255, 0, 0, 0.2);
+				--shadowColor: rgba(255, 0, 0, 0.2);
 			}
 		}
 	}
 
 	.attrInput {
-    --shadowColor: rgba(255, 255, 255, 0.2);
+		--shadowColor: rgba(255, 255, 255, 0.2);
 		@include dFlex();
 		padding-left: 0.3rem;
 		width: 1.5rem;
@@ -194,5 +200,27 @@
 		border: 1px solid;
 		color: var(--txtColor);
 		box-shadow: 0 0 20rem var(--shadowColor) inset;
+	}
+
+	.generalStats {
+		width: 100%;
+
+		.xpContainer {
+			text-align: center;
+
+			& > span {
+				width: 100%;
+				@include dFlex();
+				gap: 0.5rem;
+
+				.xpInput {
+					width: 3rem;
+				}
+			}
+
+			.invalidXP {
+				color: orange;
+			}
+		}
 	}
 }
