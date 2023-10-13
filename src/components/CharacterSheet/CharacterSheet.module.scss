@@ -32,10 +32,12 @@
             @include dFlex(column, flex-start);
             width: 100%;
             height: 100%;
+            flex-wrap: wrap;
       
             & > ul {
               --gapSize: 0.2rem;
               @include dFlex(row, flex-start);
+              align-items: flex-start;
               width: 100%;
               height: 100%;
               overflow: auto;
@@ -43,7 +45,7 @@
               gap: var(--gapSize);
 
               & > li {
-                @include dFlex(row, flex-start);
+                @include dFlex(row);
                 width: calc(50% - var(--gapSize));
                 gap: 0.2rem;
 

@@ -4,3 +4,4 @@ export * from "./CharacterSheet";
 export * from "./LibrarySheetContainer/LibrarySheetContainer";
 export * from "./ButtonDice/ButtonDice";
 export * from "./Input/Input";
+export * from "./TraitCard/TraitCard";

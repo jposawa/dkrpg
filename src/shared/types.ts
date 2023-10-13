@@ -33,6 +33,7 @@ export type Trait = {
 	description: string;
 	cost: number;
 	level: number;
+	maxLevel?: number;
 };
 
 export type Race = {
