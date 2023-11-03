@@ -9,11 +9,13 @@ export const DEBUG = false;
 
 export const MODULE_DATA = {
   draenak: {
+    NAME: "Draenak",
     TRAITS: TRAITS_DRAENAK,
     SKILLS: SKILLS_DRAENAK,
     RACES: RACES_DRAENAK,
   },
   wizarding: {
+    NAME: "Wizarding World",
     TRAITS: TRAITS_WIZARDING,
     SKILLS: SKILLS_WIZARDING,
     RACES: RACES_WIZARDING,

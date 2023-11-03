@@ -201,81 +201,38 @@ export const SKILLS_WIZARDING = {
   },
   "skill-34": {
     id: "skill-34",
-    name: "Primordia",
+    name: "Encantamento",
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
+    description: "Feitiços básicos e normalmente inofensivos. São as magias que normalmente não deixam nenhuma marca maligna"
   },
   "skill-35": {
     id: "skill-35",
-    name: "Sanguini",
+    name: "Azaração",
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
+    description: "Como regra geral são feitiços ofensivos, mas que não causam tanto estrago. Normalmente a diferença entre Azaração e Maldição está no grau de dano causado tanto para o alvo quanto possivelmente para quem a utiliza. Em caso de dúvidas, valide com narrador"
   },
   "skill-36": {
     id: "skill-36",
-    name: "Conjuração",
+    name: "Maldição",
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
+    description: "Tipo de Feitiço mais agressivo. Normalmente causa muito dano, ou dura bastante tempo. Em geral precisa de uma contra-maldição para que seja desfeita. Algumas podem ter efeitos colaterais."
   },
   "skill-37": {
     id: "skill-37",
-    name: "Psicocinese",
+    name: "Transfiguração",
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
+    description: "Tipo de encantamento específico, que envolve modificar o aspecto ou função de algo. Também pode ser usado para animar objetos inanimados. Se camuflar ou ficar quase invisível também se encaixa nessa categoria"
   },
   "skill-38": {
     id: "skill-38",
-    name: "Pirocinese",
+    name: "Contra Maldição",
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
-  },
-  "skill-39": {
-    id: "skill-39",
-    name: "Hidrocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-40": {
-    id: "skill-40",
-    name: "Aerocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-41": {
-    id: "skill-41",
-    name: "Geocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-42": {
-    id: "skill-42",
-    name: "Criocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-43": {
-    id: "skill-43",
-    name: "Eletrocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-44": {
-    id: "skill-44",
-    name: "Fotocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-45": {
-    id: "skill-45",
-    name: "Umbracinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
-  },
-  "skill-46": {
-    id: "skill-46",
-    name: "Metalocinese",
-    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
-    level: 0,
+    description: "Feitiços normalmente defensivos ou cuja finalidade é reverter alguma maldição. Para fins mecânicos, alguns feitiços como do Patrono são enquadrados aqui e não em Encantamentos."
   },
   "skill-47": {
     id: "skill-47",

@@ -19,6 +19,7 @@ type InputProps = {
   required?: boolean;
   placeholder?: string;
   pattern?: string;
+  list?: string;
 }
 
 export const Input = ({
@@ -38,6 +39,7 @@ export const Input = ({
   placeholder,
   maxLength,
   pattern,
+  list,
 }: InputProps) => {
   return (
     <input
@@ -57,6 +59,7 @@ export const Input = ({
       required={required}
       placeholder={placeholder}
       pattern={pattern}
+      list={list}
     />
   )
 }

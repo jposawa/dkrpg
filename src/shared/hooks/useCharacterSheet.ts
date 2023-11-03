@@ -164,9 +164,11 @@ export const useCharacterSheet = () => {
 
 			newObj.id = uuidv4();
 			newObj.name = "Nome Personagem";
-      newObj.race = MODULE_DATA[sheetModule].RACES["race-1"];
-      newObj.skills = MODULE_DATA[sheetModule].SKILLS;
-      newObj.traits = MODULE_DATA[sheetModule].TRAITS;
+
+			newObj.module = sheetModule;
+			newObj.race = MODULE_DATA[sheetModule].RACES["race-1"];
+			newObj.skills = MODULE_DATA[sheetModule].SKILLS;
+			newObj.traits = MODULE_DATA[sheetModule].TRAITS;
 
 			saveCharacterSheet(newObj, { preventAlert: true });
 

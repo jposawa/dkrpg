@@ -1,23 +1,23 @@
 export const TRAITS_WIZARDING = [
 	{
 		id: "trait-1",
-		name: "Afinidade Arcana",
-		description: "Conexão natural com forças arcanas, podendo fazer uso de Competências mágicas utilizando Vontade e sem necessidade de auxílio arcano",
+		name: "Animago",
+		description: "Capacidade de se transformar livremente em um animal. Defina o animal com Narrador",
 		cost: 20,
 		level: 0,
 	},
 	{
 		id: "trait-2",
-		name: "Arcanismo Gestual",
-		description: "Através de estudo, torna-se capaz de executar ações arcanas utilizando seu conhecimento. Acessa Competências mágicas, porém com Intelecto e muda Vínculo inicial para 10",
-		cost: 15,
+		name: "Licantropia",
+		description: "Amaldiçoado com a maldição de ser lobisomem. Sempre que for lua cheia você se transforma. Caso tenha tomado sua poção de Acônito, você deve passar um teste de Vontade de dificuldade 5 (Ou 1D10) para não se transformar",
+		cost: -30,
 		level: 0,
 	},
 	{
 		id: "trait-3",
-		name: "Surdez Arcana",
-		description: "Falta de capacidade total em acessar energias arcanas",
-		cost: -20,
+		name: "Maestria Não Verbal",
+		description: "Você consegue executar feitiços ainda mais avançados sem precisar falar sua fórmula. Em caso de dúvida, verifique com Narrador",
+		cost: 15,
 		level: 0,
 	},
 	{
@@ -30,10 +30,11 @@ export const TRAITS_WIZARDING = [
 	},
 	{
 		id: "trait-5",
-		name: "Conexão Etérea",
-		description: "Torna-se capaz de utilizar Competências Arcanas utilizando a própria Vontade. Contudo, por necessitar manter uma boa conexão com entidades ou forças elementais etéreas que nutrem esse poder arcano, o Vínculo inicial é 5",
-		cost: 10,
+		name: "Magia Gestual",
+		description: "Você é capaz de executar feitiços sem precisar portar uma varinha. O tipo e potência de seus feitiços dependem do seu nível nesse traço",
+		cost: 15,
 		level: 0,
+    maxLevel: 3,
 	},
 	{
 		id: "trait-6",
@@ -61,6 +62,13 @@ export const TRAITS_WIZARDING = [
 		name: "Voto",
 		description: "Você fez alguma promessa ou voto que, se quebrado, precisa de ações de reparação.",
 		cost: -5,
+		level: 0,
+	},
+  {
+		id: "trait-10",
+		name: "Voto Perpétuo",
+		description: "Você precisa fazer um voto perpétuo com algum NPC. Caso seja cumprido. Esse traço é especial, pois a quantidade de pontos só é concedida após completar o Voto Perpétuo. Caso ele seja quebrado, sua personagem morre.",
+		cost: -30,
 		level: 0,
 	},
 ];
