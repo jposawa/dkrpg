@@ -7,9 +7,14 @@ import {
 	setSessionStorage,
 	withNamespace,
 } from "../helpers/utils";
-import { AttributeKey, CharacterSheet, SecondaryAttributeKey } from "../types";
+import {
+	AttributeKey,
+	CharacterSheet,
+	ModuleOptions,
+	SecondaryAttributeKey,
+} from "../types";
 import { v4 as uuidv4 } from "uuid";
-import { BASE_COST, characterSheetModel } from "../constants";
+import { BASE_COST, MODULE_DATA, characterSheetModel } from "../constants";
 import { useSetRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../state";
 import { useAntToast } from "./useAntToast";
@@ -51,7 +56,7 @@ export const useCharacterSheet = () => {
 		sheet.secondaryAttributes.stress.limit = 10 + sheet.attributes.willpower;
 		sheet.secondaryAttributes.wound.limit = 10 + sheet.attributes.fortitude;
 
-    sheet.xp.autoUsed = 0;
+		sheet.xp.autoUsed = 0;
 
 		Object.entries(sheet.secondaryAttributes).forEach(
 			([attrKey, attrValue]) => {
@@ -68,24 +73,28 @@ export const useCharacterSheet = () => {
 		Object.values(sheet.attributes).forEach((attrLvl) => {
 			let attrCost = 0;
 
-      while(attrLvl > 1) {
-        attrCost += BASE_COST.ATTRIBUTE * attrLvl--;
-      }
+			while (attrLvl > 1) {
+				attrCost += BASE_COST.ATTRIBUTE * attrLvl--;
+			}
 
-      sheet.xp.autoUsed += attrCost;
+			sheet.xp.autoUsed += attrCost;
 		});
 
-    Object.values(sheet.skills).forEach((skill) => {
-      let [skillLevelCounter, skillCost] = [skill.level, 0];
+		Object.values(sheet.skills).forEach((skill) => {
+			let [skillLevelCounter, skillCost] = [skill.level, 0];
 
-      while (skillLevelCounter > 0) {
-        skillCost += BASE_COST.SKILL * skillLevelCounter--;
-      }
+			while (skillLevelCounter > 0) {
+				skillCost += BASE_COST.SKILL * skillLevelCounter--;
+			}
 
-      skillCost /= skill.hasAffinity ? 2 : 1;
+			sheet.xp.autoUsed += skillCost;
+		});
 
-      sheet.xp.autoUsed += skillCost;
-    })
+		Object.values(sheet.traits).forEach((trait) => {
+			const { level, cost } = trait;
+
+			sheet.xp.autoUsed += level * cost;
+		});
 
 		if (updateState) {
 			setActiveSheet(sheet);
@@ -96,6 +105,7 @@ export const useCharacterSheet = () => {
 		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
+				console.log("cloneSheet", cloneSheet);
 				autoCalculations(cloneSheet);
 
 				const { keepSessionSheet, preventAlert } = options;
@@ -148,16 +158,24 @@ export const useCharacterSheet = () => {
 		[setActiveSheet, setSessionStorage]
 	);
 
-	const getNewCharacterSheet = React.useCallback((): CharacterSheet => {
-		const newObj = cloneObj(characterSheetModel) as CharacterSheet;
+	const getNewCharacterSheet = React.useCallback(
+		(sheetModule: ModuleOptions = "draenak"): CharacterSheet => {
+			const newObj = cloneObj(characterSheetModel) as CharacterSheet;
 
-		newObj.id = uuidv4();
-		newObj.name = "Nome Personagem";
+			newObj.id = uuidv4();
+			newObj.name = "Nome Personagem";
 
-		saveCharacterSheet(newObj, { preventAlert: true });
+			newObj.module = sheetModule;
+			newObj.race = MODULE_DATA[sheetModule].RACES["race-1"];
+			newObj.skills = MODULE_DATA[sheetModule].SKILLS;
+			newObj.traits = MODULE_DATA[sheetModule].TRAITS;
 
-		return newObj;
-	}, [saveCharacterSheet]);
+			saveCharacterSheet(newObj, { preventAlert: true });
+
+			return newObj;
+		},
+		[saveCharacterSheet]
+	);
 
 	const deleteSheet = (sheetId: string) => {
 		const cloneList = cloneObj(characterSheetsList) as CharacterSheet[];

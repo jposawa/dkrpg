@@ -26,6 +26,7 @@ export const TRAITS_DRAENAK = [
 		description: "Escolha uma maldição simples com quem estiver narrando a aventura.",
 		cost: -5,
 		level: 0,
+		maxLevel: 3,
 	},
 	{
 		id: "trait-5",

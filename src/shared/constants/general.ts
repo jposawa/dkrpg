@@ -1,7 +1,7 @@
 import { CharacterSheet } from "../types";
-import { RACES_DRAENAK } from "./races";
-import { SKILLS_DRAENAK } from "./skills";
-import { TRAITS_DRAENAK } from "./traits";
+import { RACES_DRAENAK, RACES_WIZARDING } from "./races";
+import { SKILLS_DRAENAK, SKILLS_WIZARDING } from "./skills";
+import { TRAITS_DRAENAK, TRAITS_WIZARDING } from "./traits";
 
 export const NAMESPACE = "jpoIE";
 
@@ -9,9 +9,16 @@ export const DEBUG = false;
 
 export const MODULE_DATA = {
   draenak: {
+    NAME: "Draenak",
     TRAITS: TRAITS_DRAENAK,
     SKILLS: SKILLS_DRAENAK,
     RACES: RACES_DRAENAK,
+  },
+  wizarding: {
+    NAME: "Wizarding World",
+    TRAITS: TRAITS_WIZARDING,
+    SKILLS: SKILLS_WIZARDING,
+    RACES: RACES_WIZARDING,
   }
 }
 
@@ -19,6 +26,8 @@ export const BASE_COST = {
   ATTRIBUTE: 5,
   SKILL: 4,
 }
+
+export const AFFINITY_BONUS = 2;
 
 export const characterSheetModel: CharacterSheet = {
 	id: "model",
@@ -63,4 +72,5 @@ export const characterSheetModel: CharacterSheet = {
     autoUsed: 0,
     manualUsed: 0,
   },
+  module: "draenak",
 };

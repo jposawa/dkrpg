@@ -9,4 +9,8 @@
     background: none;
     border: none;
   }
+
+  &[type="checkbox"] {
+    cursor: pointer;
+  }
 }

@@ -1,7 +1,7 @@
 @import "./mixins.scss";
 
 .main {
-  @include fullAbsoluteContainer();
+  @include absoluteElement();
   @include dFlex(column, space-between);
 
   background: var(--bgColor);
@@ -21,6 +21,11 @@
 .dark{
   --txtColor: var(--colorWhite);
   --bgColor: var(--colorBlack);
+}
+
+.light {
+  --txtColor: var(--colorBlack);
+  --bgColor: var(--colorWhite);
 }
 
 @media screen and (min-width: $desktopBreakpoint) {

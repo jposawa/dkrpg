@@ -1,0 +1,273 @@
+import { ATTRIBUTE_KEY } from "../texts";
+
+export const SKILLS_WIZARDING = {
+  "skill-1": {
+    id: "skill-1",
+    name: "Atletismo",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-2": {
+    id: "skill-2",
+    name: "Fôlego",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-3": {
+    id: "skill-3",
+    name: "Condicionamento",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-4": {
+    id: "skill-4",
+    name: "Escalada",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-5": {
+    id: "skill-5",
+    name: "Impacto",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-6": {
+    id: "skill-6",
+    name: "Briga",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-7": {
+    id: "skill-7",
+    name: "Escudo",
+    linkedAttribute: ATTRIBUTE_KEY.FORTITUDE,
+    level: 0,
+  },
+  "skill-8": {
+    id: "skill-8",
+    name: "Lâminas curtas",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-9": {
+    id: "skill-9",
+    name: "Lâminas longas",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-10": {
+    id: "skill-10",
+    name: "Lanças",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-11": {
+    id: "skill-11",
+    name: "Arcos",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-12": {
+    id: "skill-12",
+    name: "Disparo",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-13": {
+    id: "skill-13",
+    name: "Arremesso",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-14": {
+    id: "skill-14",
+    name: "Artes Marciais",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-15": {
+    id: "skill-15",
+    name: "Acrobacia",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-16": {
+    id: "skill-16",
+    name: "Pilotagem",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-17": {
+    id: "skill-17",
+    name: "Condução",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-18": {
+    id: "skill-18",
+    name: "Artilharia",
+    linkedAttribute: ATTRIBUTE_KEY.COORDINATION,
+    level: 0,
+  },
+  "skill-19": {
+    id: "skill-19",
+    name: "Engenharia",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-20": {
+    id: "skill-20",
+    name: "Alquimia",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-21": {
+    id: "skill-21",
+    name: "Cultura",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-22": {
+    id: "skill-22",
+    name: "Geografia",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-23": {
+    id: "skill-23",
+    name: "Medicina",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-24": {
+    id: "skill-24",
+    name: "Criaturas",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-25": {
+    id: "skill-25",
+    name: "Esoterismo",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-26": {
+    id: "skill-26",
+    name: "Siglística",
+    linkedAttribute: ATTRIBUTE_KEY.INTELECT,
+    level: 0,
+  },
+  "skill-27": {
+    id: "skill-27",
+    name: "Sobrevivência",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-28": {
+    id: "skill-28",
+    name: "Trapaça",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-29": {
+    id: "skill-29",
+    name: "Percepção",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-30": {
+    id: "skill-30",
+    name: "Trancas",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-31": {
+    id: "skill-31",
+    name: "Furtividade",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-32": {
+    id: "skill-32",
+    name: "Atuação",
+    linkedAttribute: ATTRIBUTE_KEY.SAGACITY,
+    level: 0,
+  },
+  "skill-33": {
+    id: "skill-33",
+    name: "Disciplina",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+  },
+  "skill-34": {
+    id: "skill-34",
+    name: "Encantamento",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Feitiços básicos e normalmente inofensivos. São as magias que normalmente não deixam nenhuma marca maligna"
+  },
+  "skill-35": {
+    id: "skill-35",
+    name: "Azaração",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Como regra geral são feitiços ofensivos, mas que não causam tanto estrago. Normalmente a diferença entre Azaração e Maldição está no grau de dano causado tanto para o alvo quanto possivelmente para quem a utiliza. Em caso de dúvidas, valide com narrador"
+  },
+  "skill-36": {
+    id: "skill-36",
+    name: "Maldição",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Tipo de Feitiço mais agressivo. Normalmente causa muito dano, ou dura bastante tempo. Em geral precisa de uma contra-maldição para que seja desfeita. Algumas podem ter efeitos colaterais."
+  },
+  "skill-37": {
+    id: "skill-37",
+    name: "Transfiguração",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Tipo de encantamento específico, que envolve modificar o aspecto ou função de algo. Também pode ser usado para animar objetos inanimados. Se camuflar ou ficar quase invisível também se encaixa nessa categoria"
+  },
+  "skill-38": {
+    id: "skill-38",
+    name: "Contra Maldição",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Feitiços normalmente defensivos ou cuja finalidade é reverter alguma maldição. Para fins mecânicos, alguns feitiços como do Patrono são enquadrados aqui e não em Encantamentos."
+  },
+  "skill-47": {
+    id: "skill-47",
+    name: "Comando",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+  "skill-48": {
+    id: "skill-48",
+    name: "Intimidação",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+  "skill-49": {
+    id: "skill-49",
+    name: "Canto",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+  "skill-50": {
+    id: "skill-50",
+    name: "Lábia",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+  "skill-51": {
+    id: "skill-51",
+    name: "Performance",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+  "skill-52": {
+    id: "skill-52",
+    name: "Sedução",
+    linkedAttribute: ATTRIBUTE_KEY.PRESENCE,
+    level: 0,
+  },
+}

@@ -1,3 +1,4 @@
+import { MODULE_DATA } from './constants/general';
 export type SheetTypes = "character";
 
 export type DiceSides = 4 | 6 | 8 | 10 | 12 | 20;
@@ -10,7 +11,7 @@ export type AttributeKey =
 	| "willpower"
 	| "presence";
 
-export type ModuleOptions = "draenak";
+export type ModuleOptions = "draenak" | "wizarding";
 
 export type Item = {
 	id: string;
@@ -24,7 +25,8 @@ export type Skill = {
 	name: string;
 	linkedAttribute: AttributeKey;
 	level: number;
-  hasAffinity?: boolean,
+  hasAffinity?: boolean;
+  description?: string;
 };
 
 export type Trait = {
@@ -33,6 +35,7 @@ export type Trait = {
 	description: string;
 	cost: number;
 	level: number;
+	maxLevel?: number;
 };
 
 export type Race = {
@@ -82,6 +85,7 @@ export type CharacterSheet = {
 		autoUsed: number;
 		manualUsed: number;
 	};
+  module: ModuleOptions;
 };
 
 export type CharacterSheetList = Record<string, CharacterSheet>;

@@ -16,7 +16,7 @@
   }
 
   & > span {
-    @include fullAbsoluteContainer();
+    @include absoluteElement();
     @include dFlex();
     padding-top: 0.2rem;
     font-weight: bold;

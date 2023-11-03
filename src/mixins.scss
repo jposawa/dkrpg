@@ -8,7 +8,7 @@ $largeDesktopBreakpoint: $desktopBreakpoint + 500px;
   align-items: center;
 }
 
-@mixin fullAbsoluteContainer() {
+@mixin absoluteElement() {
   position: absolute;
   width: 100%;
   height: 100%;

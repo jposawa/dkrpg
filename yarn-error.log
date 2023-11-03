@@ -1,30 +1,24 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jposa\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add -D @types/3d-dice
+  /usr/local/bin/node /usr/local/bin/yarn
 
 PATH: 
-  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Users\jposa\AppData\Local\Microsoft\WindowsApps;C:\Users\jposa\AppData\Roaming\npm;C:\Users\jposa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jposa\AppData\Local\GitHubDesktop\bin
+  /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/CyberArk EPM.app/Contents/Helpers:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.17.0
+  18.15.0
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2f3d-dice: Not found
-      at params.callback [as _callback] (C:\Users\jposa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66145:18)
-      at self.callback (C:\Users\jposa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
-      at Request.emit (node:events:514:28)
-      at Request.<anonymous> (C:\Users\jposa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
-      at Request.emit (node:events:514:28)
-      at IncomingMessage.<anonymous> (C:\Users\jposa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
-      at Object.onceWrapper (node:events:628:28)
-      at IncomingMessage.emit (node:events:526:35)
-      at endReadableNT (node:internal/streams/readable:1359:12)
-      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+  Error: unable to get local issuer certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1540:34)
+      at TLSSocket.emit (node:events:513:28)
+      at TLSSocket._finishInit (node:_tls_wrap:959:8)
+      at ssl.onhandshakedone (node:_tls_wrap:743:12)
 
 npm manifest: 
   {

@@ -1,0 +1,5 @@
+@import "../../mixins.scss";
+
+.traitCard {
+  @include dFlex(row, space-between);
+}
