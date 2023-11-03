@@ -3,12 +3,13 @@ import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { activeSheetState, sheetEditingState } from "../../shared/state";
 import { CharacterSheet, Trait } from "../../shared/types";
-import { Input } from "../";
+import { FeatureCard, Input } from "../";
 
-import styles from "./TraitCard.module.scss";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { cloneObj } from "../../shared/helpers/utils";
 import { useCharacterSheet } from "../../shared/hooks";
+
+import styles from "./TraitCard.module.scss";
 
 export type TraitCardProps = {
   trait: Trait;
@@ -34,24 +35,12 @@ export const TraitCard = ({ trait, className, style }: TraitCardProps) => {
       (sheetTrait) => sheetTrait.id === traitId
     )!;
 
-    console.table({
-      traitId,
-      traitIndex,
-    })
-
     if (traitIndex < 0) {
       return;
     }
 
     const selectedTrait = cloneSheet.traits[traitIndex];
     const { level, cost } = selectedTrait;
-
-    console.table({
-      selectedTrait,
-      level,
-      cost,
-      finalLevel,
-    });
 
     if (level > 0) {
       cloneSheet.xp.autoUsed -= level * cost;
@@ -65,11 +54,10 @@ export const TraitCard = ({ trait, className, style }: TraitCardProps) => {
   };
 
   return (
-    <span
-      className={`${styles.traitCard} ${className || ""}`}
+    <FeatureCard
+      className={className}
       style={{ ...style } as React.CSSProperties}
     >
-      <span className={styles.background} />
       <span>
         <Popover
           content={detailsContent}
@@ -99,6 +87,6 @@ export const TraitCard = ({ trait, className, style }: TraitCardProps) => {
           }}
         />
       )}
-    </span>
+    </FeatureCard>
   );
 };

@@ -82,9 +82,13 @@ export const useCharacterSheet = () => {
         skillCost += BASE_COST.SKILL * skillLevelCounter--;
       }
 
-      skillCost /= skill.hasAffinity ? 2 : 1;
-
       sheet.xp.autoUsed += skillCost;
+    })
+
+    Object.values(sheet.traits).forEach((trait) => {
+      const {level, cost} = trait;
+
+      sheet.xp.autoUsed += level * cost;
     })
 
 		if (updateState) {
@@ -96,6 +100,7 @@ export const useCharacterSheet = () => {
 		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
+        console.log("cloneSheet", cloneSheet);
 				autoCalculations(cloneSheet);
 
 				const { keepSessionSheet, preventAlert } = options;
