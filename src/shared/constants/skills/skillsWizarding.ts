@@ -234,6 +234,13 @@ export const SKILLS_WIZARDING = {
     level: 0,
     description: "Feitiços normalmente defensivos ou cuja finalidade é reverter alguma maldição. Para fins mecânicos, alguns feitiços como do Patrono são enquadrados aqui e não em Encantamentos."
   },
+  "skill-39": {
+    id: "skill-39",
+    name: "Conjuração",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Feitiços que transportam objetos ou seres em grandes distâncias. Formas de teletransporte, ou conjurar comida são alguns exemplos de uso."
+  },
   "skill-47": {
     id: "skill-47",
     name: "Comando",
