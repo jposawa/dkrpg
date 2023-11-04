@@ -147,13 +147,13 @@ export const SKILLS_WIZARDING = {
   },
   "skill-25": {
     id: "skill-25",
-    name: "Esoterismo",
+    name: "Astronomia",
     linkedAttribute: ATTRIBUTE_KEY.INTELECT,
     level: 0,
   },
   "skill-26": {
     id: "skill-26",
-    name: "Siglística",
+    name: "Runas Antigas",
     linkedAttribute: ATTRIBUTE_KEY.INTELECT,
     level: 0,
   },
@@ -233,6 +233,13 @@ export const SKILLS_WIZARDING = {
     linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
     level: 0,
     description: "Feitiços normalmente defensivos ou cuja finalidade é reverter alguma maldição. Para fins mecânicos, alguns feitiços como do Patrono são enquadrados aqui e não em Encantamentos."
+  },
+  "skill-39": {
+    id: "skill-39",
+    name: "Conjuração",
+    linkedAttribute: ATTRIBUTE_KEY.WILLPOWER,
+    level: 0,
+    description: "Feitiços que transportam objetos ou seres em grandes distâncias. Formas de teletransporte, ou conjurar comida são alguns exemplos de uso."
   },
   "skill-47": {
     id: "skill-47",

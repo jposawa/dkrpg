@@ -61,7 +61,7 @@ export const SkillCard = ({ skill, className, style }: SkillCardProps) => {
 				{!!skill.description && (
 					<Popover
 						content={detailsContent}
-						title={skill.description}
+						title={skill.name}
 						trigger="hover"
 					>
 						<QuestionCircleOutlined />
