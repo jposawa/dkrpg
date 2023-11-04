@@ -14,7 +14,12 @@ import {
 	SecondaryAttributeKey,
 } from "../types";
 import { v4 as uuidv4 } from "uuid";
-import { BASE_COST, MODULE_DATA, characterSheetModel } from "../constants";
+import {
+	BASE_COST,
+	IMPORT_AUTOCLOSE,
+	MODULE_DATA,
+	characterSheetModel,
+} from "../constants";
 import { useSetRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../state";
 import { useAntToast } from "./useAntToast";
@@ -216,9 +221,13 @@ export const useCharacterSheet = () => {
 				if (!!textElement) {
 					textElement.value = "";
 				}
+
+				return IMPORT_AUTOCLOSE;
 			} catch (error) {
 				console.error("Error on importing sheet", error);
 				openToast("Falha ao importar ficha", "Verifique o código fornecido");
+
+				return false;
 			}
 		},
 		[characterSheetsList, setCharacterSheetsList]

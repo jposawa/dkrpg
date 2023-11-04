@@ -74,7 +74,9 @@ export const ModuleModal = ({
 			return;
 		}
 
-		importSheet(sheetCode, sheetImportRef.current);
+		if (importSheet(sheetCode, sheetImportRef.current)) {
+      setIsOpen(false);
+    }
 	};
 
 	return (
