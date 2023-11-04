@@ -11,8 +11,10 @@ import {
 import { ButtonDice } from "../ButtonDice/ButtonDice";
 import {
 	CheckOutlined,
+	CopyOutlined,
 	DeleteOutlined,
 	EditOutlined,
+	ShareAltOutlined,
 	UndoOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
@@ -27,8 +29,8 @@ import {
 } from "../../shared/helpers/utils";
 import { useRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../../shared/state";
-import { Button, Input } from "../";
-import { useCharacterSheet } from "../../shared/hooks";
+import { Button, Input, Modal } from "../";
+import { useAntToast, useCharacterSheet } from "../../shared/hooks";
 import { Popconfirm, Popover } from "antd";
 
 export type SheetHeaderProps = {
@@ -47,10 +49,12 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 			autoCalculations,
 		},
 	} = useCharacterSheet();
+	const [shareModalOpen, setShareModalOpen] = React.useState(false);
 	const [isImgEditPopoverOpen, setImgEditPopoverOpen] = React.useState(false);
 	const [currentImgUrl, setCurrentImgUrl] = React.useState(
 		activeSheet?.imageURL
 	);
+	const { openToast } = useAntToast();
 
 	const handleEnterEditMode = () => {
 		if (activeSheet) {
@@ -106,7 +110,6 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		cloneSheet.attributes[attrName] = attrValue;
 
 		autoCalculations(cloneSheet, true);
-		// setActiveSheet(cloneSheet);
 	};
 
 	const updateSecondaryAttribute = (
@@ -126,6 +129,23 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		cloneSheet.xp[xpType] = xpValue;
 
 		setActiveSheet(cloneSheet);
+	};
+
+	const openShareModal = () => {
+		setShareModalOpen(true);
+	};
+
+	const copySheetCode = () => {
+		const codeElement = document.getElementById(
+			"sheetCodeField"
+		) as HTMLTextAreaElement;
+
+		if (!codeElement?.value) {
+			return;
+		}
+
+		navigator.clipboard.writeText(codeElement.value);
+		openToast("Ficha copiada");
 	};
 
 	const [attributesTermsList, secondaryAttributesTermsList] =
@@ -150,289 +170,312 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		}, []);
 
 	return (
-		<header
-			className={`${styles.sheetHeader} ${className || ""}`}
-			style={{ ...style }}
-		>
-			<div className={styles.characterProfile}>
-				<span className={styles.imgContainer}>
-					{activeSheet?.imageURL && (!editMode || !!currentImgUrl) ? (
-						<img
-							alt="character image"
-							src={editMode ? currentImgUrl : activeSheet.imageURL}
-						/>
-					) : (
-						<UserOutlined />
-					)}
-					{editMode && (
-						<Popover
-							title="Edite URL imagem"
-							content={() => (
-								<span className={styles.popoverImgUrl}>
-									<Input
-										defaultValue={currentImgUrl || activeSheet?.imageURL}
-										placeholder="Insira URL de imagem"
-										onChange={(event) => {
-											const {
-												target: { value },
-											} = event;
+		<>
+			<Modal
+				isOpen={shareModalOpen}
+				setIsOpen={(open) => setShareModalOpen(!!open)}
+			>
+				<p>
+					Copie o código abaixo no criador de ficha para importar essa ficha
+				</p>
+				<textarea id="sheetCodeField" title="Código ficha atual" disabled>
+					{btoa(JSON.stringify(activeSheet))}
+				</textarea>
 
-											setCurrentImgUrl(value || "");
-										}}
-									/>
+				<Button onClick={copySheetCode} rounded>
+					<CopyOutlined />
+				</Button>
+			</Modal>
+			<header
+				className={`${styles.sheetHeader} ${className || ""}`}
+				style={{ ...style }}
+			>
+				<div className={styles.characterProfile}>
+					<span className={styles.imgContainer}>
+						{activeSheet?.imageURL && (!editMode || !!currentImgUrl) ? (
+							<img
+								alt="character image"
+								src={editMode ? currentImgUrl : activeSheet.imageURL}
+							/>
+						) : (
+							<UserOutlined />
+						)}
+						{editMode && (
+							<Popover
+								title="Edite URL imagem"
+								content={() => (
+									<span className={styles.popoverImgUrl}>
+										<Input
+											defaultValue={currentImgUrl || activeSheet?.imageURL}
+											placeholder="Insira URL de imagem"
+											onChange={(event) => {
+												const {
+													target: { value },
+												} = event;
 
-									<span>
-										<Button onClick={updateImgUrl}>&times;</Button>
-
-										<Button
-											onClick={() => {
-												updateImgUrl(true);
+												setCurrentImgUrl(value || "");
 											}}
-										>
-											<CheckOutlined />
-										</Button>
+										/>
+
+										<span>
+											<Button onClick={updateImgUrl}>&times;</Button>
+
+											<Button
+												onClick={() => {
+													updateImgUrl(true);
+												}}
+											>
+												<CheckOutlined />
+											</Button>
+										</span>
 									</span>
-								</span>
-							)}
-							open={isImgEditPopoverOpen}
-							onOpenChange={() => {
-								setImgEditPopoverOpen(true);
-							}}
-						>
-							<Button onClick={() => {}}>
-								<EditOutlined />
-							</Button>
-						</Popover>
-					)}
-				</span>
-
-				<h3 style={{ textAlign: "center" }}>
-					{!editMode ? (
-						activeSheet?.name || "Nome personagem"
-					) : (
-						<Input
-							defaultValue={activeSheet?.name}
-							placeholder="Nome personagem"
-							style={{
-								fontSize: "1.1rem",
-							}}
-							onChange={updateName}
-						/>
-					)}
-				</h3>
-
-				<div className={styles.actionButtonsContainer}>
-					{editMode ? (
-						<>
-							<Popconfirm
-								className={styles.deleteBtn}
-								title="Deletar ficha?"
-								description="Essa ação não pode ser revertida"
-								okText="Deletar"
-								cancelText="Manter ficha"
-								onConfirm={() => deleteSheet(activeSheet!.id)}
+								)}
+								open={isImgEditPopoverOpen}
+								onOpenChange={() => {
+									setImgEditPopoverOpen(true);
+								}}
 							>
-								<DeleteOutlined />
-							</Popconfirm>
+								<Button onClick={() => {}}>
+									<EditOutlined />
+								</Button>
+							</Popover>
+						)}
+					</span>
 
-							<Button
-								className={styles.cancel}
-								onClick={handleCancelEdits}
-								rounded
-							>
-								<UndoOutlined />
-							</Button>
+					<h3 style={{ textAlign: "center" }}>
+						{!editMode ? (
+							activeSheet?.name || "Nome personagem"
+						) : (
+							<Input
+								defaultValue={activeSheet?.name}
+								placeholder="Nome personagem"
+								style={{
+									fontSize: "1.1rem",
+								}}
+								onChange={updateName}
+							/>
+						)}
+					</h3>
 
-							<Button
-								className={styles.confirm}
-								onClick={handleSaveEdits}
-								rounded
-							>
-								<CheckOutlined />
-							</Button>
-						</>
-					) : (
-						<Button onClick={handleEnterEditMode} rounded>
-							<EditOutlined />
-						</Button>
-					)}
-				</div>
-			</div>
-
-			{attributesTermsList && (
-				<div className={styles.attributes}>
-					{Object.entries(attributesTermsList)?.map(([attrKey, attrName]) => (
-						<span key={attrKey}>
-							<span className={styles.attributeText}>
-								<b>{attrName}</b>
-							</span>
-							{editMode ? (
-								<Input
-									type="tel"
-									min={1}
-									max={6}
-									maxLength={1}
-									pattern="[1-6]*"
-									defaultValue={
-										activeSheet?.attributes[attrKey as AttributeKey]
-									}
-									className={styles.attrInput}
-									onChange={({ target }) => {
-										if (!target.validity.valid) {
-											target.value = "";
-										} else {
-											updateAttribute(
-												attrKey as AttributeKey,
-												Number(target.value)
-											);
-										}
-									}}
-								/>
-							) : (
-								<ButtonDice
-									numSides={
-										diceSideNumberFromLevel(
-											activeSheet?.attributes[attrKey as AttributeKey] || 1
-										) as DiceSides
-									}
-								>
-									{activeSheet?.attributes[attrKey as AttributeKey]}
-								</ButtonDice>
-							)}
-						</span>
-					))}
-				</div>
-			)}
-
-			{secondaryAttributesTermsList && (
-				<div className={styles.secondaryAttributes}>
-					{Object.entries(secondaryAttributesTermsList)?.map(
-						([attrKey, attrName]) => {
-							const attrValue =
-								activeSheet?.secondaryAttributes[
-									attrKey as SecondaryAttributeKey
-								]?.current || 0;
-							const attrLimit =
-								activeSheet?.secondaryAttributes[
-									attrKey as SecondaryAttributeKey
-								]?.limit;
-							const attrFinalLimit =
-								activeSheet?.secondaryAttributes[
-									attrKey as SecondaryAttributeKey
-								]?.finalLimit;
-							return (
-								<span key={attrKey}>
-									<b>{attrName}</b>
-									<span
-										className={`${styles.secondaryAttributesText} ${
-											attrLimit && attrValue > attrLimit
-												? styles.attrOverLimit
-												: ""
-										} ${
-											attrFinalLimit && attrValue > attrFinalLimit
-												? styles.attrOverFinalLimit
-												: ""
-										}`}
-									>
-										<p>
-											{editMode && attrLimit ? (
-												<Input
-													type="tel"
-													min={0}
-													max={6}
-													maxLength={1}
-													className={styles.attrInput}
-													onChange={({ target }) => {
-														const rawValue = target?.value;
-														const finalValue = onlyNumbers(rawValue);
-
-														target.value = finalValue;
-
-														updateSecondaryAttribute(
-															attrKey as SecondaryAttributeKey,
-															Number(finalValue)
-														);
-													}}
-													defaultValue={attrValue}
-												/>
-											) : (
-												attrValue
-											)}
-										</p>
-										{!!attrLimit && (
-											<p className={styles.maxValue}>{attrLimit}</p>
-										)}
-									</span>
-								</span>
-							);
-						}
-					)}
-				</div>
-			)}
-
-			<div className={styles.generalStats}>
-				<div className={styles.xpContainer}>
-					<h4>XP</h4>
-					<span
-						className={
-							Number(activeSheet?.xp.autoUsed) +
-								Number(activeSheet?.xp.manualUsed) >
-							Number(activeSheet?.xp.total)
-								? styles.invalidXP
-								: ""
-						}
-					>
+					<div className={styles.actionButtonsContainer}>
 						{editMode ? (
 							<>
-								<p>
-									<span>{`${activeSheet?.xp.autoUsed} + `}</span>
-									<Input
-										type="tel"
-										min={0}
-										className={styles.xpInput}
-										defaultValue={activeSheet?.xp.manualUsed}
-										onChange={({ target }) => {
-											const rawValue = target?.value;
-											const finalValue = onlyNumbers(rawValue);
+								<Popconfirm
+									className={styles.deleteBtn}
+									title="Deletar ficha?"
+									description="Essa ação não pode ser revertida"
+									okText="Deletar"
+									cancelText="Manter ficha"
+									onConfirm={() => deleteSheet(activeSheet!.id)}
+								>
+									<DeleteOutlined />
+								</Popconfirm>
 
-											target.value = finalValue;
+								<Button
+									className={styles.cancel}
+									onClick={handleCancelEdits}
+									rounded
+								>
+									<UndoOutlined />
+								</Button>
 
-											updateXP("manualUsed", Number(finalValue));
-										}}
-									/>
-								</p>
-								<p>|</p>
-								<p>
-									<Input
-										type="tel"
-										min={0}
-										className={styles.xpInput}
-										defaultValue={activeSheet?.xp.total}
-										onChange={({ target }) => {
-											const rawValue = target?.value;
-											const finalValue = onlyNumbers(rawValue);
-
-											target.value = finalValue;
-
-											updateXP("total", Number(finalValue));
-										}}
-									/>
-								</p>
+								<Button
+									className={styles.confirm}
+									onClick={handleSaveEdits}
+									rounded
+								>
+									<CheckOutlined />
+								</Button>
 							</>
 						) : (
 							<>
-								<p>
-									{Number(activeSheet?.xp.autoUsed) +
-										Number(activeSheet?.xp.manualUsed)}
-								</p>
-								<p>|</p>
-								<p>{activeSheet?.xp.total}</p>
+								<Button onClick={handleEnterEditMode} rounded>
+									<EditOutlined />
+								</Button>
+
+								<Button onClick={openShareModal} rounded>
+									<ShareAltOutlined />
+								</Button>
 							</>
 						)}
-					</span>
+					</div>
 				</div>
-				<div className={styles.bindingContainer}></div>
-			</div>
-		</header>
+
+				{attributesTermsList && (
+					<div className={styles.attributes}>
+						{Object.entries(attributesTermsList)?.map(([attrKey, attrName]) => (
+							<span key={attrKey}>
+								<span className={styles.attributeText}>
+									<b>{attrName}</b>
+								</span>
+								{editMode ? (
+									<Input
+										type="tel"
+										min={1}
+										max={6}
+										maxLength={1}
+										pattern="[1-6]*"
+										defaultValue={
+											activeSheet?.attributes[attrKey as AttributeKey]
+										}
+										className={styles.attrInput}
+										onChange={({ target }) => {
+											if (!target.validity.valid) {
+												target.value = "";
+											} else {
+												updateAttribute(
+													attrKey as AttributeKey,
+													Number(target.value)
+												);
+											}
+										}}
+									/>
+								) : (
+									<ButtonDice
+										numSides={
+											diceSideNumberFromLevel(
+												activeSheet?.attributes[attrKey as AttributeKey] || 1
+											) as DiceSides
+										}
+									>
+										{activeSheet?.attributes[attrKey as AttributeKey]}
+									</ButtonDice>
+								)}
+							</span>
+						))}
+					</div>
+				)}
+
+				{secondaryAttributesTermsList && (
+					<div className={styles.secondaryAttributes}>
+						{Object.entries(secondaryAttributesTermsList)?.map(
+							([attrKey, attrName]) => {
+								const attrValue =
+									activeSheet?.secondaryAttributes[
+										attrKey as SecondaryAttributeKey
+									]?.current || 0;
+								const attrLimit =
+									activeSheet?.secondaryAttributes[
+										attrKey as SecondaryAttributeKey
+									]?.limit;
+								const attrFinalLimit =
+									activeSheet?.secondaryAttributes[
+										attrKey as SecondaryAttributeKey
+									]?.finalLimit;
+								return (
+									<span key={attrKey}>
+										<b>{attrName}</b>
+										<span
+											className={`${styles.secondaryAttributesText} ${
+												attrLimit && attrValue > attrLimit
+													? styles.attrOverLimit
+													: ""
+											} ${
+												attrFinalLimit && attrValue > attrFinalLimit
+													? styles.attrOverFinalLimit
+													: ""
+											}`}
+										>
+											<p>
+												{editMode && attrLimit ? (
+													<Input
+														type="tel"
+														min={0}
+														max={6}
+														maxLength={1}
+														className={styles.attrInput}
+														onChange={({ target }) => {
+															const rawValue = target?.value;
+															const finalValue = onlyNumbers(rawValue);
+
+															target.value = finalValue;
+
+															updateSecondaryAttribute(
+																attrKey as SecondaryAttributeKey,
+																Number(finalValue)
+															);
+														}}
+														defaultValue={attrValue}
+													/>
+												) : (
+													attrValue
+												)}
+											</p>
+											{!!attrLimit && (
+												<p className={styles.maxValue}>{attrLimit}</p>
+											)}
+										</span>
+									</span>
+								);
+							}
+						)}
+					</div>
+				)}
+
+				<div className={styles.generalStats}>
+					<div className={styles.xpContainer}>
+						<h4>XP</h4>
+						<span
+							className={
+								Number(activeSheet?.xp.autoUsed) +
+									Number(activeSheet?.xp.manualUsed) >
+								Number(activeSheet?.xp.total)
+									? styles.invalidXP
+									: ""
+							}
+						>
+							{editMode ? (
+								<>
+									<p>
+										<span>{`${activeSheet?.xp.autoUsed} + `}</span>
+										<Input
+											type="tel"
+											min={0}
+											className={styles.xpInput}
+											defaultValue={activeSheet?.xp.manualUsed}
+											onChange={({ target }) => {
+												const rawValue = target?.value;
+												const finalValue = onlyNumbers(rawValue);
+
+												target.value = finalValue;
+
+												updateXP("manualUsed", Number(finalValue));
+											}}
+										/>
+									</p>
+									<p>|</p>
+									<p>
+										<Input
+											type="tel"
+											min={0}
+											className={styles.xpInput}
+											defaultValue={activeSheet?.xp.total}
+											onChange={({ target }) => {
+												const rawValue = target?.value;
+												const finalValue = onlyNumbers(rawValue);
+
+												target.value = finalValue;
+
+												updateXP("total", Number(finalValue));
+											}}
+										/>
+									</p>
+								</>
+							) : (
+								<>
+									<p>
+										{Number(activeSheet?.xp.autoUsed) +
+											Number(activeSheet?.xp.manualUsed)}
+									</p>
+									<p>|</p>
+									<p>{activeSheet?.xp.total}</p>
+								</>
+							)}
+						</span>
+					</div>
+					<div className={styles.bindingContainer}></div>
+				</div>
+			</header>
+		</>
 	);
 };

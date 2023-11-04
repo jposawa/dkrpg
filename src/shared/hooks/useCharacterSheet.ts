@@ -105,7 +105,6 @@ export const useCharacterSheet = () => {
 		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
-				console.log("cloneSheet", cloneSheet);
 				autoCalculations(cloneSheet);
 
 				const { keepSessionSheet, preventAlert } = options;
