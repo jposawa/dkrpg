@@ -147,13 +147,13 @@ export const SKILLS_WIZARDING = {
   },
   "skill-25": {
     id: "skill-25",
-    name: "Esoterismo",
+    name: "Astronomia",
     linkedAttribute: ATTRIBUTE_KEY.INTELECT,
     level: 0,
   },
   "skill-26": {
     id: "skill-26",
-    name: "Siglística",
+    name: "Runas Antigas",
     linkedAttribute: ATTRIBUTE_KEY.INTELECT,
     level: 0,
   },
