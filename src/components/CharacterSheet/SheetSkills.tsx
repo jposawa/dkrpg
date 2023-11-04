@@ -1,7 +1,11 @@
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { activeSheetState, sheetEditingState } from "../../shared/state";
-import { AFFINITY_BONUS, termsList } from "../../shared/constants";
+import {
+	AFFINITY_BONUS,
+	AUTO_DISABLE_AFFINITY,
+	termsList,
+} from "../../shared/constants";
 import { ButtonDice } from "../ButtonDice/ButtonDice";
 import {
 	cloneObj,
@@ -52,7 +56,9 @@ export const SheetSkills = () => {
 							<SkillCard
 								skill={skill}
 								disableAffinity={
-									!skill.hasAffinity && isAffinityOnLimit[skill.linkedAttribute]
+									!skill.hasAffinity &&
+									isAffinityOnLimit[skill.linkedAttribute] &&
+									AUTO_DISABLE_AFFINITY
 								}
 							/>
 						</li>
