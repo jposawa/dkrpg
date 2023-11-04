@@ -106,16 +106,19 @@ export const useCharacterSheet = () => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
 				autoCalculations(cloneSheet);
+				const _characterSheetsList = cloneObj(
+					characterSheetsList
+				) as CharacterSheet[];
 
 				const { keepSessionSheet, preventAlert } = options;
-				const sheetIndex = characterSheetsList?.findIndex(
+				const sheetIndex = _characterSheetsList?.findIndex(
 					(characterSheet) => characterSheet.id === cloneSheet.id
 				);
 
 				if (sheetIndex < 0) {
-					characterSheetsList.push(cloneSheet);
+					_characterSheetsList.push(cloneSheet);
 				} else {
-					characterSheetsList[sheetIndex] = cloneSheet;
+					_characterSheetsList[sheetIndex] = cloneSheet;
 				}
 
 				if (!keepSessionSheet) {
@@ -124,7 +127,7 @@ export const useCharacterSheet = () => {
 				}
 
 				setActiveSheet(cloneSheet);
-				setLocalStorage("characterSheetsList", characterSheetsList, true);
+				setLocalStorage("characterSheetsList", _characterSheetsList, true);
 
 				setEditMode(false);
 
@@ -194,30 +197,20 @@ export const useCharacterSheet = () => {
 			try {
 				const stringSheet = atob(sheetCode);
 				const importedSheet = JSON.parse(stringSheet);
-
-				console.table({
-					characterSheetsList,
-					importedSheet,
-				});
+				let saveSheet = true;
 
 				const [existingSheet] = characterSheetsList.filter(
 					(sheet) => sheet.id === importedSheet.id
 				);
 
 				if (!!existingSheet) {
-					if (
-						window.confirm(
-							"Uma ficha da mesma personagem foi encontrada. Deseja substituir por essa importada? (Operação não pode ser desfeita)"
-						)
-					) {
-						const sheetIndex = characterSheetsList.findIndex(
-							(sheet) => sheet.id === importedSheet.id
-						);
+					saveSheet = window.confirm(
+						"Uma ficha da mesma personagem foi encontrada. Deseja substituir por essa importada? (Operação não pode ser desfeita)"
+					);
+				}
 
-						characterSheetsList[sheetIndex] = importedSheet;
-					}
-				} else {
-					characterSheetsList.push(importedSheet);
+				if (saveSheet) {
+					saveCharacterSheet(importedSheet);
 				}
 
 				if (!!textElement) {
@@ -228,7 +221,7 @@ export const useCharacterSheet = () => {
 				openToast("Falha ao importar ficha", "Verifique o código fornecido");
 			}
 		},
-		[characterSheetsList]
+		[characterSheetsList, setCharacterSheetsList]
 	);
 
 	React.useMemo(() => {

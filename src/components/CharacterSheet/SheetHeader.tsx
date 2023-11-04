@@ -169,21 +169,23 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 			return [attributesTerms, secondaryAttributesTerms];
 		}, []);
 
+	const sheetCode = React.useMemo(() => {
+		return btoa(JSON.stringify(activeSheet));
+	}, [activeSheet]);
+
 	return (
 		<>
 			<Modal
 				isOpen={shareModalOpen}
 				setIsOpen={(open) => setShareModalOpen(!!open)}
-        className={styles.shareModal}
+				className={styles.shareModal}
 			>
 				<p>
 					Copie o código abaixo no criador de ficha para importar essa ficha
 				</p>
-				<textarea id="sheetCodeField" title="Código ficha atual" disabled>
-					{btoa(JSON.stringify(activeSheet))}
-				</textarea>
+				<textarea id="sheetCodeField" title="Código ficha atual" value={sheetCode} disabled />
 
-				<Button onClick={copySheetCode} >
+				<Button onClick={copySheetCode}>
 					<CopyOutlined /> Copiar
 				</Button>
 			</Modal>
@@ -253,6 +255,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 								style={{
 									fontSize: "1.1rem",
 								}}
+                maxLength={24}
 								onChange={updateName}
 							/>
 						)}
