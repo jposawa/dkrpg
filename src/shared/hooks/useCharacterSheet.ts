@@ -189,6 +189,48 @@ export const useCharacterSheet = () => {
 		openToast("Ficha deletada com sucesso", "", "info");
 	};
 
+	const importSheet = React.useCallback(
+		(sheetCode: string, textElement?: HTMLTextAreaElement) => {
+			try {
+				const stringSheet = atob(sheetCode);
+				const importedSheet = JSON.parse(stringSheet);
+
+				console.table({
+					characterSheetsList,
+					importedSheet,
+				});
+
+				const [existingSheet] = characterSheetsList.filter(
+					(sheet) => sheet.id === importedSheet.id
+				);
+
+				if (!!existingSheet) {
+					if (
+						window.confirm(
+							"Uma ficha da mesma personagem foi encontrada. Deseja substituir por essa importada? (Operação não pode ser desfeita)"
+						)
+					) {
+						const sheetIndex = characterSheetsList.findIndex(
+							(sheet) => sheet.id === importedSheet.id
+						);
+
+						characterSheetsList[sheetIndex] = importedSheet;
+					}
+				} else {
+					characterSheetsList.push(importedSheet);
+				}
+
+				if (!!textElement) {
+					textElement.value = "";
+				}
+			} catch (error) {
+				console.error("Error on importing sheet", error);
+				openToast("Falha ao importar ficha", "Verifique o código fornecido");
+			}
+		},
+		[characterSheetsList]
+	);
+
 	React.useMemo(() => {
 		if (!isObjEqual(localList, characterSheetsList)) {
 			setCharacterSheetsList(localList || []);
@@ -205,6 +247,7 @@ export const useCharacterSheet = () => {
 				updateEditingSheet,
 				deleteSheet,
 				autoCalculations,
+				importSheet,
 			},
 		}),
 		[
@@ -215,6 +258,7 @@ export const useCharacterSheet = () => {
 			updateEditingSheet,
 			deleteSheet,
 			autoCalculations,
+			importSheet,
 		]
 	);
 };

@@ -1,0 +1,15 @@
+@import "../../mixins.scss";
+
+.importContainer {
+  @include dFlex(column, flex-start);
+  align-items: flex-start;
+  gap: 0.2rem;
+
+  & > textarea {
+    width: 50%;
+    height: 3rem;
+    resize: none;
+    background: var(--bgColor);
+    color: var(--txtColor);
+  }
+}

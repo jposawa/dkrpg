@@ -174,6 +174,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 			<Modal
 				isOpen={shareModalOpen}
 				setIsOpen={(open) => setShareModalOpen(!!open)}
+        className={styles.shareModal}
 			>
 				<p>
 					Copie o código abaixo no criador de ficha para importar essa ficha
@@ -182,8 +183,8 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 					{btoa(JSON.stringify(activeSheet))}
 				</textarea>
 
-				<Button onClick={copySheetCode} rounded>
-					<CopyOutlined />
+				<Button onClick={copySheetCode} >
+					<CopyOutlined /> Copiar
 				</Button>
 			</Modal>
 			<header
