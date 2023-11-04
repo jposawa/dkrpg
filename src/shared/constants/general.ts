@@ -9,6 +9,8 @@ export const DEBUG = false;
 
 export const IMPORT_AUTOCLOSE = false;
 
+export const AUTO_DISABLE_AFFINITY = false;
+
 export const MODULE_DATA = {
   draenak: {
     NAME: "Draenak",
