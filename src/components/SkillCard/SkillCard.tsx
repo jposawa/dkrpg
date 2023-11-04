@@ -25,9 +25,15 @@ export type SkillCardProps = {
 	skill: Skill;
 	className?: string;
 	style?: React.CSSProperties;
+	disableAffinity?: boolean;
 };
 
-export const SkillCard = ({ skill, className, style }: SkillCardProps) => {
+export const SkillCard = ({
+	skill,
+	className,
+	style,
+	disableAffinity = false,
+}: SkillCardProps) => {
 	const activeSheet = useRecoilValue(activeSheetState);
 	const editMode = useRecoilValue(sheetEditingState);
 	const {
@@ -59,11 +65,7 @@ export const SkillCard = ({ skill, className, style }: SkillCardProps) => {
 		>
 			<span className={styles.skillTitle}>
 				{!!skill.description && (
-					<Popover
-						content={detailsContent}
-						title={skill.name}
-						trigger="hover"
-					>
+					<Popover content={detailsContent} title={skill.name} trigger="hover">
 						<QuestionCircleOutlined />
 					</Popover>
 				)}
@@ -98,6 +100,7 @@ export const SkillCard = ({ skill, className, style }: SkillCardProps) => {
 						onChange={({ target: { checked } }) => {
 							updateSkill(skill.id, skill.level, checked);
 						}}
+						disabled={disableAffinity}
 					/>
 				</span>
 			) : (

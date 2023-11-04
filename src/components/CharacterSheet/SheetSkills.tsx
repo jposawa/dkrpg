@@ -14,7 +14,6 @@ import { useCharacterSheet } from "../../shared/hooks";
 
 export const SheetSkills = () => {
 	const [activeSheet] = useRecoilState(activeSheetState);
-	const editMode = useRecoilValue(sheetEditingState);
 	const {
 		data: { autoCalculations },
 	} = useCharacterSheet();
@@ -25,18 +24,24 @@ export const SheetSkills = () => {
 		return list;
 	}, [activeSheet]);
 
-	const updateSkill = (
-		skillId: string,
-		skillValue: number,
-		hasAffinity = false
-	) => {
-		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+	const isAffinityOnLimit = React.useMemo(() => {
+		if (!activeSheet) {
+			return {};
+		}
 
-		cloneSheet.skills[skillId].level = skillValue;
-		cloneSheet.skills[skillId].hasAffinity = hasAffinity;
+		const limit = {} as Record<string, boolean>;
+		Object.keys(activeSheet.attributes).forEach((attributeKey) => {
+			const threshold = activeSheet.attributes[attributeKey as AttributeKey];
 
-		autoCalculations(cloneSheet, true);
-	};
+			const affinityNumber = Object.values(activeSheet.skills).filter(
+				(skill) => skill.hasAffinity && skill.linkedAttribute === attributeKey
+			).length;
+
+			limit[attributeKey] = threshold <= affinityNumber;
+		});
+
+		return limit;
+	}, [activeSheet]);
 
 	return (
 		<section>
@@ -45,8 +50,11 @@ export const SheetSkills = () => {
 					return (
 						<li key={skill.id}>
 							<SkillCard
-                skill={skill}
-              />
+								skill={skill}
+								disableAffinity={
+									!skill.hasAffinity && isAffinityOnLimit[skill.linkedAttribute]
+								}
+							/>
 						</li>
 					);
 				})}
