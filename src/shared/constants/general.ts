@@ -7,6 +7,8 @@ export const NAMESPACE = "jpoIE";
 
 export const DEBUG = false;
 
+export const IMPORT_AUTOCLOSE = false;
+
 export const MODULE_DATA = {
   draenak: {
     NAME: "Draenak",

@@ -12,81 +12,83 @@ import { useCharacterSheet } from "../../shared/hooks";
 import styles from "./TraitCard.module.scss";
 
 export type TraitCardProps = {
-  trait: Trait;
-  className?: string;
-  style?: React.CSSProperties;
+	trait: Trait;
+	className?: string;
+	style?: React.CSSProperties;
 };
 
 export const TraitCard = ({ trait, className, style }: TraitCardProps) => {
-  const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
-  const editMode = useRecoilValue(sheetEditingState);
-  const {
-    data: { autoCalculations },
-  } = useCharacterSheet();
-  const detailsContent = (
-    <span>
-      <p>{trait.description}</p>
-    </span>
-  );
+	const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
+	const editMode = useRecoilValue(sheetEditingState);
+	const {
+		data: { autoCalculations },
+	} = useCharacterSheet();
+	const detailsContent = (
+		<span>
+			<p>{trait.description}</p>
+		</span>
+	);
 
-  const updateTrait = (traitId: string, finalLevel: number) => {
-    const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
-    const traitIndex = activeSheet?.traits.findIndex(
-      (sheetTrait) => sheetTrait.id === traitId
-    )!;
+	const updateTrait = (traitId: string, finalLevel: number) => {
+		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+		const traitIndex = activeSheet?.traits.findIndex(
+			(sheetTrait) => sheetTrait.id === traitId
+		)!;
 
-    if (traitIndex < 0) {
-      return;
-    }
+		if (traitIndex < 0) {
+			return;
+		}
 
-    const selectedTrait = cloneSheet.traits[traitIndex];
-    const { level, cost } = selectedTrait;
+		const selectedTrait = cloneSheet.traits[traitIndex];
+		const { level, cost } = selectedTrait;
 
-    if (level > 0) {
-      cloneSheet.xp.autoUsed -= level * cost;
-    }
+		if (level > 0) {
+			cloneSheet.xp.autoUsed -= level * cost;
+		}
 
-    cloneSheet.xp.autoUsed += finalLevel * cost;
+		cloneSheet.xp.autoUsed += finalLevel * cost;
 
-    cloneSheet.traits[traitIndex].level = finalLevel;
+		cloneSheet.traits[traitIndex].level = finalLevel;
 
-    setActiveSheet(cloneSheet);
-  };
+		setActiveSheet(cloneSheet);
+	};
 
-  return (
-    <FeatureCard
-      className={className}
-      style={{ ...style } as React.CSSProperties}
-    >
-      <span>
-        <Popover
-          content={detailsContent}
-          title={trait.name}
-          className={styles.traitTitle}
-          trigger="hover"
-        >
-          <QuestionCircleOutlined />
-        </Popover>
+	return (
+		<FeatureCard
+			className={className}
+			style={{ ...style } as React.CSSProperties}
+		>
+			<span>
+				<Popover
+					content={detailsContent}
+					title={trait.name}
+					className={styles.traitTitle}
+					trigger="hover"
+				>
+					<QuestionCircleOutlined />
+				</Popover>
 
-        {trait.name}
-      </span>
+				<p>{trait.name}</p>
+			</span>
 
-      {editMode && (
-        <Input
-          id={trait.id}
-          type={!trait.maxLevel || trait.maxLevel === 1 ? "checkbox" : "tel"}
-          min={0}
-          max={trait.maxLevel}
-          defaultValue={trait.level}
-          defaultChecked={trait.level > 0}
-          onChange={({ target: { type, checked, value } }) => {
-            const finalLevel =
-              type === "checkbox" ? 1 * Number(checked) : Number(value);
+			{editMode ? (
+				<Input
+					id={trait.id}
+					type={!trait.maxLevel || trait.maxLevel === 1 ? "checkbox" : "tel"}
+					min={0}
+					max={trait.maxLevel}
+					defaultValue={trait.level}
+					defaultChecked={trait.level > 0}
+					onChange={({ target: { type, checked, value } }) => {
+						const finalLevel =
+							type === "checkbox" ? 1 * Number(checked) : Number(value);
 
-            updateTrait(trait.id, finalLevel);
-          }}
-        />
-      )}
-    </FeatureCard>
-  );
+						updateTrait(trait.id, finalLevel);
+					}}
+				/>
+			) : (
+				!!trait.maxLevel && <aside>{trait.level}</aside>
+			)}
+		</FeatureCard>
+	);
 };

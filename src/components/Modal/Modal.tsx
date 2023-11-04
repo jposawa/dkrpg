@@ -27,22 +27,23 @@ export const Modal = ({
 
 	return (
 		<section
-			className={`${styles.modal} ${className || ""} ${isOpen ? "" : "hidden"}`}
+			className={`${styles.modal} ${isOpen ? "" : "hidden"}`}
 			style={{ ...style }}
 		>
 			<span className={styles.background} onClick={closeModal} />
 
-			{!!header && <div className={styles.modalHeader}>{header}</div>}
+			<div className={styles.mainContainer}>
+				{!hideCloseButton && (
+					<button className={styles.closeBtn} onClick={closeModal}>
+						&times;
+					</button>
+				)}
+				<div className={styles.modalHeader}>{header}</div>
 
-			{!hideCloseButton && (
-				<button className={styles.closeBtn} onClick={closeModal}>
-					&times;
-				</button>
-			)}
-
-			<div className={styles.modalContent}>
-        {children}
-      </div>
+				<div className={`${styles.modalContent} ${className || ""}`}>
+					{children}
+				</div>
+			</div>
 		</section>
 	);
 };

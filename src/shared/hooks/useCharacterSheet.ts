@@ -14,7 +14,12 @@ import {
 	SecondaryAttributeKey,
 } from "../types";
 import { v4 as uuidv4 } from "uuid";
-import { BASE_COST, MODULE_DATA, characterSheetModel } from "../constants";
+import {
+	BASE_COST,
+	IMPORT_AUTOCLOSE,
+	MODULE_DATA,
+	characterSheetModel,
+} from "../constants";
 import { useSetRecoilState } from "recoil";
 import { activeSheetState, sheetEditingState } from "../state";
 import { useAntToast } from "./useAntToast";
@@ -105,18 +110,20 @@ export const useCharacterSheet = () => {
 		(sheet: CharacterSheet, options: SaveOptions = {}) => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
-				console.log("cloneSheet", cloneSheet);
 				autoCalculations(cloneSheet);
+				const _characterSheetsList = cloneObj(
+					characterSheetsList
+				) as CharacterSheet[];
 
 				const { keepSessionSheet, preventAlert } = options;
-				const sheetIndex = characterSheetsList?.findIndex(
+				const sheetIndex = _characterSheetsList?.findIndex(
 					(characterSheet) => characterSheet.id === cloneSheet.id
 				);
 
 				if (sheetIndex < 0) {
-					characterSheetsList.push(cloneSheet);
+					_characterSheetsList.push(cloneSheet);
 				} else {
-					characterSheetsList[sheetIndex] = cloneSheet;
+					_characterSheetsList[sheetIndex] = cloneSheet;
 				}
 
 				if (!keepSessionSheet) {
@@ -125,7 +132,7 @@ export const useCharacterSheet = () => {
 				}
 
 				setActiveSheet(cloneSheet);
-				setLocalStorage("characterSheetsList", characterSheetsList, true);
+				setLocalStorage("characterSheetsList", _characterSheetsList, true);
 
 				setEditMode(false);
 
@@ -190,6 +197,42 @@ export const useCharacterSheet = () => {
 		openToast("Ficha deletada com sucesso", "", "info");
 	};
 
+	const importSheet = React.useCallback(
+		(sheetCode: string, textElement?: HTMLTextAreaElement) => {
+			try {
+				const stringSheet = atob(sheetCode);
+				const importedSheet = JSON.parse(stringSheet);
+				let saveSheet = true;
+
+				const [existingSheet] = characterSheetsList.filter(
+					(sheet) => sheet.id === importedSheet.id
+				);
+
+				if (!!existingSheet) {
+					saveSheet = window.confirm(
+						"Uma ficha da mesma personagem foi encontrada. Deseja substituir por essa importada? (Operação não pode ser desfeita)"
+					);
+				}
+
+				if (saveSheet) {
+					saveCharacterSheet(importedSheet);
+				}
+
+				if (!!textElement) {
+					textElement.value = "";
+				}
+
+				return IMPORT_AUTOCLOSE;
+			} catch (error) {
+				console.error("Error on importing sheet", error);
+				openToast("Falha ao importar ficha", "Verifique o código fornecido");
+
+				return false;
+			}
+		},
+		[characterSheetsList, setCharacterSheetsList]
+	);
+
 	React.useMemo(() => {
 		if (!isObjEqual(localList, characterSheetsList)) {
 			setCharacterSheetsList(localList || []);
@@ -206,6 +249,7 @@ export const useCharacterSheet = () => {
 				updateEditingSheet,
 				deleteSheet,
 				autoCalculations,
+				importSheet,
 			},
 		}),
 		[
@@ -216,6 +260,7 @@ export const useCharacterSheet = () => {
 			updateEditingSheet,
 			deleteSheet,
 			autoCalculations,
+			importSheet,
 		]
 	);
 };

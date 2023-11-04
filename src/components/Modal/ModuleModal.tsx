@@ -8,6 +8,8 @@ import { useAntToast, useCharacterSheet } from "../../shared/hooks";
 import { useNavigate } from "react-router-dom";
 import { ModuleOptions } from "../../shared/types";
 
+import styles from "./ModuleModal.module.scss";
+
 export type ModuleModalProps = {
 	isOpen: boolean;
 	setIsOpen: (arg0?: boolean) => void;
@@ -22,10 +24,11 @@ export const ModuleModal = ({
 	style,
 }: ModuleModalProps) => {
 	const {
-		data: { getNewCharacterSheet },
+		data: { getNewCharacterSheet, importSheet },
 	} = useCharacterSheet();
 	const { openToast } = useAntToast();
 	const navigate = useNavigate();
+	const sheetImportRef = React.useRef<HTMLTextAreaElement>(null);
 
 	const closeModal = () => {
 		setIsOpen(false);
@@ -58,13 +61,31 @@ export const ModuleModal = ({
 		}
 
 		const newSheet = getNewCharacterSheet(moduleKey as ModuleOptions);
-    setIsOpen(false);
-    currentTarget.reset();
+		setIsOpen(false);
+		currentTarget.reset();
 		navigate(`/library/${newSheet.id}`);
 	};
 
+	const handleImportSheet = () => {
+		const sheetCode = sheetImportRef?.current?.value;
+
+		if (!sheetCode) {
+			openToast("É necessário código de importação");
+			return;
+		}
+
+		if (importSheet(sheetCode, sheetImportRef.current)) {
+      setIsOpen(false);
+    }
+	};
+
 	return (
-		<Modal style={{ ...style }} isOpen={isOpen} setIsOpen={setIsOpen}>
+		<Modal
+			style={{ ...style }}
+			isOpen={isOpen}
+			setIsOpen={setIsOpen}
+			className={className}
+		>
 			<form onSubmit={handleNewCharacterSheet}>
 				<h2>Nova ficha</h2>
 				<h3>Escolha o módulo da ficha</h3>
@@ -78,6 +99,7 @@ export const ModuleModal = ({
 					))}
 				</datalist>
 				<Input
+					title="Seletor módulo"
 					name="chosenModule"
 					type="text"
 					required
@@ -88,6 +110,15 @@ export const ModuleModal = ({
 					Ok
 				</Button>
 			</form>
+			<hr />
+
+			<div className={styles.importContainer}>
+				<p>Ou cole abaixo o código de uma ficha copiada para ser importada</p>
+				<textarea title="Importação ficha" ref={sheetImportRef}></textarea>
+				<Button type="button" onClick={handleImportSheet}>
+					Importar
+				</Button>
+			</div>
 		</Modal>
 	);
 };

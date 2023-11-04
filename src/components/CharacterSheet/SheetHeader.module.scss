@@ -1,5 +1,16 @@
 @import "../../mixins.scss";
 
+.shareModal {
+  @include dFlex(column);
+  gap: 0.3rem;
+
+  & > textarea {
+    width: 70%;
+    height: 3rem;
+    resize: none;
+  }
+}
+
 .popoverImgUrl {
 	@include dFlex(column);
 	gap: 0.2rem;
