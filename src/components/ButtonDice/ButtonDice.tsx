@@ -52,9 +52,12 @@ export const ButtonDice = ({
 	};
 
 	Dice.onRollComplete = (result: any) => {
+		console.log(result);
+		const diceNatResult = result[0].rolls[0].value;
+		const modifier = result[0].modifier;
 		openToast(
-			`Rolagem: ${result[0].value}`,
-			"",
+			`Resultado: ${result[0].value}`,
+			`${!!modifier ? `[${diceNatResult}] + ${modifier}` : ""}`,
 			"open",
 			"bottom",
 			undefined,
