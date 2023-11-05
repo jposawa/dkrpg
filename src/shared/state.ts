@@ -34,3 +34,18 @@ export const rollingState = atom<boolean>({
   key: withNamespace("rolling"),
   default: false,
 });
+
+export const firebaseAppState = atom<any>({
+  key: withNamespace("firebaseDKRPG"),
+  default: null,
+});
+
+export const fbUserState = atom<any>({
+  key: withNamespace("fbUserDKRPG"),
+  default: null,
+});
+
+export const authLoadingState = atom<boolean>({
+  key: withNamespace("authLoading"),
+  default: true,
+});

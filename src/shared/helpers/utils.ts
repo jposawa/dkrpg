@@ -8,18 +8,22 @@ export const withNamespace = (rawValue: string): string => {
 	return `${NAMESPACE}#${rawValue}`;
 };
 
-
 /** Small utility method to clone an Object
 @param {Record<any, any>} baseObj Object that you want to clone
 @return A new Object that's a copy of the baseObj
 */
-export const cloneObj = (baseObj: Record<any, any>): Record<any, any> => {
-  return JSON.parse(JSON.stringify(baseObj));
-}
+export const cloneObj = (
+	baseObj: Record<any, any> | null
+): Record<any, any> | null => {
+	if (!baseObj) {
+		return null;
+	}
+	return JSON.parse(JSON.stringify(baseObj));
+};
 
 export const isObjEqual = (obj1: any, obj2: any) => {
-  return JSON.stringify(obj1) === JSON.stringify(obj2);
-}
+	return JSON.stringify(obj1) === JSON.stringify(obj2);
+};
 
 /**
  * Save data as string in SessionStorage, which is persisted only for open browser tab
@@ -80,7 +84,6 @@ export const getLocalStorage = (key: string, needParse?: boolean) => {
 
 	return needParse && rawValue ? JSON.parse(rawValue) : rawValue;
 };
-
 
 export const pseudoRandomNumber = (
 	min: number,
@@ -148,7 +151,7 @@ export const diceSideNumberFromLevel = (level: number) => {
 };
 
 export const onlyNumbers = (rawValue: string) => {
-  const numbersValue = rawValue.replace(/\D/g, "");
+	const numbersValue = rawValue.replace(/\D/g, "");
 
-  return numbersValue;
-}
+	return numbersValue;
+};

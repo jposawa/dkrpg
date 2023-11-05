@@ -1,66 +1,62 @@
 * {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  box-sizing: border-box;
-  list-style: none;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	box-sizing: border-box;
+	list-style: none;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 a {
-  color: #369;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-html {
-  // font-size: 62.5%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: #369;
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 body {
-  --color1: hsl(210, 54%, 25%);
-  --colorWarn1: hsl(50, 75%, 45%);
-  --colorConfirm1: hsl(120, 88%, 26%);
-  --colorDanger1: hsl(0, 70%, 45%);
+	--color1: hsl(210, 54%, 25%);
+	--colorWarn1: hsl(50, 75%, 45%);
+	--colorConfirm1: hsl(120, 88%, 26%);
+	--colorDanger1: hsl(0, 70%, 45%);
 
-  --colorFullWhite: #fff;
-  --colorWhiteLight: #efefef;
-  --colorWhite: #eee;
-  --colorFullBlack: #000;
-  --colorBlackDark: #010101;
-  --colorBlack: #111;
+	--colorFullWhite: #fff;
+	--colorWhiteLight: #efefef;
+	--colorWhite: #eee;
+	--colorFullBlack: #000;
+	--colorBlackDark: #010101;
+	--colorBlack: #111;
 
-  --txtColor: var(--colorBlack);
-  --bgColor: var(--colorWhite);
+	--txtColor: var(--colorBlack);
+	--bgColor: var(--colorWhite);
 
-  background: var(--bgColor);
-  color: var(--txtColor);
-  font-size: 1.6rem;
+	background: var(--bgColor);
+	color: var(--txtColor);
+	font-size: 1.6rem;
 }
 
 #diceContainer {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items:center;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-  canvas {
-    position: absolute;
-    pointer-events: none;
-    z-index: 11000;
-    width: 100%;
-    height: 100%;
-  }
+	canvas {
+		position: absolute;
+		pointer-events: none;
+		z-index: 11000;
+		width: 100%;
+		height: 100%;
+	}
 }
 
 .hidden {
-  opacity: 0;
-  visibility: hidden;
+	opacity: 0;
+	visibility: hidden;
 }

@@ -6,6 +6,8 @@ import { Button, LibrarySheetContainer, ModuleModal } from "../../components";
 import { useCharacterSheet } from "../../shared/hooks";
 import { UserOutlined } from "@ant-design/icons";
 import { MODULE_DATA } from "../../shared/constants";
+import { useRecoilValue } from "recoil";
+import { firebaseAppState } from "../../shared/state";
 
 export const Library = () => {
 	const [moduleModalOpen, setModuleModalOpen] = React.useState(false);
@@ -14,6 +16,7 @@ export const Library = () => {
 	const {
 		data: { characterSheetsList },
 	} = useCharacterSheet();
+	const firebaseApp = useRecoilValue(firebaseAppState);
 
 	const handleNewCharacter = () => {
 		setModuleModalOpen(true);
@@ -22,6 +25,10 @@ export const Library = () => {
 	const openSheet = (sheetId: string) => {
 		navigate(`/library/${sheetId}`);
 	};
+
+	React.useEffect(() => {
+		console.log("firebase app", firebaseApp);
+	}, [firebaseApp]);
 
 	return (
 		<div className={styles.library}>
