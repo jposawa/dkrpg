@@ -20,32 +20,35 @@ import {
 	MODULE_DATA,
 	characterSheetModel,
 } from "../constants";
-import { useSetRecoilState } from "recoil";
-import { activeSheetState, sheetEditingState } from "../state";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+	activeSheetState,
+	characterSheetsListState,
+	fbUserState,
+	sheetEditingState,
+} from "../state";
 import { useAntToast } from "./useAntToast";
 import { useNavigate } from "react-router-dom";
+import { getModuleData, getSheetList, saveDbCharacter } from "../../services";
 
 export const useCharacterSheet = () => {
 	const navigate = useNavigate();
 	const setActiveSheet = useSetRecoilState(activeSheetState);
 	const setEditMode = useSetRecoilState(sheetEditingState);
 	const { openToast } = useAntToast();
-	const localList = getLocalStorage("characterSheetsList", true);
-	const [characterSheetsList, setCharacterSheetsList] = React.useState<
-		CharacterSheet[]
-	>([]);
+	// const localList = getLocalStorage("characterSheetsList", true);
+	const [characterSheetsList, setCharacterSheetsList] = useRecoilState(
+		characterSheetsListState
+	);
+	const fbUser = useRecoilValue(fbUserState);
 
 	const getActiveCharacter = React.useCallback(
-		(characterId: string) => {
-			if (!characterSheetsList) {
+		(characterId: string, isRetry?: boolean) => {
+			if (!Object.keys(characterSheetsList).length) {
 				return null;
 			}
 
-			const [activeSheet] = characterSheetsList?.filter(
-				(character: CharacterSheet) => character.id === characterId
-			);
-
-			return activeSheet;
+			return characterSheetsList[characterId];
 		},
 		[characterSheetsList]
 	);
@@ -115,30 +118,24 @@ export const useCharacterSheet = () => {
 					characterSheetsList
 				) as CharacterSheet[];
 
-				const { keepSessionSheet, preventAlert } = options;
-				const sheetIndex = _characterSheetsList?.findIndex(
-					(characterSheet) => characterSheet.id === cloneSheet.id
-				);
-
-				if (sheetIndex < 0) {
-					_characterSheetsList.push(cloneSheet);
-				} else {
-					_characterSheetsList[sheetIndex] = cloneSheet;
+				if (!cloneSheet.userId) {
+					cloneSheet.userId = fbUser.uid;
 				}
+
+				const { keepSessionSheet, preventAlert } = options;
 
 				if (!keepSessionSheet) {
 					sessionStorage.removeItem(withNamespace("editingSheet"));
 					sessionStorage.removeItem(withNamespace("backupActiveSheet"));
 				}
 
-				setActiveSheet(cloneSheet);
-				setLocalStorage("characterSheetsList", _characterSheetsList, true);
-
-				setEditMode(false);
+				saveDbCharacter(cloneSheet);
 
 				if (!preventAlert) {
 					openToast("Ficha salva com sucesso", "", "success");
 				}
+
+				setEditMode(false);
 			} catch (error) {
 				console.error("Erro em salvar ficha", error);
 				openToast(
@@ -166,20 +163,22 @@ export const useCharacterSheet = () => {
 	);
 
 	const getNewCharacterSheet = React.useCallback(
-		(sheetModule: ModuleOptions = "draenak"): CharacterSheet => {
+		(sheetModule: ModuleOptions = "draenak") => {
 			const newObj = cloneObj(characterSheetModel) as CharacterSheet;
+			getModuleData(sheetModule, (moduleData: any) => {
+				newObj.id = uuidv4();
+				newObj.name = "Nome Personagem";
 
-			newObj.id = uuidv4();
-			newObj.name = "Nome Personagem";
+				newObj.module = sheetModule;
+				newObj.race = moduleData.races["race-1"];
+				newObj.skills = moduleData.skills;
+				newObj.traits = moduleData.traits;
 
-			newObj.module = sheetModule;
-			newObj.race = MODULE_DATA[sheetModule].RACES["race-1"];
-			newObj.skills = MODULE_DATA[sheetModule].SKILLS;
-			newObj.traits = MODULE_DATA[sheetModule].TRAITS;
+				saveCharacterSheet(newObj, { preventAlert: true });
+				setActiveSheet(newObj);
+			});
 
-			saveCharacterSheet(newObj, { preventAlert: true });
-
-			return newObj;
+			// return newObj;
 		},
 		[saveCharacterSheet]
 	);
@@ -204,9 +203,7 @@ export const useCharacterSheet = () => {
 				const importedSheet = JSON.parse(stringSheet);
 				let saveSheet = true;
 
-				const [existingSheet] = characterSheetsList.filter(
-					(sheet) => sheet.id === importedSheet.id
-				);
+				const existingSheet = characterSheetsList[importedSheet.id];
 
 				if (!!existingSheet) {
 					saveSheet = window.confirm(
@@ -233,16 +230,15 @@ export const useCharacterSheet = () => {
 		[characterSheetsList, setCharacterSheetsList]
 	);
 
-	React.useMemo(() => {
-		if (!isObjEqual(localList, characterSheetsList)) {
-			setCharacterSheetsList(localList || []);
+	React.useEffect(() => {
+		if (!!fbUser) {
+			getSheetList(fbUser.uid, setCharacterSheetsList);
 		}
-	}, [localList]);
+	}, [fbUser]);
 
 	return React.useMemo(
 		() => ({
 			data: {
-				characterSheetsList,
 				getActiveCharacter,
 				getNewCharacterSheet,
 				saveCharacterSheet,
@@ -253,7 +249,6 @@ export const useCharacterSheet = () => {
 			},
 		}),
 		[
-			characterSheetsList,
 			getActiveCharacter,
 			getNewCharacterSheet,
 			saveCharacterSheet,

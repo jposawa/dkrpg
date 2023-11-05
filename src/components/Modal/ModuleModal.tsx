@@ -46,7 +46,9 @@ export const ModuleModal = ({
 		return modulePair[0][0];
 	};
 
-	const handleNewCharacterSheet = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleNewCharacterSheet = (
+		event: React.FormEvent<HTMLFormElement>
+	) => {
 		event.preventDefault();
 		const { currentTarget } = event;
 
@@ -60,10 +62,10 @@ export const ModuleModal = ({
 			return;
 		}
 
-		const newSheet = getNewCharacterSheet(moduleKey as ModuleOptions);
+		getNewCharacterSheet(moduleKey as ModuleOptions);
 		setIsOpen(false);
-		currentTarget.reset();
-		navigate(`/library/${newSheet.id}`);
+		// currentTarget.reset();
+		// navigate(`/library/${newSheet.id}`);
 	};
 
 	const handleImportSheet = () => {
@@ -75,8 +77,8 @@ export const ModuleModal = ({
 		}
 
 		if (importSheet(sheetCode, sheetImportRef.current)) {
-      setIsOpen(false);
-    }
+			setIsOpen(false);
+		}
 	};
 
 	return (

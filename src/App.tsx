@@ -15,8 +15,9 @@ import "./global.scss";
 import styles from "./App.module.scss";
 import { ANOM_ROUTES, FIREBASE_CONFIG } from "./shared/constants";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { cloneObj } from "./shared/helpers/utils";
+import { cloneObj, getSessionStorage } from "./shared/helpers/utils";
 import { useLocation, useNavigate } from "react-router-dom";
+import { syncUserDatabase } from "./services";
 
 export default function App() {
 	const activeTheme = useRecoilValue(themeState);
@@ -34,6 +35,12 @@ export default function App() {
 		}
 
 		const observer = onAuthStateChanged(getAuth(), (user) => {
+			const synced = getSessionStorage("syncedUser");
+
+			if (!!user && !synced) {
+				syncUserDatabase(user);
+			}
+
 			setIsAuthLoading(false);
 			setFbUser(cloneObj(user));
 		});

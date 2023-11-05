@@ -5,19 +5,15 @@ import styles from "./library.module.scss";
 import { Button, LibrarySheetContainer, ModuleModal } from "../../components";
 import { useCharacterSheet } from "../../shared/hooks";
 import { UserOutlined } from "@ant-design/icons";
-import { MODULE_DATA } from "../../shared/constants";
 import { useRecoilValue } from "recoil";
-import { firebaseAppState } from "../../shared/state";
+import { characterSheetsListState } from "../../shared/state";
 
 export const Library = () => {
 	const [moduleModalOpen, setModuleModalOpen] = React.useState(false);
 	const navigate = useNavigate();
 	const { sheetId } = useParams();
-	const {
-		data: { characterSheetsList },
-	} = useCharacterSheet();
-	const firebaseApp = useRecoilValue(firebaseAppState);
-
+  const characterSheetsList = useRecoilValue(characterSheetsListState);
+	
 	const handleNewCharacter = () => {
 		setModuleModalOpen(true);
 	};
@@ -25,10 +21,6 @@ export const Library = () => {
 	const openSheet = (sheetId: string) => {
 		navigate(`/library/${sheetId}`);
 	};
-
-	React.useEffect(() => {
-		console.log("firebase app", firebaseApp);
-	}, [firebaseApp]);
 
 	return (
 		<div className={styles.library}>
@@ -47,7 +39,7 @@ export const Library = () => {
 
 			<ul className={styles.sheetList}>
 				{characterSheetsList &&
-					characterSheetsList?.map((characterSheet) => (
+					Object.values(characterSheetsList)?.map((characterSheet) => (
 						<li
 							onClick={() => {
 								openSheet(characterSheet.id);

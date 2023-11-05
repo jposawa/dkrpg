@@ -90,3 +90,5 @@ export const FIREBASE_CONFIG = {
   appId: "1:922019620365:web:601dccc7516c09647c1744",
   measurementId: "G-4C4YTDGPP3"
 };
+
+export const BASE_DIR = "dkrpg";

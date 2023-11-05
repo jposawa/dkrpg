@@ -71,7 +71,7 @@ export const SkillCard = ({
 				)}
 
 				<b>
-					[{termsList[skill.linkedAttribute].substring(0, 1).toUpperCase()}]
+					[{termsList[skill.linkedAttribute.toLowerCase()].substring(0, 1).toUpperCase()}]
 				</b>
 				{`${skill.name} `}
 			</span>

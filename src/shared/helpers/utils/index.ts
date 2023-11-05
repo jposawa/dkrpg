@@ -1,4 +1,4 @@
-import { NAMESPACE } from "../constants";
+import { BASE_DIR, NAMESPACE } from "../../constants";
 
 /** Small utility method to transform string to use NAMESPACE
 @param rawValue The initial string that will get NAMESPACE prefix
@@ -155,3 +155,7 @@ export const onlyNumbers = (rawValue: string) => {
 
 	return numbersValue;
 };
+
+export const getDbPath = (tablePath?: string) => {
+  return !!tablePath ? `${BASE_DIR}/${tablePath}` : BASE_DIR;
+}

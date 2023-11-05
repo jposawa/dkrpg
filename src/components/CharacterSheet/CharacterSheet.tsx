@@ -11,6 +11,7 @@ import { Tabs } from "antd";
 import { SheetTraits } from "./SheetTraits";
 import { SheetSkills } from "./SheetSkills";
 import { SheetInventory } from "./SheetInventory";
+import { Loading } from "../Loading";
 
 export type CharacterSheetProps = {
 	sheetId: string;
@@ -27,6 +28,8 @@ export const CharacterSheet = ({
 		data: { getActiveCharacter },
 	} = useCharacterSheet();
 	const [activeSheet, setActiveSheet] = useRecoilState(activeSheetState);
+	const [refetchCount, setRefetchCount] = React.useState(0);
+
 	React.useEffect(() => {
 		if ((!sheetId && DEBUG) || sheetId === "model") {
 			setActiveSheet(characterSheetModel);
@@ -35,9 +38,15 @@ export const CharacterSheet = ({
 		if (sheetId !== activeSheet?.id) {
 			const chosenSheet = getActiveCharacter(sheetId);
 
+			if (!chosenSheet && refetchCount < 3) {
+				setTimeout(() => {
+					setRefetchCount(refetchCount + 1);
+				}, 500);
+			}
+
 			setActiveSheet(chosenSheet);
 		}
-	}, [sheetId, DEBUG]);
+	}, [sheetId, DEBUG, refetchCount]);
 
 	const bodySections = [
 		{
@@ -63,7 +72,7 @@ export const CharacterSheet = ({
 			style={{ ...style }}
 		>
 			{!activeSheet ? (
-				<h4>Falha ao carregar ficha</h4>
+				<h4>{refetchCount < 3 ? <Loading /> : "Falha ao carregar ficha"}</h4>
 			) : (
 				<>
 					<SheetHeader />
@@ -72,7 +81,7 @@ export const CharacterSheet = ({
 						centered
 						items={bodySections}
 						className={styles.sheetBodyTabs}
-            destroyInactiveTabPane
+						destroyInactiveTabPane
 					/>
 				</>
 			)}
