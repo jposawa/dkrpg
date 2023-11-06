@@ -1,32 +1,81 @@
 import React from "react";
 
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+	getAuth,
+	signInWithPopup,
+	GoogleAuthProvider,
+	signInWithRedirect,
+	sendSignInLinkToEmail,
+} from "firebase/auth";
 
 import styles from "./home.module.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { fbUserState, firebaseAppState } from "../../shared/state";
-import { Button } from "../../components";
+import { Button, Input } from "../../components";
+import { useAntToast } from "../../shared/hooks";
+import { setLocalStorage } from "../../shared/helpers/utils";
+
+const actionCodeSettings = {
+	// URL you want to redirect back to. The domain (www.example.com) for this
+	// URL must be in the authorized domains list in the Firebase Console.
+	url: "https://jprojetos.firebaseapp.com",
+	// This must be true.
+	handleCodeInApp: true,
+	iOS: {
+		bundleId: "com.example.ios",
+	},
+	android: {
+		packageName: "com.example.android",
+		installApp: true,
+		minimumVersion: "12",
+	},
+	dynamicLinkDomain: "example.page.link",
+};
 
 export const Home = () => {
 	const firebaseApp = useRecoilValue(firebaseAppState);
 	const [fbUser, setFbUser] = useRecoilState(fbUserState);
+	const { openToast } = useAntToast();
 
 	const handleSignIn = React.useCallback(() => {
 		if (!!firebaseApp) {
 			const provider = new GoogleAuthProvider();
 			const auth = getAuth();
 
-			signInWithPopup(auth, provider)
-				.then((result) => {
-					// const credential = GoogleAuthProvider.credentialFromResult(result);
-					// const token = credential?.accessToken;
-					// const user = result.user;
-				})
-				.catch((error) => {
-					console.error("Auth error", error);
-				});
+			signInWithRedirect(auth, provider);
+
+			// signInWithPopup(auth, provider)
+			// 	.then((result) => {
+			// 		// const credential = GoogleAuthProvider.credentialFromResult(result);
+			// 		// const token = credential?.accessToken;
+			// 		// const user = result.user;
+			// 	})
+			// 	.catch((error) => {
+			// 		console.error("Auth error", error);
+			// 	});
 		}
 	}, [firebaseApp]);
+
+	const sendSignInLink = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const {
+			currentTarget: { email },
+		} = event;
+
+		if (!email?.value) {
+			openToast("Email necessário");
+			return;
+		}
+
+		const auth = getAuth();
+		sendSignInLinkToEmail(auth, email.value, actionCodeSettings)
+			.then(() => {
+				setLocalStorage("loginEmail", email.value);
+			})
+			.catch((error) => {
+				console.log("Error sending link", error);
+			});
+	};
 
 	return (
 		<div>
@@ -39,10 +88,23 @@ export const Home = () => {
 			) : (
 				<div className={styles.loginContainer}>
 					<p>Login necessário</p>
-          <br/>
-					<Button className={styles.loginBtn} type="button" onClick={handleSignIn}>
-						Login
-					</Button>
+					<br />
+					<form onSubmit={sendSignInLink}>
+						{/* <label htmlFor="loginEmail">Insira email para login</label>
+						<Input
+							id="loginEmail"
+							name="email"
+							title="Login email"
+							placeholder="email@example.com"
+						/> */}
+						<Button
+							className={styles.loginBtn}
+							type="button"
+							onClick={handleSignIn}
+						>
+							Google Login
+						</Button>
+					</form>
 				</div>
 			)}
 			<br />
