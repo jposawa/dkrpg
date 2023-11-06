@@ -73,6 +73,7 @@ export const Home = () => {
 			})
 			.catch((error) => {
 				console.error("Error sending link", error);
+				openToast("Erro email link", error.message);
 			});
 	};
 
@@ -128,13 +129,13 @@ export const Home = () => {
 						>
 							Email link
 						</Button>
-						{/* <Button
+						<Button
 							className={styles.loginBtn}
 							type="button"
 							onClick={handleSignIn}
 						>
 							Google Login
-						</Button> */}
+						</Button>
 					</form>
 				</div>
 			)}
