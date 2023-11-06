@@ -270,7 +270,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 									description="Essa ação não pode ser revertida"
 									okText="Deletar"
 									cancelText="Manter ficha"
-									onConfirm={() => deleteSheet(activeSheet!.id)}
+									onConfirm={() => deleteSheet(activeSheet!)}
 								>
 									<DeleteOutlined />
 								</Popconfirm>
