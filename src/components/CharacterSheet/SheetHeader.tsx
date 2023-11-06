@@ -395,6 +395,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 									activeSheet?.secondaryAttributes[
 										attrKey as SecondaryAttributeKey
 									]?.finalLimit;
+                const attrBonus = activeSheet?.secondaryAttributes[attrKey as SecondaryAttributeKey]?.limitBonus;
 								return (
 									<span key={attrKey}>
 										<b>{attrName}</b>
@@ -431,7 +432,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 														defaultValue={attrValue}
 													/>
 												) : (
-													attrValue
+													attrValue + (attrBonus || 0)
 												)}
 											</p>
 											{!!attrLimit && (
