@@ -7,7 +7,7 @@ export const NAMESPACE = "jpoIE";
 
 export const DEBUG = false;
 
-export const IMPORT_AUTOCLOSE = false;
+export const IMPORT_AUTOCLOSE = true;
 
 export const AUTO_DISABLE_AFFINITY = false;
 
@@ -78,3 +78,17 @@ export const characterSheetModel: CharacterSheet = {
   },
   module: "draenak",
 };
+
+export const ANOM_ROUTES = ["/home"];
+
+export const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDtP73MjGbNPnMvyF8HQzhP_6ytRUQb2AQ",
+  authDomain: "jprojetos.firebaseapp.com",
+  projectId: "jprojetos",
+  storageBucket: "jprojetos.appspot.com",
+  messagingSenderId: "922019620365",
+  appId: "1:922019620365:web:601dccc7516c09647c1744",
+  measurementId: "G-4C4YTDGPP3"
+};
+
+export const BASE_DIR = "dkrpg";

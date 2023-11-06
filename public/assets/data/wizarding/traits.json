@@ -1,0 +1,74 @@
+[
+	{
+		"id": "trait-1",
+		"name": "Animago",
+		"description": "Capacidade de se transformar livremente em um animal. Defina o animal com Narrador",
+		"cost": 20,
+		"level": 0
+	},
+	{
+		"id": "trait-2",
+		"name": "Licantropia",
+		"description": "Amaldiçoado com a maldição de ser lobisomem. Sempre que for lua cheia você se transforma. Caso tenha tomado sua poção de Acônito, você deve passar um teste de Vontade de dificuldade 5 (Ou 1D10) para não se transformar",
+		"cost": -30,
+		"level": 0
+	},
+	{
+		"id": "trait-3",
+		"name": "Maestria Não Verbal",
+		"description": "Você consegue executar feitiços ainda mais avançados sem precisar falar sua fórmula. Em caso de dúvida, verifique com Narrador",
+		"cost": 15,
+		"level": 0
+	},
+	{
+		"id": "trait-4",
+		"name": "Maldição",
+		"description": "Escolha uma maldição simples com quem estiver narrando a aventura.",
+		"cost": -5,
+		"level": 0,
+		"maxLevel": 3
+	},
+	{
+		"id": "trait-5",
+		"name": "Magia Gestual",
+		"description": "Você é capaz de executar feitiços sem precisar portar uma varinha. O tipo e potência de seus feitiços dependem do seu nível nesse traço",
+		"cost": 15,
+		"level": 0,
+    "maxLevel": 3
+	},
+	{
+		"id": "trait-6",
+		"name": "Ambidestria",
+		"description": "Capacidade de (as vezes) não derrubar as coisas com as duas mãos",
+		"cost": 5,
+		"level": 0
+	},
+  {
+		"id": "trait-7",
+		"name": "Impulsivo",
+		"description": "É mais fácil de ser provocado. Situações que tentar resistir a impulsoss ou provocações são testadas com Desvantagem",
+		"cost": -5,
+		"level": 0
+	},
+  {
+		"id": "trait-8",
+		"name": "Chamado do Dever",
+		"description": "Alguém muito apegado aos deveres e seguir ordens que segue. Uma personagem assim as vezes considera que vale tudo para que o objetivo final, ou uma ordem, seja alcançada.",
+		"cost": -10,
+		"level": 0
+	},
+  {
+		"id": "trait-9",
+		"name": "Voto",
+		"description": "Você fez alguma promessa ou voto que, se quebrado, precisa de ações de reparação.",
+		"cost": -5,
+		"level": 0
+	},
+  {
+		"id": "trait-10",
+		"name": "Voto Perpétuo",
+		"description": "Você precisa fazer um voto perpétuo com algum NPC. Caso seja cumprido. Esse traço é especial, pois a quantidade de pontos só é concedida após completar o Voto Perpétuo. Caso ele seja quebrado, sua personagem morre.",
+		"cost": -30,
+		"level": 0
+	}
+]

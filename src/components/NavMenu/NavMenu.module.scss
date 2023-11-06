@@ -1,48 +1,52 @@
 @import "../../mixins.scss";
 
 .navMenu {
-  --itemSize: 3.5rem;
+	--itemSize: 3.5rem;
+	--iconSize: 1.2rem;
 
-  width: 100%;
-  height: var(--itemSize);
-  padding: 0;
-  @include dFlex(row, space-evenly);
-  background: var(--color1);
-  border: none;
-  z-index: 10;
+	width: 100%;
+	height: var(--itemSize);
+	padding: 0;
+	@include dFlex(row, space-evenly);
+	background: var(--color1);
+	border: none;
+	z-index: 10;
 
-  &>a {
-    width: var(--itemSize);
-    height: var(--itemSize);
-    padding: 0.5rem 0.5rem 0;
-    @include dFlex(column);
-    color: var(--textColor);
-    transition: border 300ms linear, box-shadow 200ms linear;
-    font-size: 1rem;
+	& > * {
+		width: var(--itemSize);
+		height: var(--itemSize);
+		padding: 0.5rem 0.5rem 0;
+		@include dFlex(column);
+		color: var(--textColor);
+		transition: border 300ms linear, box-shadow 200ms linear;
+		font-size: 1rem;
 
-    &:hover {
-      text-decoration: none;
-      box-shadow: 0 0 20rem rgba(0, 0, 0, 0.5) inset;
-    }
+		&:hover {
+			text-decoration: none;
+			box-shadow: 0 0 20rem rgba(0, 0, 0, 0.5) inset;
+		}
 
-    &>span {
-      font-size: 1.2em;
-    }
-  }
+		& > span {
+			font-size: var(--iconSize);
+		}
+	}
 
-  .currentPage {
-    // border-bottom-color: var(--markedColor);
-    text-decoration: underline;
-    box-shadow: 0 0 20rem rgba(0,0,0,0.2) inset;
-  }
+	.currentPage {
+		// border-bottom-color: var(--markedColor);
+		text-decoration: underline;
+		box-shadow: 0 0 20rem rgba(0, 0, 0, 0.2) inset;
+	}
+
+	.signOutBtn {
+		background: none;
+	}
 }
 
 @media screen and (min-width: $desktopBreakpoint) {
-  .navMenu {
-    width: var(--itemSize);
-    height: 100%;
-    flex-direction: column;
-    border-width: 2px !important;
-  }
-
+	.navMenu {
+		width: var(--itemSize);
+		height: 100%;
+		flex-direction: column;
+		border-width: 2px !important;
+	}
 }

@@ -1,4 +1,4 @@
-import { NAMESPACE } from "../constants";
+import { BASE_DIR, NAMESPACE } from "../../constants";
 
 /** Small utility method to transform string to use NAMESPACE
 @param rawValue The initial string that will get NAMESPACE prefix
@@ -8,31 +8,41 @@ export const withNamespace = (rawValue: string): string => {
 	return `${NAMESPACE}#${rawValue}`;
 };
 
-
 /** Small utility method to clone an Object
 @param {Record<any, any>} baseObj Object that you want to clone
 @return A new Object that's a copy of the baseObj
 */
-export const cloneObj = (baseObj: Record<any, any>): Record<any, any> => {
-  return JSON.parse(JSON.stringify(baseObj));
-}
+export const cloneObj = (
+	baseObj: Record<any, any> | null
+): Record<any, any> | null => {
+	if (!baseObj) {
+		return null;
+	}
+	return JSON.parse(JSON.stringify(baseObj));
+};
 
 export const isObjEqual = (obj1: any, obj2: any) => {
-  return JSON.stringify(obj1) === JSON.stringify(obj2);
-}
+	return JSON.stringify(obj1) === JSON.stringify(obj2);
+};
 
 /**
  * Save data as string in SessionStorage, which is persisted only for open browser tab
  * @param key The identifier of saved data
- * @param value The actual value of saved data
+ * @param value The actual value of saved data. If null, removes item
  * @param needParse (optional) In case you are passing an Object (Which includes Arrays) you need to parse to string
  */
 export const setSessionStorage = (
 	key: string,
-	value: any,
+	value?: any,
 	needParse?: boolean
 ) => {
 	const appKey = withNamespace(key);
+
+	if (!value) {
+		localStorage.removeItem(appKey);
+		return;
+	}
+
 	const savedValue = needParse ? JSON.stringify(value) : value;
 
 	sessionStorage.setItem(appKey, savedValue);
@@ -54,15 +64,21 @@ export const getSessionStorage = (key: string, needParse?: boolean) => {
 /**
  * Save data as string in LocalStorage, which is persisted only for open browser tab
  * @param key The identifier of saved data
- * @param value The actual value of saved data
+ * @param value The actual value of saved data. If null, removes item
  * @param needParse (optional) In case you are passing an Object (Which includes Arrays) you need to parse to string
  */
 export const setLocalStorage = (
 	key: string,
-	value: any,
+	value?: any,
 	needParse?: boolean
 ) => {
 	const appKey = withNamespace(key);
+
+	if (!value) {
+		localStorage.removeItem(appKey);
+		return;
+	}
+
 	const savedValue = needParse ? JSON.stringify(value) : value;
 
 	localStorage.setItem(appKey, savedValue);
@@ -80,7 +96,6 @@ export const getLocalStorage = (key: string, needParse?: boolean) => {
 
 	return needParse && rawValue ? JSON.parse(rawValue) : rawValue;
 };
-
 
 export const pseudoRandomNumber = (
 	min: number,
@@ -148,7 +163,11 @@ export const diceSideNumberFromLevel = (level: number) => {
 };
 
 export const onlyNumbers = (rawValue: string) => {
-  const numbersValue = rawValue.replace(/\D/g, "");
+	const numbersValue = rawValue.replace(/\D/g, "");
 
-  return numbersValue;
-}
+	return numbersValue;
+};
+
+export const getDbPath = (tablePath?: string) => {
+	return !!tablePath ? `${BASE_DIR}/${tablePath}` : BASE_DIR;
+};

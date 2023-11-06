@@ -1,0 +1,43 @@
+@import "../../mixins.scss";
+
+.loading {
+	--size: 3rem;
+	--border: 3px solid var(--borderColor, gold);
+	--outerDuration: 1200ms;
+	--animationDuration: var(--duration, var(--outerDuration));
+
+	@include dFlex();
+	width: var(--size);
+	height: var(--size);
+	border-top: var(--border);
+	border-right: 2px solid transparent;
+	border-bottom: var(--border);
+	border-left: 2px solid transparent;
+	border-radius: 100%;
+	font-size: var(--size);
+
+	animation: rotating var(--animationDuration) linear infinite;
+
+	& > span {
+		display: block;
+		width: 0.7em;
+		height: 0.7em;
+		border-top: 2px solid transparent;
+		border-right: var(--border);
+		border-bottom: 2px solid transparent;
+		border-left: var(--border);
+		border-radius: 100%;
+
+		animation: rotating calc(var(--animationDuration) * 10) linear infinite;
+	}
+}
+
+@keyframes rotating {
+	from {
+		transform: rotate(0);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

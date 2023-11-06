@@ -86,6 +86,7 @@ export type CharacterSheet = {
 		manualUsed: number;
 	};
   module: ModuleOptions;
+  userId?: string;
 };
 
 export type CharacterSheetList = Record<string, CharacterSheet>;

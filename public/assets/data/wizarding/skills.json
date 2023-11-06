@@ -1,0 +1,278 @@
+{
+  "skill-1": {
+    "id": "skill-1",
+    "name": "Atletismo",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-2": {
+    "id": "skill-2",
+    "name": "Fôlego",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-3": {
+    "id": "skill-3",
+    "name": "Condicionamento",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-4": {
+    "id": "skill-4",
+    "name": "Escalada",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-5": {
+    "id": "skill-5",
+    "name": "Impacto",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-6": {
+    "id": "skill-6",
+    "name": "Briga",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-7": {
+    "id": "skill-7",
+    "name": "Escudo",
+    "linkedAttribute": "FORTITUDE",
+    "level": 0
+  },
+  "skill-8": {
+    "id": "skill-8",
+    "name": "Lâminas curtas",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-9": {
+    "id": "skill-9",
+    "name": "Lâminas longas",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-10": {
+    "id": "skill-10",
+    "name": "Lanças",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-11": {
+    "id": "skill-11",
+    "name": "Arcos",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-12": {
+    "id": "skill-12",
+    "name": "Disparo",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-13": {
+    "id": "skill-13",
+    "name": "Arremesso",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-14": {
+    "id": "skill-14",
+    "name": "Artes Marciais",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-15": {
+    "id": "skill-15",
+    "name": "Acrobacia",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-16": {
+    "id": "skill-16",
+    "name": "Pilotagem",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-17": {
+    "id": "skill-17",
+    "name": "Condução",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-18": {
+    "id": "skill-18",
+    "name": "Artilharia",
+    "linkedAttribute": "COORDINATION",
+    "level": 0
+  },
+  "skill-19": {
+    "id": "skill-19",
+    "name": "Engenharia",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-20": {
+    "id": "skill-20",
+    "name": "Alquimia",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-21": {
+    "id": "skill-21",
+    "name": "Cultura",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-22": {
+    "id": "skill-22",
+    "name": "Geografia",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-23": {
+    "id": "skill-23",
+    "name": "Medicina",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-24": {
+    "id": "skill-24",
+    "name": "Criaturas",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-25": {
+    "id": "skill-25",
+    "name": "Astronomia",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-26": {
+    "id": "skill-26",
+    "name": "Runas Antigas",
+    "linkedAttribute": "INTELECT",
+    "level": 0
+  },
+  "skill-27": {
+    "id": "skill-27",
+    "name": "Sobrevivência",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-28": {
+    "id": "skill-28",
+    "name": "Trapaça",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-29": {
+    "id": "skill-29",
+    "name": "Percepção",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-30": {
+    "id": "skill-30",
+    "name": "Trancas",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-31": {
+    "id": "skill-31",
+    "name": "Furtividade",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-32": {
+    "id": "skill-32",
+    "name": "Atuação",
+    "linkedAttribute": "SAGACITY",
+    "level": 0
+  },
+  "skill-33": {
+    "id": "skill-33",
+    "name": "Disciplina",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0
+  },
+  "skill-34": {
+    "id": "skill-34",
+    "name": "Encantamento",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Feitiços básicos e normalmente inofensivos. São as magias que normalmente não deixam nenhuma marca maligna"
+  },
+  "skill-35": {
+    "id": "skill-35",
+    "name": "Azaração",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Como regra geral são feitiços ofensivos, mas que não causam tanto estrago. Normalmente a diferença entre Azaração e Maldição está no grau de dano causado tanto para o alvo quanto possivelmente para quem a utiliza. Em caso de dúvidas, valide com narrador"
+  },
+  "skill-36": {
+    "id": "skill-36",
+    "name": "Maldição",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Tipo de Feitiço mais agressivo. Normalmente causa muito dano, ou dura bastante tempo. Em geral precisa de uma contra-maldição para que seja desfeita. Algumas podem ter efeitos colaterais."
+  },
+  "skill-37": {
+    "id": "skill-37",
+    "name": "Transfiguração",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Tipo de encantamento específico, que envolve modificar o aspecto ou função de algo. Também pode ser usado para animar objetos inanimados. Se camuflar ou ficar quase invisível também se encaixa nessa categoria"
+  },
+  "skill-38": {
+    "id": "skill-38",
+    "name": "Contra Maldição",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Feitiços normalmente defensivos ou cuja finalidade é reverter alguma maldição. Para fins mecânicos, alguns feitiços como do Patrono são enquadrados aqui e não em Encantamentos."
+  },
+  "skill-39": {
+    "id": "skill-39",
+    "name": "Conjuração",
+    "linkedAttribute": "WILLPOWER",
+    "level": 0,
+    "description": "Feitiços que transportam objetos ou seres em grandes distâncias. Formas de teletransporte, ou conjurar comida são alguns exemplos de uso."
+  },
+  "skill-47": {
+    "id": "skill-47",
+    "name": "Comando",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  },
+  "skill-48": {
+    "id": "skill-48",
+    "name": "Intimidação",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  },
+  "skill-49": {
+    "id": "skill-49",
+    "name": "Canto",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  },
+  "skill-50": {
+    "id": "skill-50",
+    "name": "Lábia",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  },
+  "skill-51": {
+    "id": "skill-51",
+    "name": "Performance",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  },
+  "skill-52": {
+    "id": "skill-52",
+    "name": "Sedução",
+    "linkedAttribute": "PRESENCE",
+    "level": 0
+  }
+}
