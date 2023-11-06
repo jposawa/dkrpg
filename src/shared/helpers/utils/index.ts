@@ -28,15 +28,21 @@ export const isObjEqual = (obj1: any, obj2: any) => {
 /**
  * Save data as string in SessionStorage, which is persisted only for open browser tab
  * @param key The identifier of saved data
- * @param value The actual value of saved data
+ * @param value The actual value of saved data. If null, removes item
  * @param needParse (optional) In case you are passing an Object (Which includes Arrays) you need to parse to string
  */
 export const setSessionStorage = (
 	key: string,
-	value: any,
+	value?: any,
 	needParse?: boolean
 ) => {
 	const appKey = withNamespace(key);
+
+	if (!value) {
+		localStorage.removeItem(appKey);
+		return;
+	}
+
 	const savedValue = needParse ? JSON.stringify(value) : value;
 
 	sessionStorage.setItem(appKey, savedValue);
@@ -58,15 +64,21 @@ export const getSessionStorage = (key: string, needParse?: boolean) => {
 /**
  * Save data as string in LocalStorage, which is persisted only for open browser tab
  * @param key The identifier of saved data
- * @param value The actual value of saved data
+ * @param value The actual value of saved data. If null, removes item
  * @param needParse (optional) In case you are passing an Object (Which includes Arrays) you need to parse to string
  */
 export const setLocalStorage = (
 	key: string,
-	value: any,
+	value?: any,
 	needParse?: boolean
 ) => {
 	const appKey = withNamespace(key);
+
+	if (!value) {
+		localStorage.removeItem(appKey);
+		return;
+	}
+
 	const savedValue = needParse ? JSON.stringify(value) : value;
 
 	localStorage.setItem(appKey, savedValue);
@@ -157,5 +169,5 @@ export const onlyNumbers = (rawValue: string) => {
 };
 
 export const getDbPath = (tablePath?: string) => {
-  return !!tablePath ? `${BASE_DIR}/${tablePath}` : BASE_DIR;
-}
+	return !!tablePath ? `${BASE_DIR}/${tablePath}` : BASE_DIR;
+};

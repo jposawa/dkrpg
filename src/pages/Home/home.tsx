@@ -6,36 +6,34 @@ import {
 	GoogleAuthProvider,
 	signInWithRedirect,
 	sendSignInLinkToEmail,
+	isSignInWithEmailLink,
+	signInWithEmailLink,
 } from "firebase/auth";
 
 import styles from "./home.module.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { fbUserState, firebaseAppState } from "../../shared/state";
+import {
+	authLoadingState,
+	fbUserState,
+	firebaseAppState,
+} from "../../shared/state";
 import { Button, Input } from "../../components";
 import { useAntToast } from "../../shared/hooks";
-import { setLocalStorage } from "../../shared/helpers/utils";
+import { getLocalStorage, setLocalStorage } from "../../shared/helpers/utils";
 
 const actionCodeSettings = {
 	// URL you want to redirect back to. The domain (www.example.com) for this
 	// URL must be in the authorized domains list in the Firebase Console.
-	url: "https://jprojetos.firebaseapp.com",
+	url: window.location.href,
 	// This must be true.
 	handleCodeInApp: true,
-	iOS: {
-		bundleId: "com.example.ios",
-	},
-	android: {
-		packageName: "com.example.android",
-		installApp: true,
-		minimumVersion: "12",
-	},
-	dynamicLinkDomain: "example.page.link",
 };
 
 export const Home = () => {
 	const firebaseApp = useRecoilValue(firebaseAppState);
 	const [fbUser, setFbUser] = useRecoilState(fbUserState);
 	const { openToast } = useAntToast();
+	const [authLoading, setAuthLoading] = useRecoilState(authLoadingState);
 
 	const handleSignIn = React.useCallback(() => {
 		if (!!firebaseApp) {
@@ -70,12 +68,37 @@ export const Home = () => {
 		const auth = getAuth();
 		sendSignInLinkToEmail(auth, email.value, actionCodeSettings)
 			.then(() => {
+				openToast(`Link enviado para ${email.value}`);
 				setLocalStorage("loginEmail", email.value);
 			})
 			.catch((error) => {
-				console.log("Error sending link", error);
+				console.error("Error sending link", error);
 			});
 	};
+
+	const confirmLinkAuth = () => {
+		const auth = getAuth();
+
+		if (isSignInWithEmailLink(auth, window.location.href)) {
+			setAuthLoading(true);
+			const storedEmail = getLocalStorage("loginEmail");
+
+			signInWithEmailLink(auth, storedEmail, window.location.href)
+				.then(() => {
+					setLocalStorage("loginEmail");
+				})
+				.catch((error) => {
+					console.error("Error finalizing auth", error);
+				})
+				.finally(() => {
+					setAuthLoading(false);
+				});
+		}
+	};
+
+	React.useEffect(() => {
+		confirmLinkAuth();
+	}, []);
 
 	return (
 		<div>
@@ -90,20 +113,28 @@ export const Home = () => {
 					<p>Login necessário</p>
 					<br />
 					<form onSubmit={sendSignInLink}>
-						{/* <label htmlFor="loginEmail">Insira email para login</label>
+						<label htmlFor="loginEmail">Insira email para login</label>
 						<Input
 							id="loginEmail"
 							name="email"
 							title="Login email"
 							placeholder="email@example.com"
-						/> */}
+							required
+						/>
 						<Button
+							className={styles.loginBtn}
+							type="submit"
+							onClick={() => {}}
+						>
+							Email link
+						</Button>
+						{/* <Button
 							className={styles.loginBtn}
 							type="button"
 							onClick={handleSignIn}
 						>
 							Google Login
-						</Button>
+						</Button> */}
 					</form>
 				</div>
 			)}
