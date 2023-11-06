@@ -1,14 +1,14 @@
 @import "../../mixins.scss";
 
 .shareModal {
-  @include dFlex(column);
-  gap: 0.3rem;
+	@include dFlex(column);
+	gap: 0.3rem;
 
-  & > textarea {
-    width: 70%;
-    height: 3rem;
-    resize: none;
-  }
+	& > textarea {
+		width: 70%;
+		height: 3rem;
+		resize: none;
+	}
 }
 
 .popoverImgUrl {
@@ -175,12 +175,16 @@
 				@include dFlex(row, space-evenly);
 
 				& > p {
-					width: 100%;
+          min-width: 1.5rem;
+					width: auto;
 					text-align: center;
 				}
 
 				.maxValue {
-					border-left: 1px solid var(--txtColor);
+					&:not(:has(input)) {
+						border-left: 1px solid var(--txtColor);
+            padding-left: 0.5rem;
+					}
 				}
 			}
 		}

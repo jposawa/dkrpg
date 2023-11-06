@@ -29,6 +29,7 @@ export const MODULE_DATA = {
 export const BASE_COST = {
   ATTRIBUTE: 5,
   SKILL: 4,
+  SECONDARY_ATTRIBUTE: 5,
 }
 
 export const AFFINITY_BONUS = 2;

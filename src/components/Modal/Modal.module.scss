@@ -15,7 +15,7 @@
 
 	.mainContainer {
 		@include dFlex(column, flex-start);
-		width: 100%;
+		width: min(100%, 30rem);
 		max-height: 50%;
 		position: relative;
 		.closeBtn {
