@@ -76,6 +76,10 @@ export const saveDbCharacter = (sheet: CharacterSheet) => {
 	updateFbData(sheet, `characterSheets/${sheet.userId}/${sheet.id}`);
 };
 
+export const removeDbCharacter = (userId: string, sheetId: string) => {
+  updateFbData(null, `characterSheets/${userId}/${sheetId}`);
+}
+
 export const getSheetList = (userId: string, updateList: any) => {
   const sheetListRef = getFbDataRef(`characterSheets/${userId}/`);
 

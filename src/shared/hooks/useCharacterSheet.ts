@@ -29,7 +29,12 @@ import {
 } from "../state";
 import { useAntToast } from "./useAntToast";
 import { useNavigate } from "react-router-dom";
-import { getModuleData, getSheetList, saveDbCharacter } from "../../services";
+import {
+	getModuleData,
+	getSheetList,
+	removeDbCharacter,
+	saveDbCharacter,
+} from "../../services";
 
 export const useCharacterSheet = () => {
 	const navigate = useNavigate();
@@ -183,17 +188,17 @@ export const useCharacterSheet = () => {
 		[saveCharacterSheet]
 	);
 
-	const deleteSheet = (sheetId: string) => {
-		const cloneList = cloneObj(characterSheetsList) as CharacterSheet[];
-		const sheetIndex = cloneList.findIndex((item) => item.id === sheetId);
-
-		cloneList.splice(sheetIndex, 1);
-
-		setLocalStorage("characterSheetsList", cloneList, true);
-		setActiveSheet(null);
-		setEditMode(false);
-		navigate("/library");
-		openToast("Ficha deletada com sucesso", "", "info");
+	const deleteSheet = (sheet: CharacterSheet) => {
+		try {
+			removeDbCharacter(sheet.userId!, sheet.id);
+			setActiveSheet(null);
+			setEditMode(false);
+			navigate("/library");
+			openToast("Ficha deletada com sucesso", "", "info");
+		} catch (error) {
+			console.error("Error on removing", error);
+			openToast("Erro ao remover ficha", "Contate dev");
+		}
 	};
 
 	const importSheet = React.useCallback(
