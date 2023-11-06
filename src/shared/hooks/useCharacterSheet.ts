@@ -79,6 +79,9 @@ export const useCharacterSheet = () => {
 					sheet.secondaryAttributes[
 						attrKey as SecondaryAttributeKey
 					].finalLimit = limitWithBonus * (attrValue.finalMultiplier || 1);
+
+					sheet.xp.autoUsed +=
+						(attrValue.limitBonus || 0) * BASE_COST.SECONDARY_ATTRIBUTE;
 				}
 			}
 		);
@@ -119,9 +122,6 @@ export const useCharacterSheet = () => {
 			try {
 				const cloneSheet = cloneObj(sheet) as CharacterSheet;
 				autoCalculations(cloneSheet);
-				const _characterSheetsList = cloneObj(
-					characterSheetsList
-				) as CharacterSheet[];
 
 				if (!cloneSheet.userId) {
 					cloneSheet.userId = fbUser.uid;

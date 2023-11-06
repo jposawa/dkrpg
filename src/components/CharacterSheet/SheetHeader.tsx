@@ -5,6 +5,7 @@ import {
 	AttributeKey,
 	CharacterSheet,
 	DiceSides,
+	SecondaryAttribute,
 	SecondaryAttributeKey,
 	XpType,
 } from "../../shared/types";
@@ -123,6 +124,29 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 		setActiveSheet(cloneSheet);
 	};
 
+	const updateSecondaryAttributeLimit = (
+		attrKey: SecondaryAttributeKey,
+		finalValue: number
+	) => {
+		const secondaryAttribute = cloneObj(
+			activeSheet?.secondaryAttributes[attrKey]!
+		) as SecondaryAttribute;
+
+		if (secondaryAttribute) {
+			const oldLimitRaw =
+				(secondaryAttribute.finalLimit || 0) /
+					(secondaryAttribute.finalMultiplier || 1) -
+				(secondaryAttribute.limitBonus || 0);
+			secondaryAttribute.limitBonus = finalValue - oldLimitRaw;
+
+			const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
+
+			cloneSheet.secondaryAttributes[attrKey] = secondaryAttribute;
+
+			autoCalculations(cloneSheet, true);
+		}
+	};
+
 	const updateXP = (xpType: XpType, xpValue: number) => {
 		const cloneSheet = cloneObj(activeSheet!) as CharacterSheet;
 
@@ -183,7 +207,12 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 				<p>
 					Copie o código abaixo no criador de ficha para importar essa ficha
 				</p>
-				<textarea id="sheetCodeField" title="Código ficha atual" value={sheetCode} disabled />
+				<textarea
+					id="sheetCodeField"
+					title="Código ficha atual"
+					value={sheetCode}
+					disabled
+				/>
 
 				<Button onClick={copySheetCode}>
 					<CopyOutlined /> Copiar
@@ -255,7 +284,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 								style={{
 									fontSize: "1.1rem",
 								}}
-                maxLength={24}
+								maxLength={24}
 								onChange={updateName}
 							/>
 						)}
@@ -406,7 +435,26 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 												)}
 											</p>
 											{!!attrLimit && (
-												<p className={styles.maxValue}>{attrLimit}</p>
+												<p className={styles.maxValue}>
+													{editMode ? (
+														<Input
+															title={`max value of ${attrName}`}
+															type="tel"
+															min={0}
+															maxLength={2}
+															className={styles.attrInput}
+															defaultValue={attrLimit}
+															onChange={(event) => {
+																updateSecondaryAttributeLimit(
+																	attrKey as SecondaryAttributeKey,
+																	Number(event.target.value)
+																);
+															}}
+														/>
+													) : (
+														attrLimit
+													)}
+												</p>
 											)}
 										</span>
 									</span>
