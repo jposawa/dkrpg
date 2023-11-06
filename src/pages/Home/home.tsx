@@ -114,6 +114,17 @@ export const Home = () => {
 					<p>Login necessário</p>
 					<br />
 					<form onSubmit={sendSignInLink}>
+						<Button
+							className={styles.loginBtn}
+							type="button"
+							onClick={handleSignIn}
+						>
+							Google Login
+						</Button>
+						<h4>
+							Plano gratuito do Firebase tem menor limite de link de e-mail,
+							prefira o método acima por favor
+						</h4>
 						<label htmlFor="loginEmail">Insira email para login</label>
 						<Input
 							id="loginEmail"
@@ -128,13 +139,6 @@ export const Home = () => {
 							onClick={() => {}}
 						>
 							Email link
-						</Button>
-						<Button
-							className={styles.loginBtn}
-							type="button"
-							onClick={handleSignIn}
-						>
-							Google Login
 						</Button>
 					</form>
 				</div>
