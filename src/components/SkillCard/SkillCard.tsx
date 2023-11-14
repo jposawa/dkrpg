@@ -107,7 +107,7 @@ export const SkillCard = ({
 				<ButtonDice
 					numSides={
 						diceSideNumberFromLevel(
-							activeSheet?.attributes[skill.linkedAttribute as AttributeKey] ||
+							activeSheet?.attributes[skill.linkedAttribute.toLowerCase() as AttributeKey] ||
 								1
 						) as DiceSides
 					}
