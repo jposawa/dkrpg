@@ -432,7 +432,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 														defaultValue={attrValue}
 													/>
 												) : (
-													attrValue + (attrBonus || 0)
+													attrValue
 												)}
 											</p>
 											{!!attrLimit && (
@@ -453,7 +453,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 															}}
 														/>
 													) : (
-														attrLimit
+														attrLimit + (attrBonus || 0)
 													)}
 												</p>
 											)}
