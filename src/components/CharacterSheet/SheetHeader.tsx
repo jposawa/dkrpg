@@ -429,7 +429,7 @@ export const SheetHeader = ({ className, style }: SheetHeaderProps) => {
 																Number(finalValue)
 															);
 														}}
-														defaultValue={attrValue}
+														defaultValue={attrValue + (attrBonus || 0)}
 													/>
 												) : (
 													attrValue
